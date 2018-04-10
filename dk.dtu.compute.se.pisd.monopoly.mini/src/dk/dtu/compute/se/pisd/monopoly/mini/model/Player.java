@@ -144,6 +144,14 @@ public class Player extends Subject {
 		return Collections.unmodifiableSet(ownedProperties);
 	}
 
+	public int getTotalWorth(Player player) {
+		Set<Property> propertyList = player.getOwnedProperties();
+		int propertyValue = 0;
+		for (Property property: propertyList) {
+			propertyValue = propertyValue + property.getCost();
+		}
+		return this.balance+propertyValue;
+	}
 	/**
 	 * Sets the list of owned properties to the provided list. Note that
 	 * the list is copied to avoid it to be changed without the player
