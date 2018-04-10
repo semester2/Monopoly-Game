@@ -27,3 +27,13 @@ hs_err_pid*
 *.project
 *.classpath
 *.prefs
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/compute/se/pisd/monopoly/mini/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/compute/se/pisd/monopoly/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/compute/se/pisd/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/compute/se/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/compute/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/dtu/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/dk/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/src/.DS_Store
+/dk.dtu.compute.se.pisd.monopoly.mini/.DS_Store
+/.DS_Store

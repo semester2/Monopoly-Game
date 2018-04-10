@@ -71,6 +71,24 @@ public class GameController {
 	 * the user.
 	 */
 	public void createPlayers() {
+		
+		// @author Ali Moussa, s175119
+		int playerNumberInt = this.gui.getUserInteger("Indtast antal spillerer", 2, 6);
+		gui.showMessage("Det valgte antal spillerer er: " + playerNumberInt);
+		
+		int count = 0;
+		while(count < playerNumberInt) {
+			Player p = new Player();
+			//p.setName("Player " + count);
+			//p.setColor(Color.RED);
+			String playerNameString = this.gui.getUserString("Indtast navn på spiller");
+			p.setName(playerNameString);
+			p.setCurrentPosition(game.getSpaces().get(0));
+			game.addPlayer(p);
+			count++;
+		}
+		
+		/*
 		// TODO the players should be created interactively
 		Player p = new Player();
 		p.setName("Player 1");
@@ -88,7 +106,7 @@ public class GameController {
 		p.setName("Player 3");
 		p.setCurrentPosition(game.getSpaces().get(0));
 		p.setColor(Color.GREEN);
-		game.addPlayer(p);
+		game.addPlayer(p); */
 	}
 	
 	/**
