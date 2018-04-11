@@ -37,6 +37,8 @@ public class Player extends Subject {
 	private Set<Property> ownedProperties = new HashSet<Property>();
 	
 	private List<Card> ownedCards = new ArrayList<Card>();
+	
+	private boolean payTaxInCash;
 
 	/**
 	 * Returns the name of the player.
@@ -256,6 +258,14 @@ public class Player extends Subject {
 		if (oldBroke !=  broke) {
 			notifyChange();
 		}
+	}
+	
+	public boolean getPayTaxInCash() {
+		return this.payTaxInCash;
+	}
+	
+	public void setPayTaxInCash(boolean b) {
+		this.payTaxInCash = b;
 	}
 
 	/**
