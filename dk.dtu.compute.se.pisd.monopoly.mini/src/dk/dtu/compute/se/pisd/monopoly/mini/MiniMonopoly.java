@@ -59,6 +59,7 @@ public class MiniMonopoly {
 		
 		Tax t = new Tax();
 		t.setName("Pay tax (10% on Cash)");
+		t.setTaxable(true);
 		game.addSpace(t);
 
 		Utility s = new Utility();
