@@ -68,15 +68,29 @@ public class Game extends Subject {
 	
 	/**
 	 * Removes the topmost card from the deck and returns it.
-	 * 
+	 * Added defensive programming, will never return null
 	 * @return the topmost card of the deck
+	 * @author Oliver Køppen
 	 */
 	public Card drawCardFromDeck() {
-		// TODO should be more defensive
+		if (cardDeck.remove(0)==null){
+			setCardDeck(cardDeck);
+		}
+
+		// Try-/catch block. Probably not needed
+		/*
+		try {
+			cardDeck.remove(0);
+		}
+		catch (NullPointerException e){
+			System.out.println("Caught NullPointer Exception: " + e);
+			setCardDeck(cardDeck);
+		}
+		*/
+
 		Card card = cardDeck.remove(0);
 		notifyChange();
 		return card;
-		
 	}
 	
 	/**
