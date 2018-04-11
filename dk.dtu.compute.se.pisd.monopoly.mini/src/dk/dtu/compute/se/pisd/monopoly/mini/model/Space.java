@@ -1,3 +1,4 @@
+
 package dk.dtu.compute.se.pisd.monopoly.mini.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.Subject;
@@ -22,6 +23,7 @@ public class Space extends Subject {
 	
 	private int index;
 	
+	private boolean taxable;
 	/**
 	 * Returns the space's name.
 	 * 
@@ -58,6 +60,14 @@ public class Space extends Subject {
 	public void setIndex(int index) {
 		this.index = index;
 		notifyChange();
+	}
+	
+	public boolean getTaxable() {
+		return this.taxable;
+	}
+	
+	public void setTaxable(boolean b) {
+		this.taxable=b;
 	}
 	
 	/**
