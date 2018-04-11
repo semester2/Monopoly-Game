@@ -247,6 +247,17 @@ public class GameController {
 		
 		// Execute the action associated with the respective space. Note
 		// that this is delegated to the field, which implements this action
+		if (space.getTaxable()) {
+			String selection = gui.getUserSelection("Hvordan vil du betale? Vælg '1' for 4000 kr. eller '2' for 10%", "1", "2");
+			int taxChoice = Integer.parseInt(selection);
+			
+			if (taxChoice == 1) {
+				player.setPayTaxInCash(true);
+			}
+			else {
+				player.setPayTaxInCash(false);
+			}
+		}
 		space.doAction(this, player);
 	}	
 
