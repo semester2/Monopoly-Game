@@ -144,6 +144,12 @@ public class Player extends Subject {
 		return Collections.unmodifiableSet(ownedProperties);
 	}
 
+	/**
+	 * Returns a players total value, including the players balance, and property worth.
+	 * @author Sebastian
+	 * @param player
+	 * @return the players total value as Integer
+	 */
 	public int getTotalWorth(Player player) {
 		Set<Property> propertyList = player.getOwnedProperties();
 		int propertyValue = 0;
