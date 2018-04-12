@@ -13,8 +13,12 @@ public class Property extends Space {
 	
 	private int cost;
 	private int rent;
-	
+	private boolean mortgaged;
+	private boolean developed;
 	private Player owner;
+	private int numberOfHouses = 0;
+	public final int TWO_SPACE_COLOR_1 = 1;
+	public final int TWO_SPACE_COLOR_2 = 8;
 	
 
 	/**
@@ -75,20 +79,93 @@ public class Property extends Space {
 		this.owner = player;
 		notifyChange();
 	}
+	
+	/**
+	 * Returns weather the property is mortaged or not.
+	 * 
+	 * @return booelan <code>null</code>
+	 */
+	public boolean getIsMortgaged() {
+		return this.mortgaged;
+	}
+
+	/**
+	 * Sets weather the property is mortgaged or not
+	 * 
+	 * @param boolean
+	 */
+	public void setIsMortgaged(boolean b) {
+		this.mortgaged = b;
+		notifyChange();
+	}
+	
+	/**
+	 * Returns whether the property is developed or not.
+	 * 
+	 * @return booelan <code>null</code>
+	 */
+	public boolean getIsDeveloped() {
+		return this.developed;
+	}
+
+	/**
+	 * Sets whether the property is developed or not
+	 * 
+	 * @param boolean
+	 */
+	public void setIsDeveloped(boolean b) {
+		this.developed = b;
+		notifyChange();
+	}
+	
+	/**
+	 * Returns number of houses on property.
+	 * 
+	 * @return int <code>null</code>
+	 */
+	public int getNumberOfHouses() {
+		return this.numberOfHouses;
+	}
+	
+	/**
+	 * Increment the number of houses on a property
+	 */
+	public void incrementHouses() {
+		this.numberOfHouses++;
+		notifyChange();
+	}
+	
+	/**
+	 * Decrement the number of houses on a property
+	 */
+	public void decrementHouses() {
+		this.numberOfHouses--;
+		notifyChange();
+	}
 
 	@Override
 	public void doAction(GameController controller, Player player) throws PlayerBrokeException {
 		if (owner == null) {
 			controller.offerToBuy(this, player);
 		} else if (!owner.equals(player)) {
-			// TODO also check whether the property is mortgaged
-			// TODO the computation of the actual rent could be delegated
-			//      the subclasses of Property, which can take the specific
-			//      individual conditions into account. Note that the
-			//      groups of properties (which are not part of the model
-			//      yet also need to be taken into account).
-			controller.payment(player, rent, owner);
+			
+			if (this.mortgaged) {
+				return;
+			} else {
+				controller.payment(player, computeRent(owner), owner);
+			}
 		}
+	}
+	
+	/**
+	 * Computes the rent of the player, that lands on a space, 
+	 * that is owned by another player.
+	 * @param player
+	 * @return the rent to pay as int
+	 * @author Andreas and Jaafar
+	 */
+	protected int computeRent(Player player) {
+		return this.rent;
 	}
 
 }
