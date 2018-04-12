@@ -81,16 +81,16 @@ public class Property extends Space {
 	}
 	
 	/**
-	 * Returns weather the property is mortaged or not.
+	 * Returns whether the property is mortaged or not.
 	 * 
-	 * @return booelan <code>null</code>
+	 * @return boolean <code>null</code>
 	 */
 	public boolean getIsMortgaged() {
 		return this.mortgaged;
 	}
 
 	/**
-	 * Sets weather the property is mortgaged or not
+	 * Sets whether the property is mortgaged or not
 	 * 
 	 * @param boolean
 	 */
