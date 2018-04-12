@@ -84,6 +84,8 @@ public class Property extends Space {
 	 * Returns whether the property is mortaged or not.
 	 * 
 	 * @return boolean <code>null</code>
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public boolean getIsMortgaged() {
 		return this.mortgaged;
@@ -93,6 +95,8 @@ public class Property extends Space {
 	 * Sets whether the property is mortgaged or not
 	 * 
 	 * @param boolean
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public void setIsMortgaged(boolean b) {
 		this.mortgaged = b;
@@ -102,7 +106,9 @@ public class Property extends Space {
 	/**
 	 * Returns whether the property is developed or not.
 	 * 
-	 * @return booelan <code>null</code>
+	 * @return boolean <code>null</code>
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public boolean getIsDeveloped() {
 		return this.developed;
@@ -112,6 +118,8 @@ public class Property extends Space {
 	 * Sets whether the property is developed or not
 	 * 
 	 * @param boolean
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public void setIsDeveloped(boolean b) {
 		this.developed = b;
@@ -122,6 +130,8 @@ public class Property extends Space {
 	 * Returns number of houses on property.
 	 * 
 	 * @return int <code>null</code>
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public int getNumberOfHouses() {
 		return this.numberOfHouses;
@@ -129,6 +139,8 @@ public class Property extends Space {
 	
 	/**
 	 * Increment the number of houses on a property
+	 * 
+	 * @author Andreas and Jaafar
 	 */
 	public void incrementHouses() {
 		this.numberOfHouses++;
