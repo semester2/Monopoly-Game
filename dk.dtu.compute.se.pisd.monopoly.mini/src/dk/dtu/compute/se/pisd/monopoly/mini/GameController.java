@@ -432,6 +432,8 @@ public class GameController {
 	 *  
 	 * @param brokePlayer the broke player
 	 * @param benificiary the player who receives the money and assets
+	 * 
+	 * @author Ekkart Kindler - Modified by Jaafar Mahdi
 	 */
 	public void playerBrokeTo(Player brokePlayer, Player benificiary) {
 		int amount = brokePlayer.getBalance();
@@ -439,11 +441,10 @@ public class GameController {
 		brokePlayer.setBalance(0);
 		brokePlayer.setBroke(true);
 
-		// We assume here, that the broke player has already sold all his houses! But, if
-		// not, we could make sure at this point that all houses are removed from
-		// properties (properties with houses on are not supposed to be transferred, neither
-		// in a trade between players, nor when  player goes broke to another player)
 		for (Property property: brokePlayer.getOwnedProperties()) {
+			// Property is being 'cleaned' before transferred to a new owner
+			cleanUpProperty(property);
+			
 			property.setOwner(benificiary);
 			benificiary.addOwnedProperty(property);
 		}	
@@ -461,16 +462,17 @@ public class GameController {
 	 * Action handling the situation when a player is broke to the bank.
 	 * 
 	 * @param player the broke player
+	 * 
+	 * @author Ekkart Kindler - Modified by Jaafar Mahdi
 	 */
 	public void playerBrokeToBank(Player player) {
 
 		player.setBalance(0);
 		player.setBroke(true);
 		
-		// TODO we also need to remove the houses and the mortgage from the properties 
-
 		for (Property property: player.getOwnedProperties()) {
 			property.setOwner(null);
+			cleanUpProperty(property);
 		}
 		player.removeAllProperties();
 		
@@ -479,6 +481,20 @@ public class GameController {
 		while (!player.getOwnedCards().isEmpty()) {
 			game.returnCardToDeck(player.getOwnedCards().get(0));
 		}
+	}
+	
+	/**
+	 * Clears everything about a property, so it is, 
+	 * as if nobody owned it.
+	 * 
+	 * @param property
+	 * 
+	 * @author Jaafar Mahdi
+	 */
+	private void cleanUpProperty(Property property) {
+		property.setIsDeveloped(false);
+		property.setIsMortgaged(false);
+		property.setNumberOfHouses(0);
 	}
 	
 	/**
