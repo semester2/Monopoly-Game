@@ -73,24 +73,21 @@ public class Game extends Subject {
 	 * @author Oliver Køppen
 	 */
 	public Card drawCardFromDeck() {
-		if (cardDeck.remove(0)==null){
-			setCardDeck(cardDeck);
-		}
-
-		// Try-/catch block. Probably not needed
-		/*
+		Card card;
 		try {
-			cardDeck.remove(0);
+			card = cardDeck.remove(0);
+			return card;
 		}
 		catch (NullPointerException e){
-			System.out.println("Caught NullPointer Exception: " + e);
+			e.printStackTrace();
 			setCardDeck(cardDeck);
+			Card cardTemp;
+			cardTemp = cardDeck.remove(0);
+			return cardTemp;
 		}
-		*/
-
-		Card card = cardDeck.remove(0);
-		notifyChange();
-		return card;
+		finally {
+			notifyChange();
+		}
 	}
 	
 	/**
