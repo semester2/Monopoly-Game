@@ -1,4 +1,4 @@
-package dk.dtu.compute.se.pisd.monopoly.mini.model;
+package dk.dtu.compute.se.pisd.monopoly.mini.model.properties;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
