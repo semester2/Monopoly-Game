@@ -73,21 +73,11 @@ public class Game extends Subject {
 	 * @author Oliver Køppen
 	 */
 	public Card drawCardFromDeck() {
-		Card card;
-		try {
-			card = cardDeck.remove(0);
-			return card;
-		}
-		catch (NullPointerException e){
-			e.printStackTrace();
-			setCardDeck(cardDeck);
-			Card cardTemp;
-			cardTemp = cardDeck.remove(0);
-			return cardTemp;
-		}
-		finally {
-			notifyChange();
-		}
+		Card card = cardDeck.remove(0);
+		cardDeck.add(cardDeck.size()-1, card);
+		
+		notifyChange();
+		return card;
 	}
 	
 	/**
