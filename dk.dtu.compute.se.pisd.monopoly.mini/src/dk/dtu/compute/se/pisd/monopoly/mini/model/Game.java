@@ -75,7 +75,7 @@ public class Game extends Subject {
 	public Card drawCardFromDeck() {
 		Card card = cardDeck.remove(0);
 		cardDeck.add(cardDeck.size()-1, card);
-		
+
 		notifyChange();
 		return card;
 	}

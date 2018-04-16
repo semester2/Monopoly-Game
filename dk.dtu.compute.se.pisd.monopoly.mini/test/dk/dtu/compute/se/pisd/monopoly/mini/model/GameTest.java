@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameTest {
     Game game = MiniMonopoly.createGame();
     List<Card> cardDeck = game.getCardDeck();
-
     @BeforeEach
     void setUp() {
 
