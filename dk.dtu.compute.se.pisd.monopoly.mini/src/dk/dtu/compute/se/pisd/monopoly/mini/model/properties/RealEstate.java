@@ -23,11 +23,27 @@ public class RealEstate extends Property{
 		int houses = super.getNumberOfHouses();
 		boolean ownAll = false;
 		boolean twoSpaceColor = false;
+
+		int ownedSameColor = getOwnedSameColor(player, color);
+		ownAll = getOwnAll(twoSpaceColor, ownedSameColor, color);
 		
-		if (color == super.TWO_SPACE_COLOR_1 || color == super.TWO_SPACE_COLOR_2) {
-			twoSpaceColor = true;
+		if (ownAll) {
+			initialRent = initialRent * 2;
 		}
 		
+		return calculateRent(initialRent, houses);
+	}
+	
+	/**
+	 * 
+	 * @param player
+	 * @param color
+	 * @return returns int with the number of properties that
+	 * is owned by the player, for that specific color code.
+	 * 
+	 * @author Andreas and Jaafar
+	 */
+	public int getOwnedSameColor(Player player, int color) {
 		int ownedSameColor = 0;
 		Set<Property> propertyList = player.getOwnedProperties();
 		for (Property property: propertyList) {
@@ -36,6 +52,24 @@ public class RealEstate extends Property{
 				ownedSameColor++;
 			}
 		}
+		return ownedSameColor;
+	}
+	
+	/**
+	 * 
+	 * @param twoSpaceColor
+	 * @param ownedSameColor
+	 * @param color
+	 * @return returns boolean of whether the player own all of the properties
+	 * for that specific color code.
+	 * 
+	 * @author Andreas and Jaafar
+	 */
+	public boolean getOwnAll(boolean twoSpaceColor, int ownedSameColor, int color) {
+		boolean ownAll = false;
+		if (color == super.TWO_SPACE_COLOR_1 || color == super.TWO_SPACE_COLOR_2) {
+			twoSpaceColor = true;
+		}
 		
 		if (twoSpaceColor && ownedSameColor == 1) {
 			ownAll = true;
@@ -43,10 +77,19 @@ public class RealEstate extends Property{
 			ownAll = true;
 		}
 		
-		if (ownAll) {
-			initialRent = initialRent * 2;
-		}
-		
+		return ownAll;
+	}
+	
+	/**
+	 * 
+	 * @param initialRent
+	 * @param houses
+	 * @return returns the rent for players landing
+	 * on the real estate
+	 * 
+	 * @author Andreas and Jaafar
+	 */
+	public int calculateRent(int initialRent, int houses) {
 		switch (houses) {
 			case 1: initialRent = initialRent * 2;
 				break;
@@ -61,8 +104,9 @@ public class RealEstate extends Property{
 			default: break;
 		}
 		
-		
 		return initialRent;
 	}
+	
+	
 	
 }

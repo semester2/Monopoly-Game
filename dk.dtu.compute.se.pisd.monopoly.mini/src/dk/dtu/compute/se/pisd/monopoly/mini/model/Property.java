@@ -149,9 +149,22 @@ public class Property extends Space {
 	
 	/**
 	 * Decrement the number of houses on a property
+	 * 
+	 * @author Jaafar
 	 */
 	public void decrementHouses() {
 		this.numberOfHouses--;
+		notifyChange();
+	}
+	
+	/**
+	 * Sets the number of houses to a specific number
+	 * 
+	 * @param number
+	 * @author Jaafar
+	 */
+	public void setNumberOfHouses(int number) {
+		this.numberOfHouses = number;
 		notifyChange();
 	}
 
