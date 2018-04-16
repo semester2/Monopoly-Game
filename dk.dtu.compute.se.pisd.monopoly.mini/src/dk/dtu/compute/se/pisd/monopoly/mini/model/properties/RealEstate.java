@@ -43,7 +43,7 @@ public class RealEstate extends Property{
 	 * 
 	 * @author Andreas and Jaafar
 	 */
-	private int getOwnedSameColor(Player player, int color) {
+	public int getOwnedSameColor(Player player, int color) {
 		int ownedSameColor = 0;
 		Set<Property> propertyList = player.getOwnedProperties();
 		for (Property property: propertyList) {
@@ -65,7 +65,7 @@ public class RealEstate extends Property{
 	 * 
 	 * @author Andreas and Jaafar
 	 */
-	private boolean getOwnAll(boolean twoSpaceColor, int ownedSameColor, int color) {
+	public boolean getOwnAll(boolean twoSpaceColor, int ownedSameColor, int color) {
 		boolean ownAll = false;
 		if (color == super.TWO_SPACE_COLOR_1 || color == super.TWO_SPACE_COLOR_2) {
 			twoSpaceColor = true;
@@ -89,7 +89,7 @@ public class RealEstate extends Property{
 	 * 
 	 * @author Andreas and Jaafar
 	 */
-	private int calculateRent(int initialRent, int houses) {
+	public int calculateRent(int initialRent, int houses) {
 		switch (houses) {
 			case 1: initialRent = initialRent * 2;
 				break;

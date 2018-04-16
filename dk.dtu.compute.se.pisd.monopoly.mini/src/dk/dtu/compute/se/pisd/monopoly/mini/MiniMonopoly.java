@@ -39,12 +39,14 @@ public class MiniMonopoly {
 		
 		Space go = new Space();
 		go.setName("Go");
+		go.setColorCode(0);
 		game.addSpace(go);
 		
 		Property p = new Property();
-		p.setName("Rødovrevej");
+		p.setName("Rï¿½dovrevej");
 		p.setCost(1200);
 		p.setRent(50);
+		p.setColorCode(1);
 		game.addSpace(p);
 		
 		Chance chance = new Chance();
@@ -55,6 +57,7 @@ public class MiniMonopoly {
 		p.setName("Hvidovrevej");
 		p.setCost(1200);
 		p.setRent(50);
+		p.setColorCode(1);
 		game.addSpace(p);
 		
 		Tax t = new Tax();
@@ -63,7 +66,7 @@ public class MiniMonopoly {
 		game.addSpace(t);
 
 		Utility s = new Utility();
-		s.setName("Øresund");
+		s.setName("ï¿½resund");
 		s.setCost(4000);
 		s.setRent(500);
 		game.addSpace(s);
@@ -72,6 +75,7 @@ public class MiniMonopoly {
 		p.setName("Roskildevej");
 		p.setCost(2000);
 		p.setRent(100);
+		p.setColorCode(2);
 		game.addSpace(p);
 		
 		chance = new Chance();
@@ -82,12 +86,14 @@ public class MiniMonopoly {
 		p.setName("Valby Langgade");
 		p.setCost(2000);
 		p.setRent(100);
+		p.setColorCode(2);
 		game.addSpace(p);
 		
 		p = new Property();
-		p.setName("Allégade");
+		p.setName("Allï¿½gade");
 		p.setCost(2400);
 		p.setRent(150);
+		p.setColorCode(2);
 		game.addSpace(p);
 		
 		Space prison = new Space();
@@ -95,34 +101,38 @@ public class MiniMonopoly {
 		game.addSpace(prison);
 		
 		p = new Property();
-		p.setName("Frederiksberg Allé");
+		p.setName("Frederiksberg Allï¿½");
 		p.setCost(2800);
 		p.setRent(200);
+		p.setColorCode(3);
 		game.addSpace(p);
 		
 		p = new Property();
 		p.setName("Coca-Cola Tapperi");
 		p.setCost(3000);
 		p.setRent(300);
+		p.setColorCode(3);
 		game.addSpace(p);
 		
 		p = new Property();
-		p.setName("Bülowsvej");
+		p.setName("Bï¿½lowsvej");
 		p.setCost(2800);
 		p.setRent(200);
+		p.setColorCode(3);
 		game.addSpace(p);
 		
 		p = new Property();
 		p.setName("Gl. Kongevej");
 		p.setCost(3200);
 		p.setRent(250);
+		p.setColorCode(4);
 		game.addSpace(p);
 		
 		List<Card> cards = new ArrayList<Card>();
 		
 		CardMove move = new CardMove();
 		move.setTarget(game.getSpaces().get(9));
-		move.setText("Move to Allégade!");
+		move.setText("Move to Allï¿½gade!");
 		cards.add(move);
 		
 		PayTax tax = new PayTax();
