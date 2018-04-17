@@ -20,7 +20,7 @@ public class RealEstate extends Property{
 	@Override
 	protected int computeRent(Player player, GameController controller) {
 		int rent = super.getRent();
-		boolean ownsAll = controller.checkWetherPlayerOwnAllInColor(player, super.getColorCode());
+		boolean ownsAll = controller.checkWetherPlayerOwnAllInColor(player, this.getColorCode());
 		if (ownsAll) {
 			rent = rent * 2;
 		}
