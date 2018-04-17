@@ -27,8 +27,12 @@ public class Game extends Subject {
 	
 	private Player current;
 
+<<<<<<< HEAD
 	private List<Property> propertyList = new ArrayList<>();
 
+=======
+	private final int MONEY_FROM_PASSING_START = 4000;
+>>>>>>> Jaafar_branch
 
 	/**
 	 * Returns a list of all the games spaces.
@@ -199,7 +203,47 @@ public class Game extends Subject {
 		notifyChange();
 	}
 
+<<<<<<< HEAD
 	public void populatePropertyList(Property property){
 		propertyList.add(property);
 	}
+=======
+	/**
+	 *
+	 * @return The amount of money you receive from passing start.
+	 *
+	 * @author Andreas Bennecke
+	 */
+	public int getMoneyForPassingStart() {
+		return this.MONEY_FROM_PASSING_START;
+	}
+
+	/**
+	 * Populates a list of properties, based on all the spaces
+	 * in the game.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public void populatePropertyList() {
+		List<Property> propertyList = new ArrayList<>();
+		for (Space space: this.getSpaces()) {
+			if (space.getBuyable()) {
+				propertyList.add((Property) space);
+			}
+		}
+
+		this.propertyList = propertyList;
+	}
+
+	/**
+	 *
+	 * @return a list with all properties
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public List<Property> getPropertyList() {
+		return this.propertyList;
+	}
+
+>>>>>>> Jaafar_branch
 }

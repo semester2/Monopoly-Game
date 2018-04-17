@@ -11,6 +11,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
  *
  */
 public class Utility extends Property {
+<<<<<<< HEAD
 
     /**
      * Computes the rent of the current placement.
@@ -75,5 +76,15 @@ public class Utility extends Property {
         }
         return temp;
     }
+=======
+	
+	// TODO to be implemented
+	
+	@Override
+	protected void mortgageProperty(Player player) {
+		this.setIsMortgaged(true);
+		player.setBalance(player.getBalance()+this.getCost()/2);
+	}
+>>>>>>> Jaafar_branch
 
 }

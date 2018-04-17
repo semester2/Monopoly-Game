@@ -94,7 +94,7 @@ public class Property extends Space {
 	/**
 	 * Sets whether the property is mortgaged or not
 	 * 
-	 * @param boolean
+	 * @param b
 	 * 
 	 * @author Andreas and Jaafar
 	 */
@@ -117,7 +117,7 @@ public class Property extends Space {
 	/**
 	 * Sets whether the property is developed or not
 	 * 
-	 * @param boolean
+	 * @param b
 	 * 
 	 * @author Andreas and Jaafar
 	 */
@@ -181,6 +181,11 @@ public class Property extends Space {
 			}
 		}
 	}
+
+	@Override
+	public boolean getBuyable() {
+		return true;
+	}
 	
 	/**
 	 * Computes the rent of the player, that lands on a space, 
@@ -193,4 +198,7 @@ public class Property extends Space {
 		return this.rent;
 	}
 
+	protected void mortgageProperty(Player player) {
+		
+	}
 }

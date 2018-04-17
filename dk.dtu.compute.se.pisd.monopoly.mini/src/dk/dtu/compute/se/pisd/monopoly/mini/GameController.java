@@ -1,7 +1,9 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -51,6 +53,8 @@ public class GameController {
 	private View view;
 	
     private boolean disposed = false;
+
+    private final int JAIL_FIELD = 10;
 	
 	/**
 	 * Constructor for a controller of a game.
@@ -122,6 +126,23 @@ public class GameController {
 		boolean terminated = false;
 		while (!terminated) {
 			Player player = players.get(current);
+			String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
+					"no",
+					"yes");
+			if (select.equals("yes")) {
+				Set<Property> ownedProperties = player.getOwnedProperties();
+				ArrayList<Property> pl = new ArrayList<Property>();
+				for (Property property: ownedProperties) {
+					if (!property.getIsDeveloped())
+					pl.add(property);
+				}
+				String[] playersOwnedProperties = new String[pl.size()];
+				for (int i = 0; i<ownedProperties.size();i++) {
+					playersOwnedProperties[i]= i + " " + pl.get(i).getName();
+				}
+				gui.getUserSelection("Which property do you want to mortgage?", playersOwnedProperties);
+			}
+
 			if (!player.isBroke()) {
 				try {
 					this.makeMove(player);
@@ -169,7 +190,6 @@ public class GameController {
 				}
 			}
 		}
-		
 		dispose();
 	}
 
@@ -182,46 +202,64 @@ public class GameController {
 	 * 
 	 * @param player the player making the move
 	 * @throws PlayerBrokeException if the player goes broke during the move
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void makeMove(Player player) throws PlayerBrokeException {
 
 		boolean castDouble;
 		int doublesCount = 0;
-		do {
-			int die1 = (int) (1 + 3.0*Math.random());
-			int die2 = (int) (1 + 3.0*Math.random());
-			castDouble = (die1 == die2);
-			gui.setDice(die1, die2);
-			
-			if (player.isInPrison() && castDouble) {
+		boolean payedToGetOut = false;
+		final int PRISON_FEE = 1000;
+
+		if (player.isInPrison()) {
+			String playerSelection = gui.getUserSelection("Do you want to pay the fine to escape prison?", "yes", "no");
+			if (playerSelection.contains("yes")) {
+				player.payMoney(PRISON_FEE);
 				player.setInPrison(false);
-				gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
-			} else if (player.isInPrison()) {
-				gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
+				payedToGetOut = true;
+				gui.showMessage("Player" + player.getName() + " leaves prison as he paid the fee of $1000");
 			}
-			// TODO note that the player could also pay to get out of prison,
-			//      which is not yet implemented 
-			if (castDouble) {
-				doublesCount++;
-				if (doublesCount > 2) {
-					gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
-					gotoJail(player);
-					return;
+		}
+
+		if (!payedToGetOut) {
+			do {
+				int die1 = (int) (1 + 3.0*Math.random());
+				int die2 = (int) (1 + 3.0*Math.random());
+				castDouble = (die1 == die2);
+				gui.setDice(die1, die2);
+
+				if (player.isInPrison() && castDouble) {
+					player.setInPrison(false);
+					gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
+				} else if (player.isInPrison()) {
+					gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
 				}
-			}
-			if (!player.isInPrison()) {
-				// make the actual move by computing the new position and then
-				// executing the action moving the player to that space
-				int pos = player.getCurrentPosition().getIndex();
-				List<Space> spaces = game.getSpaces();
-				int newPos = (pos + die1 + die2) % spaces.size();
-				Space space = spaces.get(newPos);
-				moveToSpace(player, space);
+				
 				if (castDouble) {
-					gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
+					doublesCount++;
+					if (doublesCount > 2) {
+						gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
+						gotoJail(player);
+						return;
+					}
 				}
-			}
-		} while (castDouble);
+
+				if (!player.isInPrison()) {
+					// make the actual move by computing the new position and then
+					// executing the action moving the player to that space
+					int pos = player.getCurrentPosition().getIndex();
+					List<Space> spaces = game.getSpaces();
+					int newPos = (pos + die1 + die2) % spaces.size();
+					Space space = spaces.get(newPos);
+					moveToSpace(player, space);
+					if (castDouble) {
+						gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
+					}
+				}
+			} while (castDouble);
+		}
+
 	}
 	
 	/**
@@ -231,17 +269,16 @@ public class GameController {
 	 * @param player the moved player
 	 * @param space the space to which the player moves
 	 * @throws PlayerBrokeException when the player goes broke doing the action on that space
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void moveToSpace(Player player, Space space) throws PlayerBrokeException {
 		int posOld = player.getCurrentPosition().getIndex();
 		player.setCurrentPosition(space);
 
 		if (posOld > player.getCurrentPosition().getIndex()) {
-			// Note that this assumes that the game has more than 12 spaces here!
-			// TODO: the amount of 2000$ should not be a fixed constant here (could also
-			//       be configured in the Game class.
-			gui.showMessage("Player " + player.getName() + " receives 2000$ for passing Go!");
-			this.paymentFromBank(player, 2000);
+			gui.showMessage("Player " + player.getName() + " receives 4000$ for passing Go!");
+			this.paymentFromBank(player, game.getMoneyForPassingStart());
 		}		
 		gui.showMessage("Player " + player.getName() + " arrives at " + space.getIndex() + ": " +  space.getName() + ".");
 		
@@ -265,10 +302,11 @@ public class GameController {
 	 * The method implements the action of a player going directly to jail.
 	 * 
 	 * @param player the player going to jail
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void gotoJail(Player player) {
-		// TODO the 10 should not be hard coded
-		player.setCurrentPosition(game.getSpaces().get(10));
+		player.setCurrentPosition(game.getSpaces().get(JAIL_FIELD));
 		player.setInPrison(true);
 	}
 	
@@ -318,7 +356,7 @@ public class GameController {
 	/**
 	 * This method implements the activity of offering a player to buy
 	 * a property. This is typically triggered by a player arriving on
-	 * an property that is not sold yet. If the player chooses not to
+	 * a property that is not sold yet. If the player chooses not to
 	 * buy, the property will be set for auction.
 	 * 
 	 * @param property the property to be sold

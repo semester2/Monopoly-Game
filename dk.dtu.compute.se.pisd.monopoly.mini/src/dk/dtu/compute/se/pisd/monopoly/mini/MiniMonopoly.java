@@ -155,6 +155,8 @@ public class MiniMonopoly {
 		cards.add(b);
 		game.setCardDeck(cards);
 
+		game.populatePropertyList();
+
 		return game;
 	}
 

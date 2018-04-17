@@ -107,6 +107,16 @@ public class RealEstate extends Property{
 		return initialRent;
 	}
 	
-	
+	@Override
+	protected void mortgageProperty(Player player) {
+			if(super.getIsDeveloped()) {
+				
+			}
+			else {
+				this.setIsMortgaged(true);
+				player.setBalance(player.getBalance()+this.getCost()/2);
+				}
+		}
+
 	
 }
