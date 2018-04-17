@@ -193,4 +193,7 @@ public class Property extends Space {
 		return this.rent;
 	}
 
+	protected void mortgageProperty(Player player) {
+		
+	}
 }
