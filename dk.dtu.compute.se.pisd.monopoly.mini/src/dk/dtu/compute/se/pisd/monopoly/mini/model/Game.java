@@ -9,34 +9,29 @@ import dk.dtu.compute.se.pisd.designpatterns.Subject;
  * to use this model with the MVC-pattern, it extends the
  * {@link dk.dtu.compute.se.pisd.designpatterns.Subject} of the observer
  * design pattern.
- * 
+ *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
 public class Game extends Subject {
-	
+
 	private List<Space> spaces = new ArrayList<Space>();
-	
+
 	private List<Card> cardDeck = new ArrayList<Card>();
-	
+
 	private List<Player> players = new ArrayList<Player>();
 
 	private List<Property> propertyList = new ArrayList<>();
 
 	private Map<Integer, List<Property>> colorToPropertyMap;
-	
+
 	private Player current;
 
-<<<<<<< HEAD
-	private List<Property> propertyList = new ArrayList<>();
-
-=======
 	private final int MONEY_FROM_PASSING_START = 4000;
->>>>>>> Jaafar_branch
 
 	/**
 	 * Returns a list of all the games spaces.
-	 * 
+	 *
 	 * @return an unmodifiable list of the games spaces
 	 */
 	public List<Space> getSpaces() {
@@ -47,7 +42,7 @@ public class Game extends Subject {
 	 * Sets all the spaces of the game. Note that the provided
 	 * list of spaces is copied, so that they cannot be changed
 	 * without the game being aware of the change.
-	 * 
+	 *
 	 * @param spaces the list of spaces
 	 */
 	public void setSpaces(List<Space> spaces) {
@@ -57,7 +52,7 @@ public class Game extends Subject {
 
 	/**
 	 * Adds a space to the game at the end.
-	 * 
+	 *
 	 * @param space the added space
 	 */
 	public void addSpace(Space space) {
@@ -67,35 +62,14 @@ public class Game extends Subject {
 	}
 
 	/**
-	 *
-	 * @param property
-	 *
-	 * @author Jaafar Mahdi
-	 */
-	public void addProperty(Property property) {
-		propertyList.add(property);
-		notifyChange();
-	}
-
-	/**
-	 *
-	 * @return list of all properties
-	 *
-	 * @author Jaafar Mahdi
-	 */
-	public List<Property> getPropertyList() {
-		return this.propertyList;
-	}
-
-	/**
 	 * Returns a list of the cards in the current deck.
-	 * 
+	 *
 	 * @return an unmodifiable list of all the cards currently in the deck
 	 */
 	public List<Card> getCardDeck() {
 		return Collections.unmodifiableList(cardDeck);
 	}
-	
+
 	/**
 	 * Removes the topmost card from the deck and returns it.
 	 * Added defensive programming, will never return null
@@ -103,16 +77,29 @@ public class Game extends Subject {
 	 * @author Oliver Køppen
 	 */
 	public Card drawCardFromDeck() {
-		Card card = cardDeck.remove(0);
-		cardDeck.add(cardDeck.size()-1, card);
+		if (cardDeck.remove(0)==null){
+			setCardDeck(cardDeck);
+		}
 
+		// Try-/catch block. Probably not needed
+		/*
+		try {
+			cardDeck.remove(0);
+		}
+		catch (NullPointerException e){
+			System.out.println("Caught NullPointer Exception: " + e);
+			setCardDeck(cardDeck);
+		}
+		*/
+
+		Card card = cardDeck.remove(0);
 		notifyChange();
 		return card;
 	}
-	
+
 	/**
 	 * Add the given card to the bottom of the deck.
-	 * 
+	 *
 	 * @param card the card added to the bottom of the deck.
 	 */
 	public void returnCardToDeck(Card card) {
@@ -124,14 +111,14 @@ public class Game extends Subject {
 	 * Uses the provided list of cards as the new deck. The
 	 * list will be copied in order to avoid, changes on it
 	 * without the game being aware of it.
-	 *  
+	 *
 	 * @param cardDeck the new deck of cards
 	 */
 	public void setCardDeck(List<Card> cardDeck) {
 		this.cardDeck = new ArrayList<Card>(cardDeck);
 		notifyChange();
 	}
-	
+
 
 	/**
 	 * Shuffles the cards in the deck.
@@ -145,7 +132,7 @@ public class Game extends Subject {
 
 	/**
 	 * Returns all the players of the game as an unmodifiable list.
-	 * 
+	 *
 	 * @return a list of the current players
 	 */
 	public List<Player> getPlayers() {
@@ -156,28 +143,28 @@ public class Game extends Subject {
 	 * Sets the list of players. The list of players is actually copied
 	 * in order to avoid the list being modified without the game being
 	 * aware of it.
-	 * 
+	 *
 	 * @param players the list of players
 	 */
 	public void setPlayers(List<Player> players) {
 		this.players = new ArrayList<Player>(players);
 		notifyChange();
 	}
-	
+
 	/**
 	 * Adds a player to the game.
-	 * 
+	 *
 	 * @param player the player to be added.
 	 */
 	public void addPlayer(Player player) {
 		players.add(player);
 		notifyChange();
 	}
-	
+
 	/**
 	 * Returns the current player of the game. This is the player
 	 * who's turn it is to do the next move (or currently is doing a move).
-	 * 
+	 *
 	 * @return the current player
 	 */
 	public Player getCurrentPlayer() {
@@ -186,12 +173,12 @@ public class Game extends Subject {
 		}
 		return current;
 	}
-	
+
 	/**
 	 * Sets the current player. It is required that the player is a
 	 * player of the game already; otherwise an IllegalArumentException
 	 * will be thrown.
-	 * 
+	 *
 	 * @param player the new current player
 	 */
 	public void setCurrentPlayer(Player player) {
@@ -203,11 +190,6 @@ public class Game extends Subject {
 		notifyChange();
 	}
 
-<<<<<<< HEAD
-	public void populatePropertyList(Property property){
-		propertyList.add(property);
-	}
-=======
 	/**
 	 *
 	 * @return The amount of money you receive from passing start.
@@ -246,9 +228,6 @@ public class Game extends Subject {
 		return this.propertyList;
 	}
 
-<<<<<<< HEAD
->>>>>>> Jaafar_branch
-=======
 	/**
 	 * Creates a HashMap that maps a connection between a property' colorcode
 	 * and an ArrayList, that contains all the specific properties
@@ -268,5 +247,4 @@ public class Game extends Subject {
 		}
 	}
 
->>>>>>> Jaafar_branch
 }
