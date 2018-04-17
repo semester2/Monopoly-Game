@@ -22,6 +22,8 @@ public class Game extends Subject {
 	private List<Card> cardDeck = new ArrayList<Card>();
 	
 	private List<Player> players = new ArrayList<Player>();
+
+	private List<Property> propertyList = new ArrayList<>();
 	
 	private Player current;
 
@@ -58,6 +60,27 @@ public class Game extends Subject {
 		space.setIndex(spaces.size());
 		spaces.add(space);
 		notifyChange();
+	}
+
+	/**
+	 *
+	 * @param property
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public void addProperty(Property property) {
+		propertyList.add(property);
+		notifyChange();
+	}
+
+	/**
+	 *
+	 * @return list of all properties
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public List<Property> getPropertyList() {
+		return this.propertyList;
 	}
 
 	/**
