@@ -1,8 +1,6 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import dk.dtu.compute.se.pisd.designpatterns.Subject;
 
@@ -24,6 +22,8 @@ public class Game extends Subject {
 	private List<Player> players = new ArrayList<Player>();
 
 	private List<Property> propertyList = new ArrayList<>();
+
+	private Map<Integer, List<Property>> colorToPropertyMap;
 	
 	private Player current;
 
@@ -215,6 +215,7 @@ public class Game extends Subject {
 		}
 
 		this.propertyList = propertyList;
+		populateMap();
 	}
 
 	/**
@@ -225,6 +226,25 @@ public class Game extends Subject {
 	 */
 	public List<Property> getPropertyList() {
 		return this.propertyList;
+	}
+
+	/**
+	 * Creates a HashMap that maps a connection between a property' colorcode
+	 * and an ArrayList, that contains all the specific properties
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private void populateMap() {
+		colorToPropertyMap = new HashMap<Integer, List<Property>>();
+		for (Property property : propertyList) {
+			int color = property.getColorCode();
+			List<Property> list = colorToPropertyMap.get(color);
+			if (list == null) {
+				list = new ArrayList<Property>();
+				colorToPropertyMap.put(color,list);
+			}
+			list.add(property);
+		}
 	}
 
 }
