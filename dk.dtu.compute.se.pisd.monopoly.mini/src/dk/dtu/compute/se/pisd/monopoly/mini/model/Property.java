@@ -94,7 +94,7 @@ public class Property extends Space {
 	/**
 	 * Sets whether the property is mortgaged or not
 	 * 
-	 * @param boolean
+	 * @param b
 	 * 
 	 * @author Andreas and Jaafar
 	 */
@@ -117,7 +117,7 @@ public class Property extends Space {
 	/**
 	 * Sets whether the property is developed or not
 	 * 
-	 * @param boolean
+	 * @param b
 	 * 
 	 * @author Andreas and Jaafar
 	 */
