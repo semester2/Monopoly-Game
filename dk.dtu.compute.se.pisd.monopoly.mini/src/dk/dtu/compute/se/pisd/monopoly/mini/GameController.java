@@ -51,6 +51,8 @@ public class GameController {
 	private View view;
 	
     private boolean disposed = false;
+
+    private final int JAIL_FIELD = 10;
 	
 	/**
 	 * Constructor for a controller of a game.
@@ -265,10 +267,11 @@ public class GameController {
 	 * The method implements the action of a player going directly to jail.
 	 * 
 	 * @param player the player going to jail
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void gotoJail(Player player) {
-		// TODO the 10 should not be hard coded
-		player.setCurrentPosition(game.getSpaces().get(10));
+		player.setCurrentPosition(game.getSpaces().get(JAIL_FIELD));
 		player.setInPrison(true);
 	}
 	
