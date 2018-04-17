@@ -22,6 +22,8 @@ public class Game extends Subject {
 	private List<Card> cardDeck = new ArrayList<Card>();
 	
 	private List<Player> players = new ArrayList<Player>();
+
+	private List<Property> propertyList = new ArrayList<>();
 	
 	private Player current;
 
@@ -196,6 +198,33 @@ public class Game extends Subject {
 	 */
 	public int getMoneyForPassingStart() {
 		return this.MONEY_FROM_PASSING_START;
+	}
+
+	/**
+	 * Populates a list of properties, based on all the spaces
+	 * in the game.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public void populatePropertyList() {
+		List<Property> propertyList = new ArrayList<>();
+		for (Space space: this.getSpaces()) {
+			if (space.getBuyable()) {
+				propertyList.add((Property) space);
+			}
+		}
+
+		this.propertyList = propertyList;
+	}
+
+	/**
+	 *
+	 * @return a list with all properties
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public List<Property> getPropertyList() {
+		return this.propertyList;
 	}
 
 }
