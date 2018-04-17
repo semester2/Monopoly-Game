@@ -202,6 +202,8 @@ public class GameController {
 	 * 
 	 * @param player the player making the move
 	 * @throws PlayerBrokeException if the player goes broke during the move
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void makeMove(Player player) throws PlayerBrokeException {
 
@@ -218,8 +220,8 @@ public class GameController {
 				payedToGetOut = true;
 				gui.showMessage("Player" + player.getName() + " leaves prison as he paid the fee of $1000");
 			}
-
 		}
+
 		if (!payedToGetOut) {
 			do {
 				int die1 = (int) (1 + 3.0*Math.random());
@@ -267,17 +269,16 @@ public class GameController {
 	 * @param player the moved player
 	 * @param space the space to which the player moves
 	 * @throws PlayerBrokeException when the player goes broke doing the action on that space
+	 *
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke
 	 */
 	public void moveToSpace(Player player, Space space) throws PlayerBrokeException {
 		int posOld = player.getCurrentPosition().getIndex();
 		player.setCurrentPosition(space);
 
 		if (posOld > player.getCurrentPosition().getIndex()) {
-			// Note that this assumes that the game has more than 12 spaces here!
-			// TODO: the amount of 2000$ should not be a fixed constant here (could also
-			//       be configured in the Game class.
-			gui.showMessage("Player " + player.getName() + " receives 2000$ for passing Go!");
-			this.paymentFromBank(player, 2000);
+			gui.showMessage("Player " + player.getName() + " receives 4000$ for passing Go!");
+			this.paymentFromBank(player, game.getMoneyForPassingStart());
 		}		
 		gui.showMessage("Player " + player.getName() + " arrives at " + space.getIndex() + ": " +  space.getName() + ".");
 		
