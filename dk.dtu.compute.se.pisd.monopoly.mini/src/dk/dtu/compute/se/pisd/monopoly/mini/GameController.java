@@ -355,7 +355,7 @@ public class GameController {
 	/**
 	 * This method implements the activity of offering a player to buy
 	 * a property. This is typically triggered by a player arriving on
-	 * an property that is not sold yet. If the player chooses not to
+	 * a property that is not sold yet. If the player chooses not to
 	 * buy, the property will be set for auction.
 	 * 
 	 * @param property the property to be sold
