@@ -181,6 +181,11 @@ public class Property extends Space {
 			}
 		}
 	}
+
+	@Override
+	public boolean getBuyable() {
+		return true;
+	}
 	
 	/**
 	 * Computes the rent of the player, that lands on a space, 
