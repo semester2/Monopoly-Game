@@ -614,4 +614,49 @@ public class GameController {
 		}
 	}
 
+	/**
+	 *
+	 * @param player
+	 * @param color
+	 * @return boolean that tells wether the player owns all the properties of a given color
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public boolean checkWetherPlayerOwnAllInColor(Player player, int color) {
+		List<Property> properties = game.getColorToPropertyMap().get(color);
+		boolean ownsAll = false;
+		int numberOfOwnedProperties = 0;
+		for (Property property : properties) {
+			if (property.getOwner() == player) {
+				numberOfOwnedProperties++;
+			}
+		}
+
+		if (numberOfOwnedProperties == properties.size()) {
+			ownsAll = true;
+		}
+
+		return ownsAll;
+	}
+
+	/**
+	 *
+	 * @param player
+	 * @param color
+	 * @return integer that tells how many of a given utility that a player owns
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public int checkNumberOfOwnedUtilities(Player player, int color) {
+		List<Property> properties = game.getColorToPropertyMap().get(color);
+		int numberOfOwnedUtilities = 0;
+		for (Property property : properties) {
+			if (property.getOwner() == player) {
+				numberOfOwnedUtilities++;
+			}
+		}
+
+		return numberOfOwnedUtilities;
+	}
+
 }
