@@ -41,6 +41,7 @@ public class MiniMonopoly {
 		go.setName("Go");
 		go.setColorCode(0);
 		game.addSpace(go);
+
 		
 		Property p = new Property();
 		p.setName("R�dovrevej");
@@ -48,6 +49,7 @@ public class MiniMonopoly {
 		p.setRent(50);
 		p.setColorCode(1);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Chance chance = new Chance();
 		chance.setName("Chance");
@@ -59,6 +61,7 @@ public class MiniMonopoly {
 		p.setRent(50);
 		p.setColorCode(1);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Tax t = new Tax();
 		t.setName("Pay tax (10% on Cash)");
@@ -77,6 +80,7 @@ public class MiniMonopoly {
 		p.setRent(100);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		chance = new Chance();
 		chance.setName("Chance");
@@ -88,6 +92,7 @@ public class MiniMonopoly {
 		p.setRent(100);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("All�gade");
@@ -95,6 +100,7 @@ public class MiniMonopoly {
 		p.setRent(150);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Space prison = new Space();
 		prison.setName("Prison");
@@ -106,6 +112,7 @@ public class MiniMonopoly {
 		p.setRent(200);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("Coca-Cola Tapperi");
@@ -113,6 +120,7 @@ public class MiniMonopoly {
 		p.setRent(300);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("B�lowsvej");
@@ -120,6 +128,7 @@ public class MiniMonopoly {
 		p.setRent(200);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("Gl. Kongevej");
@@ -127,6 +136,7 @@ public class MiniMonopoly {
 		p.setRent(250);
 		p.setColorCode(4);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		List<Card> cards = new ArrayList<Card>();
 		
