@@ -26,6 +26,8 @@ public class Space extends Subject {
 	private boolean taxable;
 	
 	private int colorCode;
+
+	private boolean buyable;
 	
 	/**
 	 * Returns the space's name.
@@ -86,12 +88,16 @@ public class Space extends Subject {
 	/**
 	 * Sets the space's colorcode.
 	 * 
-	 * @param name the name
+	 * @param color the color
 	 * @author Andreas and Jaafar
 	 */
 	public void setColorCode(int color) {
 		this.colorCode = color;
 		notifyChange();
+	}
+
+	public boolean getBuyable() {
+		return this.buyable;
 	}
 	
 	/**
