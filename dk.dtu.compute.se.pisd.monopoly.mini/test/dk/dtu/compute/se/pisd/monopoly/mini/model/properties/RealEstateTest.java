@@ -30,15 +30,7 @@ class RealEstateTest {
 
     @Test
     void TestGetOwnedSameColor() {
-        Player p = new Player();
-        Property r1 = new Property();
-        Property r2 = new Property();
-        r1.setOwner(p);
-        r2.setOwner(p);
 
-        int actual = p.getOwnedProperties().size();
-
-        assertEquals(2, actual);
     }
 
     @Test
