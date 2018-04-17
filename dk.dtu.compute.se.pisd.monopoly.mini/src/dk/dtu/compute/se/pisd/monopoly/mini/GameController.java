@@ -1,7 +1,9 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -124,6 +126,23 @@ public class GameController {
 		boolean terminated = false;
 		while (!terminated) {
 			Player player = players.get(current);
+			String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
+					"no",
+					"yes");
+			if (select.equals("yes")) {
+				Set<Property> ownedProperties = player.getOwnedProperties();
+				ArrayList<Property> pl = new ArrayList<Property>();
+				for (Property property: ownedProperties) {
+					if (!property.getIsDeveloped())
+					pl.add(property);
+				}
+				String[] playersOwnedProperties = new String[pl.size()];
+				for (int i = 0; i<ownedProperties.size();i++) {
+					playersOwnedProperties[i]= i + " " + pl.get(i).getName();
+				}
+				gui.getUserSelection("Which property do you want to mortgage?", playersOwnedProperties);
+			}
+
 			if (!player.isBroke()) {
 				try {
 					this.makeMove(player);
@@ -171,7 +190,6 @@ public class GameController {
 				}
 			}
 		}
-		
 		dispose();
 	}
 
