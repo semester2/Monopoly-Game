@@ -536,6 +536,72 @@ public class GameController {
 	}
 	
 	/**
+	 * Reforms the Set<Property> to as list of all the players properties, that are mortgage able.
+	 * @param player
+	 * @return A list of all the players properties, that are mortgage able.
+	 * 
+	 * @author Sebastian
+	 */
+	public List<Property> computeMortgageAblePropertyList(Player player){
+		Set<Property> ownedProperties = player.getOwnedProperties();
+		ArrayList<Property> mortgageAblePropertyList = new ArrayList<Property>();
+		for (Property property: ownedProperties) {
+			if (!property.getIsDeveloped() && !property.getIsMortgaged())
+			mortgageAblePropertyList.add(property);
+		}
+		return mortgageAblePropertyList;
+	}
+	
+	/**
+	 * Reforms the List<Property>mortgageAblePropertyList, to as string array.
+	 * @param player
+	 * @return A string[] of all the players properties, that are mortgage able.
+	 * 
+	 * @author Sebastian
+	 */
+	public String[] computeMortgageAblePropertyArray(Player player) {
+		ArrayList<Property> mortgageAblePropertyList = (ArrayList<Property>) this.computeMortgageAblePropertyList(player);
+		String[] mortgageAblePropertyArray = new String[mortgageAblePropertyList.size()];
+		for (int i = 0; i<mortgageAblePropertyList.size();i++) {
+			mortgageAblePropertyArray[i]= mortgageAblePropertyList.get(i).getName();
+		}
+		return mortgageAblePropertyArray;
+	}
+	
+	/**
+	 * Mortgage a property of a player, and sets the property as mortgaged, and gives the player the mortgage amount.
+	 * @param player
+	 * @param property
+	 * 
+	 * @author Sebastian
+	 */
+	public void mortgageProperty(Player player, Property property) {
+		property.setIsMortgaged(true);
+		player.setBalance(player.getBalance()+property.getCost()/2);
+	}
+	
+	/**
+	 * Gives the current player the possibility to mortgage any owned properties, that are mortgage able, and lists those for the player.
+	 * The player then chooses which property to mortgage.
+	 * @param player
+	 * 
+	 * @author Sebastian
+	 */
+	private void mortgageUserSelection(Player player) {
+		String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
+				"no",
+				"yes");
+		if (select.equals("yes")) {
+				String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", this.computeMortgageAblePropertyArray(player));
+				for(int i = 0; i<this.computeMortgageAblePropertyArray(player).length; i++)
+					if(mortgageSelection.equals(this.computeMortgageAblePropertyArray(player)[i])) {
+						Property chosenProperty = this.computeMortgageAblePropertyList(player).get(i);
+						this.mortgageProperty(player, chosenProperty);
+				}
+			}
+		}
+	
+	/**
 	 * Method for disposing of this controller and cleaning up its resources.
 	 */
 	public void dispose() {
