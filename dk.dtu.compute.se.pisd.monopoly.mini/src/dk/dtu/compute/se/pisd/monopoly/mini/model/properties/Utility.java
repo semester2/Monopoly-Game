@@ -14,10 +14,4 @@ public class Utility extends Property {
 	
 	// TODO to be implemented
 	
-	@Override
-	protected void mortgageProperty(Player player) {
-		this.setIsMortgaged(true);
-		player.setBalance(player.getBalance()+this.getCost()/2);
-	}
-
 }
