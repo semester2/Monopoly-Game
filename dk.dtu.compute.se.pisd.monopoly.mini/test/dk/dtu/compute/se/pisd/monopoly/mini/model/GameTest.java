@@ -39,7 +39,6 @@ class GameTest {
     void getCardDeck() {
     }
 
-
     @Test
     void drawCardFromDeckTest() {
         for (int i = 0; i<50;i++){

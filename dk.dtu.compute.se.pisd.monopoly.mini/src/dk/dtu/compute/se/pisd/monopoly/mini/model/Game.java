@@ -25,6 +25,9 @@ public class Game extends Subject {
 	
 	private Player current;
 
+	private List<Property> propertyList = new ArrayList<>();
+
+
 	/**
 	 * Returns a list of all the games spaces.
 	 * 
@@ -45,7 +48,7 @@ public class Game extends Subject {
 		this.spaces = new ArrayList<Space>(spaces);
 		notifyChange();
 	}
-	
+
 	/**
 	 * Adds a space to the game at the end.
 	 * 
@@ -173,4 +176,7 @@ public class Game extends Subject {
 		notifyChange();
 	}
 
+	public void populatePropertyList(Property property){
+		propertyList.add(property);
+	}
 }
