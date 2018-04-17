@@ -126,22 +126,7 @@ public class GameController {
 		boolean terminated = false;
 		while (!terminated) {
 			Player player = players.get(current);
-			String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
-					"no",
-					"yes");
-			if (select.equals("yes")) {
-				Set<Property> ownedProperties = player.getOwnedProperties();
-				ArrayList<Property> pl = new ArrayList<Property>();
-				for (Property property: ownedProperties) {
-					if (!property.getIsDeveloped())
-					pl.add(property);
-				}
-				String[] playersOwnedProperties = new String[pl.size()];
-				for (int i = 0; i<ownedProperties.size();i++) {
-					playersOwnedProperties[i]= i + " " + pl.get(i).getName();
-				}
-				gui.getUserSelection("Which property do you want to mortgage?", playersOwnedProperties);
-			}
+			this.mortgageUserSelection(player);
 
 			if (!player.isBroke()) {
 				try {
@@ -588,6 +573,8 @@ public class GameController {
 	 * @author Sebastian
 	 */
 	private void mortgageUserSelection(Player player) {
+		do {
+			if(this.computeMortgageAblePropertyList(player).size()>0) {
 		String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
 				"no",
 				"yes");
@@ -598,8 +585,12 @@ public class GameController {
 						Property chosenProperty = this.computeMortgageAblePropertyList(player).get(i);
 						this.mortgageProperty(player, chosenProperty);
 				}
-			}
 		}
+			} else {
+				break;
+			}
+		} while (true);
+	}
 	
 	/**
 	 * Method for disposing of this controller and cleaning up its resources.
