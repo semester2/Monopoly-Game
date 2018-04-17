@@ -80,6 +80,7 @@ public class Utility extends Property {
 	
 	// TODO to be implemented
 	
+<<<<<<< HEAD
 	@Override
 	protected void mortgageProperty(Player player) {
 		this.setIsMortgaged(true);
@@ -87,4 +88,6 @@ public class Utility extends Property {
 	}
 >>>>>>> Jaafar_branch
 
+=======
+>>>>>>> Jaafar_branch
 }

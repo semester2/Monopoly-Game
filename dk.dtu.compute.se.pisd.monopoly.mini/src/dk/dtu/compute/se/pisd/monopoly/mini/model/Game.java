@@ -247,4 +247,8 @@ public class Game extends Subject {
 		}
 	}
 
+	public Map<Integer, List<Property>> getColorToPropertyMap() {
+		return this.colorToPropertyMap;
+	}
+
 }
