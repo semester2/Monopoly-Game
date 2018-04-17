@@ -25,6 +25,8 @@ public class Game extends Subject {
 	
 	private Player current;
 
+	private final int MONEY_FROM_PASSING_START = 4000;
+
 	/**
 	 * Returns a list of all the games spaces.
 	 * 
@@ -184,6 +186,16 @@ public class Game extends Subject {
 			throw new IllegalArgumentException("Player is not in the game!");
 		}
 		notifyChange();
+	}
+
+	/**
+	 *
+	 * @return The amount of money you receive from passing start.
+	 *
+	 * @author Andreas Bennecke
+	 */
+	public int getMoneyForPassingStart() {
+		return this.MONEY_FROM_PASSING_START;
 	}
 
 }
