@@ -126,8 +126,10 @@ public class GameController {
 		boolean terminated = false;
 		while (!terminated) {
 			Player player = players.get(current);
+			
 			this.mortgageUserSelection(player);
-
+			this.buyBackMortagedPropertiesUserSelect(player);
+			
 			if (!player.isBroke()) {
 				try {
 					this.makeMove(player);
@@ -544,14 +546,14 @@ public class GameController {
 	 * 
 	 * @author Sebastian
 	 */
-	public String[] computeMortgageAblePropertyArray(Player player) {
+	/*public String[] computeMortgageAblePropertyArray(Player player) {
 		ArrayList<Property> mortgageAblePropertyList = (ArrayList<Property>) this.computeMortgageAblePropertyList(player);
 		String[] mortgageAblePropertyArray = new String[mortgageAblePropertyList.size()];
 		for (int i = 0; i<mortgageAblePropertyList.size();i++) {
 			mortgageAblePropertyArray[i]= mortgageAblePropertyList.get(i).getName();
 		}
 		return mortgageAblePropertyArray;
-	}
+	}*/
 	
 	/**
 	 * Mortgage a property of a player, and sets the property as mortgaged, and gives the player the mortgage amount.
@@ -575,21 +577,70 @@ public class GameController {
 	private void mortgageUserSelection(Player player) {
 		do {
 			if(this.computeMortgageAblePropertyList(player).size()>0) {
-		String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
-				"no",
-				"yes");
-		if (select.equals("yes")) {
-				String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", this.computeMortgageAblePropertyArray(player));
-				for(int i = 0; i<this.computeMortgageAblePropertyArray(player).length; i++)
-					if(mortgageSelection.equals(this.computeMortgageAblePropertyArray(player)[i])) {
-						Property chosenProperty = this.computeMortgageAblePropertyList(player).get(i);
-						this.mortgageProperty(player, chosenProperty);
+				String[] mortageAblePropertyArray = this.fromListToString(this.computeMortgageAblePropertyList(player));
+				String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
+						"no",
+						"yes");
+				if (select.equals("yes")) {
+					String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", mortageAblePropertyArray);
+					for(int i = 0; i<mortageAblePropertyArray.length; i++)
+						if(mortgageSelection.equals(mortageAblePropertyArray[i])) {
+							Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
+							this.mortgageProperty(player, chosenProperty);
+						}
+				} else {
+					break;
 				}
-		}
 			} else {
 				break;
 			}
 		} while (true);
+	}
+	
+	private void buyBackMortagedProperty(Player player, Property property) {
+		property.setIsMortgaged(false);
+		player.setBalance(player.getBalance()); //TODO we also need to take 10% of the mortgaged value.
+	}
+
+	private void buyBackMortagedPropertiesUserSelect(Player player) {
+		do {
+			if(this.computePlayersMortagedPropertiesList(player).size()>0) {
+				String[] mortagedProperties = this.fromListToString(this.computePlayersMortagedPropertiesList(player));
+				String select = gui.getUserSelection("Do you want to buy back mortgaged properties?",
+						"no",
+						"yes");
+				if(select.equals("yes")) {
+					String mortgageSelection = gui.getUserSelection("Which property do you want to buy back?", mortagedProperties);
+					for(int i = 0; i<mortagedProperties.length; i++)
+						if(mortgageSelection.equals(mortagedProperties[i])) {
+							Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
+							this.buyBackMortagedProperty(player, chosenProperty);
+						}
+				}
+				else break;
+			}
+			else {
+				break;
+			}
+		} while (true);
+	}
+	
+	private List<Property> computePlayersMortagedPropertiesList(Player player) {
+		Set<Property> ownedProperties = player.getOwnedProperties();
+		ArrayList<Property> mortgagedPropertyList = new ArrayList<Property>();
+		for (Property property: ownedProperties) {
+			if (property.getIsMortgaged())
+			mortgagedPropertyList.add(property);
+		}
+		return mortgagedPropertyList;
+	}
+	
+	private String[] fromListToString(List<Property> list) {
+		String[] stringArray = new String[list.size()];
+		for(int i = 0; i<list.size(); i++) {
+			stringArray[i] = list.get(i).getName();
+		}
+		return stringArray;
 	}
 	
 	/**
