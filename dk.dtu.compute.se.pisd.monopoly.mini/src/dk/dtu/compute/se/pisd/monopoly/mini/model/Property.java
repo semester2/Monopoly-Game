@@ -177,7 +177,7 @@ public class Property extends Space {
 			if (this.mortgaged) {
 				return;
 			} else {
-				controller.payment(player, computeRent(owner), owner);
+				controller.payment(player, computeRent(owner, controller), owner);
 			}
 		}
 	}
@@ -194,7 +194,7 @@ public class Property extends Space {
 	 * @return the rent to pay as int
 	 * @author Andreas and Jaafar
 	 */
-	protected int computeRent(Player player) {
+	protected int computeRent(Player player, GameController controller) {
 		return this.rent;
 	}
 
