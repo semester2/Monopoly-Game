@@ -2,6 +2,7 @@ package dk.dtu.compute.se.pisd.monopoly.mini.model.properties;
 
 import java.util.Set;
 
+import dk.dtu.compute.se.pisd.monopoly.mini.GameController;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Player;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
 
@@ -17,7 +18,7 @@ public class RealEstate extends Property{
 	
 	
 	@Override
-	protected int computeRent(Player player) {
+	protected int computeRent(Player player, GameController controller) {
 		int initialRent = super.getRent();
 		int color = super.getColorCode();
 		int houses = super.getNumberOfHouses();

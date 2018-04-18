@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.model.properties;
 
+import dk.dtu.compute.se.pisd.monopoly.mini.GameController;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Player;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
 
@@ -11,7 +12,6 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
  *
  */
 public class Utility extends Property {
-<<<<<<< HEAD
 
     /**
      * Computes the rent of the current placement.
@@ -22,37 +22,36 @@ public class Utility extends Property {
      * @author Oliver Køppen
      */
     @Override
-    public int computeRent(Player player){
+    public int computeRent(Player player, GameController controller){
         int computedRent;
         int placement = getUtilityPlacement(player);
         switch (placement){
-            case 1 : computedRent = computeRentBrewery(player); break;
-            case 2 : computedRent = computerRentShipyard(player); break;
+            case 1 : computedRent = computeRentBrewery(player, controller); break;
+            case 2 : computedRent = computerRentShipyard(player, controller); break;
             default : computedRent = super.getRent();
         }
         return computedRent;
     }
 
-	public int computeRentBrewery(Player player){
-	    int initialRent = super.getRent();
-	    int color = super.getColorCode();
-        return -1;
+	public int computeRentBrewery(Player player, GameController controller){
+	    int owned = controller.checkNumberOfOwnedUtilities(getOwner(),this.getColorCode());
+        return owned*100*3;
 	}
 
-    public int computerRentShipyard(Player player){
-        return -1;
-    }
-
-    private int utilitiesOwnedCount(Player player){
-        int utilitiesOwned;
-        int placement = getUtilityPlacement(player);
-        Player owner = player.getCurrentPosition().getIndex()
-        switch (placement) {
-            case 1 :
+    public int computerRentShipyard(Player player, GameController controller){
+        int owned = controller.checkNumberOfOwnedUtilities(getOwner(),this.getColorCode());
+	    int rent;
+        switch (owned){
+            case 0 : rent =0; break;
+            case 1 : rent = 500; break;
+            case 2 : rent = 1000; break;
+            case 3 : rent = 2000; break;
+            case 4 : rent = 4000; break;
+            default: rent = 0;
         }
-
-        return utilitiesOwned;
+        return rent;
     }
+
 
     /**
      * Determines if the player is on a brewery or shipyard
@@ -76,18 +75,5 @@ public class Utility extends Property {
         }
         return temp;
     }
-=======
-	
-	// TODO to be implemented
-	
-<<<<<<< HEAD
-	@Override
-	protected void mortgageProperty(Player player) {
-		this.setIsMortgaged(true);
-		player.setBalance(player.getBalance()+this.getCost()/2);
-	}
->>>>>>> Jaafar_branch
 
-=======
->>>>>>> Jaafar_branch
 }

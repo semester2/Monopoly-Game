@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Tax;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardMove;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardReceiveMoneyFromBank;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.database.Connector;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.Utility;
 
 /**
@@ -166,7 +169,15 @@ public class MiniMonopoly {
 	 * 
 	 * @param args not used
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
+
+		Connector conn = new Connector();
+
+		ResultSet rs = conn.doQuery("show columns in player");
+		while(rs.next()){
+			System.out.println(rs.getString("name"));
+		}
+
 		Game game = createGame();
 		game.shuffleCardDeck();
 		
