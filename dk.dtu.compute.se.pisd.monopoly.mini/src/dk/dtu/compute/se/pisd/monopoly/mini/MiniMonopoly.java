@@ -1,5 +1,7 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Tax;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardMove;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardReceiveMoneyFromBank;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.database.Connector;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.Utility;
 
 /**
@@ -41,6 +44,7 @@ public class MiniMonopoly {
 		go.setName("Go");
 		go.setColorCode(0);
 		game.addSpace(go);
+
 		
 		Property p = new Property();
 		p.setName("R�dovrevej");
@@ -48,6 +52,7 @@ public class MiniMonopoly {
 		p.setRent(50);
 		p.setColorCode(1);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Chance chance = new Chance();
 		chance.setName("Chance");
@@ -59,6 +64,7 @@ public class MiniMonopoly {
 		p.setRent(50);
 		p.setColorCode(1);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Tax t = new Tax();
 		t.setName("Pay tax (10% on Cash)");
@@ -77,6 +83,7 @@ public class MiniMonopoly {
 		p.setRent(100);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		chance = new Chance();
 		chance.setName("Chance");
@@ -88,6 +95,7 @@ public class MiniMonopoly {
 		p.setRent(100);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("All�gade");
@@ -95,6 +103,7 @@ public class MiniMonopoly {
 		p.setRent(150);
 		p.setColorCode(2);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		Space prison = new Space();
 		prison.setName("Prison");
@@ -106,6 +115,7 @@ public class MiniMonopoly {
 		p.setRent(200);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("Coca-Cola Tapperi");
@@ -113,6 +123,7 @@ public class MiniMonopoly {
 		p.setRent(300);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("B�lowsvej");
@@ -120,6 +131,7 @@ public class MiniMonopoly {
 		p.setRent(200);
 		p.setColorCode(3);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		p = new Property();
 		p.setName("Gl. Kongevej");
@@ -127,6 +139,7 @@ public class MiniMonopoly {
 		p.setRent(250);
 		p.setColorCode(4);
 		game.addSpace(p);
+		game.addProperty(p);
 		
 		List<Card> cards = new ArrayList<Card>();
 		
@@ -156,7 +169,15 @@ public class MiniMonopoly {
 	 * 
 	 * @param args not used
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws SQLException {
+
+		Connector conn = new Connector();
+
+		ResultSet rs = conn.doQuery("show columns in player");
+		while(rs.next()){
+			System.out.println(rs.getString("name"));
+		}
+
 		Game game = createGame();
 		game.shuffleCardDeck();
 		
