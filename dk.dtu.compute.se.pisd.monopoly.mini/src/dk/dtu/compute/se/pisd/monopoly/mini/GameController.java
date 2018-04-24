@@ -55,6 +55,9 @@ public class GameController {
     private boolean disposed = false;
 
     private final int JAIL_FIELD = 10;
+
+    private int dieOne;
+    private int dieTwo;
 	
 	/**
 	 * Constructor for a controller of a game.
@@ -190,11 +193,10 @@ public class GameController {
 	 * @param player the player making the move
 	 * @throws PlayerBrokeException if the player goes broke during the move
 	 *
-	 * @author Ekkart Kindler - Modified by Andreas Bennecke
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke & Oliver Køppen
 	 */
 	public void makeMove(Player player) throws PlayerBrokeException {
 
-		boolean castDouble;
 		int doublesCount = 0;
 		boolean payedToGetOut = false;
 		final int PRISON_FEE = 1000;
@@ -211,19 +213,17 @@ public class GameController {
 
 		if (!payedToGetOut) {
 			do {
-				int die1 = (int) (1 + 3.0*Math.random());
-				int die2 = (int) (1 + 3.0*Math.random());
-				castDouble = (die1 == die2);
-				gui.setDice(die1, die2);
+				rollDice();
+				gui.setDice(dieOne, dieTwo);
 
-				if (player.isInPrison() && castDouble) {
+				if (player.isInPrison() && castDouble()) {
 					player.setInPrison(false);
 					gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
 				} else if (player.isInPrison()) {
 					gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
 				}
 				
-				if (castDouble) {
+				if (castDouble()) {
 					doublesCount++;
 					if (doublesCount > 2) {
 						gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
@@ -237,14 +237,14 @@ public class GameController {
 					// executing the action moving the player to that space
 					int pos = player.getCurrentPosition().getIndex();
 					List<Space> spaces = game.getSpaces();
-					int newPos = (pos + die1 + die2) % spaces.size();
+					int newPos = (pos + dieOne + dieTwo) % spaces.size();
 					Space space = spaces.get(newPos);
 					moveToSpace(player, space);
-					if (castDouble) {
+					if (castDouble()) {
 						gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
 					}
 				}
-			} while (castDouble);
+			} while (castDouble());
 		}
 
 	}
@@ -696,4 +696,21 @@ public class GameController {
 		return numberOfOwnedUtilities;
 	}
 
+    /**
+     * Roll the dice
+     *
+     * @author Oliver Køppen
+     */
+	private void rollDice(){
+	    dieOne = (int)(1+6.0*Math.random());
+        dieTwo = (int)(1+6.0*Math.random());
+	}
+
+	private boolean castDouble(){
+	    return dieOne==dieTwo;
+    }
+
+	public int getDiceValue(){
+	    return dieOne+dieTwo;
+    }
 }
