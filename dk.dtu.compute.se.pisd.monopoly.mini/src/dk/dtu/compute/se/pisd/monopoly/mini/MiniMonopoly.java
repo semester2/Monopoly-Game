@@ -164,11 +164,6 @@ public class MiniMonopoly {
 
 		Connector conn = new Connector();
 
-		ResultSet rs = conn.doQuery("show columns in player");
-		while(rs.next()){
-			System.out.println(rs.getString("name"));
-		}
-
 		Game game = createGame();
 		game.shuffleCardDeck();
 		
