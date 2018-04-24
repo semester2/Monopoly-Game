@@ -337,7 +337,7 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		// TODO implement
+		this.mortgageUserSelection(player);
 	}
 	
 	/**
@@ -381,6 +381,10 @@ public class GameController {
 		// In case the player does not buy the property an auction
         // is started
 		auction(property);
+	}
+	
+	public void tradeProperty(Property property, Player player) {
+		
 	}
 	
 	/**
@@ -539,21 +543,6 @@ public class GameController {
 		return mortgageAblePropertyList;
 	}
 	
-	/**
-	 * Reforms the List<Property>mortgageAblePropertyList, to as string array.
-	 * @param player
-	 * @return A string[] of all the players properties, that are mortgage able.
-	 * 
-	 * @author Sebastian
-	 */
-	/*public String[] computeMortgageAblePropertyArray(Player player) {
-		ArrayList<Property> mortgageAblePropertyList = (ArrayList<Property>) this.computeMortgageAblePropertyList(player);
-		String[] mortgageAblePropertyArray = new String[mortgageAblePropertyList.size()];
-		for (int i = 0; i<mortgageAblePropertyList.size();i++) {
-			mortgageAblePropertyArray[i]= mortgageAblePropertyList.get(i).getName();
-		}
-		return mortgageAblePropertyArray;
-	}*/
 	
 	/**
 	 * Mortgage a property of a player, and sets the property as mortgaged, and gives the player the mortgage amount.
@@ -597,9 +586,15 @@ public class GameController {
 		} while (true);
 	}
 	
+	/**
+	 * This method buys back a mortgaged property, the player also pays 10% of the mortgaged value as a fee.
+	 * @param player
+	 * @param property
+	 * @author Sebastian
+	 */
 	private void buyBackMortagedProperty(Player player, Property property) {
 		property.setIsMortgaged(false);
-		player.setBalance(player.getBalance()); //TODO we also need to take 10% of the mortgaged value.
+		player.setBalance(player.getBalance()-property.getCost()/2-property.getCost()/10); //TODO we also need to take 10% of the mortgaged value.
 	}
 
 	private void buyBackMortagedPropertiesUserSelect(Player player) {
