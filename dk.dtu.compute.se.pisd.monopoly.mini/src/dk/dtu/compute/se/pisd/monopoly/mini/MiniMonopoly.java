@@ -162,8 +162,6 @@ public class MiniMonopoly {
 	 */
 	public static void main(String[] args) throws SQLException {
 
-		Connector conn = new Connector();
-
 		Game game = createGame();
 		game.shuffleCardDeck();
 		
