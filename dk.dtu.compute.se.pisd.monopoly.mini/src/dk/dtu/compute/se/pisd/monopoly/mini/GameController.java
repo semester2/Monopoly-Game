@@ -1,9 +1,7 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -11,6 +9,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Player;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Space;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.exceptions.PlayerBrokeException;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.RealEstate;
 import gui_main.GUI;
 
 /**
@@ -713,4 +712,167 @@ public class GameController {
 	public int getDiceValue(){
 	    return dieOne+dieTwo;
     }
+
+	/**
+	 *
+	 * @param player
+	 * @return List with all the RealEstates that can be build upon
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private List<RealEstate> buildableHousesList(Player player) {
+		List<RealEstate> realEstateList = actionableRealEstates(player, true);
+
+		for (RealEstate realEstate : realEstateList) {
+			if (realEstate.getNumberOfHouses() > 4) {
+				realEstateList.remove(realEstate);
+			}
+		}
+
+		return realEstateList;
+	}
+
+	/**
+	 *
+	 * @param player
+	 * @return List with all the RealEstates that can be sold houses from
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private List<RealEstate> sellableHousesList(Player player) {
+		List<RealEstate> realEstateList = actionableRealEstates(player, false);
+
+		for (RealEstate realEstate : realEstateList) {
+			if (realEstate.getNumberOfHouses() < 1) {
+				realEstateList.remove(realEstate);
+			}
+		}
+
+		return realEstateList;
+	}
+
+	/**
+	 *
+	 * @param player
+	 * @param buildable
+	 * @return List with RealEstates that can be perfomed actions on. Either build upon, or sell houses from.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private List<RealEstate> actionableRealEstates(Player player, boolean buildable) {
+		List<List<RealEstate>> listOfRealEstateLists = generateOwnedRealEstateLists(player);
+		//Populates a List with all the RealEstates that the Player can do actions on
+		List<RealEstate> realEstateList = new ArrayList<>();
+		for (List<RealEstate> realEstates : listOfRealEstateLists) {
+
+			//For buyable and sellable RealE
+			if (buildable) {
+				Collections.sort(realEstates);
+			} else {
+				Collections.reverse(realEstates);
+			}
+
+			int high = realEstates.get(0).getNumberOfHouses();
+			int middle = realEstates.get(1).getNumberOfHouses();
+			int low = realEstates.get(realEstates.size() - 1).getNumberOfHouses();
+
+			if (high == low) {
+				for (RealEstate realEstate : realEstates) {
+					realEstateList.add(realEstate);
+				}
+			} else {
+				if (high == middle) {
+					for (int i = 0; i < realEstates.size() - 2; i++) {
+						realEstateList.add(realEstates.get(i));
+					}
+				} else {
+					realEstateList.add(realEstates.get(0));
+				}
+			}
+		}
+
+		return realEstateList;
+	}
+
+	/**
+	 *
+	 * @param player
+	 * @return List with Lists that contain RealEstates with same colorCode, and which the player owns all of.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private List<List<RealEstate>> generateOwnedRealEstateLists(Player player) {
+		//Computes a Set of the colors that is owned by the Player
+		Set<Integer> ownedAllColorCodeList = null;
+		for (Property property : player.getOwnedProperties()) {
+			if (property.getBuyable()) {
+				if (checkWetherPlayerOwnAllInColor(player, property.getColorCode())) {
+					ownedAllColorCodeList.add(property.getColorCode());
+				}
+			}
+		}
+
+		//Generates a List that contains Lists of Properties
+		List<List<Property>> listOfPropertyLists = new ArrayList<>();
+		Map<Integer, List<Property>> colorToPropertyMap = game.getColorToPropertyMap();
+		for (Integer color : ownedAllColorCodeList) {
+			listOfPropertyLists.add(colorToPropertyMap.get(color));
+		}
+
+		//Converts all Properties to RealEstates
+		//It is known that all object are RealEstates, we made sure of that
+		//In the first loop.
+		List<List<RealEstate>> listOfRealEstateLists = new ArrayList<>();
+		for (List<Property> propertyList : listOfPropertyLists) {
+			List<RealEstate> realEstateList = new ArrayList<>();
+			for (Property property : propertyList) {
+				RealEstate realEstate = (RealEstate) property;
+				realEstateList.add(realEstate);
+			}
+			listOfRealEstateLists.add(realEstateList);
+		}
+
+		return listOfRealEstateLists;
+
+
+	}
+
+	/**
+	 *
+	 * @param realEstateList
+	 * @return StringArray with all the names of the RealEstates in the list.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private String[] realEstateToStringArray(List<RealEstate> realEstateList) {
+		String[] stringArray = new String[realEstateList.size()];
+
+		for (int i = 0; i < realEstateList.size(); i++) {
+			stringArray[i] = realEstateList.get(i).getName();
+		}
+
+		return stringArray;
+	}
+
+	/**
+	 * Sells a house and gets half of the building cost
+	 *
+	 * @param player
+	 * @param realEstate
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private void sellHouse(Player player, RealEstate realEstate) {
+		if (realEstate.getNumberOfHouses() > 0) {
+			realEstate.decrementHouses();
+		}
+		player.receiveMoney((realEstate.getHousePrice() / 2));
+	}
+
+	private void buyHouse(Player player, RealEstate realEstate) {
+		if (realEstate.getNumberOfHouses() < 5) {
+			realEstate.incrementHouses();
+		}
+		player.payMoney(realEstate.getHousePrice());
+	}
 }

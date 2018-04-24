@@ -14,9 +14,10 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class RealEstate extends Property{
+public class RealEstate extends Property implements Comparable<RealEstate> {
 	
-	
+	private int housePrice;
+
 	@Override
 	protected int computeRent(Player player, GameController controller) {
 		int rent = super.getRent();
@@ -26,5 +27,14 @@ public class RealEstate extends Property{
 		}
 
 		return rent;
+	}
+
+	public int getHousePrice() {
+		return this.housePrice;
+	}
+
+	@Override
+	public int compareTo(RealEstate o) {
+		return Integer.compare(this.getNumberOfHouses(), o.getNumberOfHouses());
 	}
 }
