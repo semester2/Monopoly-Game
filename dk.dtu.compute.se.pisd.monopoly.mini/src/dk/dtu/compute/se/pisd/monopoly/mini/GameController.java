@@ -546,6 +546,60 @@ public class GameController {
 		property.setNumberOfHouses(0);
 	}
 	
+	public void tradeProperty(Player seller, Property property, Player buyer, int money) {
+		seller.removeOwnedProperty(property);
+		buyer.addOwnedProperty(property);
+		try {
+			this.payment(buyer, money, seller);
+		} catch (PlayerBrokeException e) {
+			if(buyer.getBalance()<money) {
+				playerBrokeTo(buyer, seller);
+			}
+		}
+	}
+	
+	public void tradePropertyUserSelection() {
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		ArrayList<Player> sellingPlayers = new ArrayList<Player>();
+		String[] players = this.fromPlayerListToString(game.getPlayers());
+		Player seller= null;
+		Player buyer= null;
+		Property chosenProperty=null;
+
+		for(Player player: game.getPlayers()) {
+			if(player.getOwnedProperties().size()>0) {
+				sellingPlayers.add(player);
+			}
+		}
+		for(Player player: game.getPlayers()) {
+			if(!player.isBroke()) {
+				playerList.add(player);
+			}
+		}
+		String sellSelect = gui.getUserSelection("Which player wants to sell a property? ", this.fromPlayerArrayListToStringArray(sellingPlayers));
+		for(int i = 0; i < players.length; i++) {
+			if(sellSelect.equals(players[i])) {
+				seller = game.getPlayers().get(i);
+				playerList.remove(i);
+			}
+		}
+		List<Property> tradeableProperties = this.computeMortgageAblePropertyList(seller);
+		String buySelect = gui.getUserSelection("Which player wants to buy a property? ", this.fromPlayerListToString(playerList));
+		for(int i = 0; i < players.length; i++) {
+			if(buySelect.equals(players[i])) {
+				buyer = game.getPlayers().get(i);
+			}
+		}
+		String propertySelect = gui.getUserSelection("Which property do you want to sell? ",  this.fromPropertyListToString(tradeableProperties));
+		for(int i = 0; i < this.fromPropertyListToString(tradeableProperties).length; i++) {
+			if(propertySelect.equals(this.fromPropertyListToString(tradeableProperties)[i])) {
+				chosenProperty = tradeableProperties.get(i);
+			}
+		}
+		int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
+		this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
+	}
+	
 	/**
 	 * Reforms the Set<Property> to as list of all the players properties, that are mortgage able.
 	 * @param player
@@ -586,8 +640,8 @@ public class GameController {
 	private void mortgageUserSelection(Player player) {
 		do {
 			if(this.computeMortgageAblePropertyList(player).size()>0) {
-				String[] mortageAblePropertyArray = this.fromListToString(this.computeMortgageAblePropertyList(player));
-				String select = gui.getUserSelection("Do you want to mortgage any owned properties?",
+				String[] mortageAblePropertyArray = this.fromPropertyListToString(this.computeMortgageAblePropertyList(player));
+				String select = gui.getUserSelection("Do you " + player.getName() + " want to mortgage any owned properties?",
 						"no",
 						"yes");
 				if (select.equals("yes")) {
@@ -614,14 +668,14 @@ public class GameController {
 	 */
 	private void buyBackMortagedProperty(Player player, Property property) {
 		property.setIsMortgaged(false);
-		player.setBalance(player.getBalance()-property.getCost()/2-property.getCost()/10); //TODO we also need to take 10% of the mortgaged value.
+		player.setBalance(player.getBalance()-property.getCost()/2-property.getCost()/20); //TODO we also need to take 10% of the mortgaged value.
 	}
 
 	private void buyBackMortagedPropertiesUserSelect(Player player) {
 		do {
 			if(this.computePlayersMortagedPropertiesList(player).size()>0) {
-				String[] mortagedProperties = this.fromListToString(this.computePlayersMortagedPropertiesList(player));
-				String select = gui.getUserSelection("Do you want to buy back mortgaged properties?",
+				String[] mortagedProperties = this.fromPropertyListToString(this.computePlayersMortagedPropertiesList(player));
+				String select = gui.getUserSelection("Do you " + player.getName() + " want to buy back mortgaged properties?",
 						"no",
 						"yes");
 				if(select.equals("yes")) {
@@ -650,7 +704,31 @@ public class GameController {
 		return mortgagedPropertyList;
 	}
 	
-	private String[] fromListToString(List<Property> list) {
+	private String[] fromPropertyListToString(List<Property> list) {
+		String[] stringArray = new String[list.size()];
+		for(int i = 0; i<list.size(); i++) {
+			stringArray[i] = list.get(i).getName();
+		}
+		return stringArray;
+	}
+	
+	private String[] fromPlayerArrayListToStringArray(ArrayList<Player> arrayList) {
+		String[] stringArray = new String[arrayList.size()];
+		for(int i = 0; i<arrayList.size(); i++) {
+			stringArray[i] = arrayList.get(i).getName();
+		}
+		return stringArray;
+	}	
+	
+	private ArrayList<Player> fromPlayerListToArrayList(List<Player> list) {
+		ArrayList<Player> arrayList = new ArrayList<Player>();
+		for(int i = 0; i<list.size(); i++) {
+			arrayList.add(list.get(i));
+		}
+		return arrayList;
+	}
+	
+	private String[] fromPlayerListToString(List<Player> list) {
 		String[] stringArray = new String[list.size()];
 		for(int i = 0; i<list.size(); i++) {
 			stringArray[i] = list.get(i).getName();
