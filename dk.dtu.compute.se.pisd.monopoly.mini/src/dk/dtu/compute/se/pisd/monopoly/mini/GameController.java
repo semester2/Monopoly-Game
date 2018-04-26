@@ -904,4 +904,25 @@ public class GameController {
 			}
 		}
 	}
+
+	/**
+	 * Manages the user-selection, if the Player wants to build
+	 * a house on a RealEstate
+	 *
+	 * @param player
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private void buildHousesUserSelection(Player player) {
+		List<RealEstate> realEstateList = buildableHousesList(player);
+		String[] realEstateStringList = realEstateToStringArray(realEstateList);
+		String selection = gui.getUserSelection("Which Real Estate do you want to build on?", realEstateStringList);
+
+		for (RealEstate realEstate : realEstateList) {
+			if (realEstate.getName().equals(selection)) {
+				buyHouse(player, realEstate);
+				break;
+			}
+		}
+	}
 }
