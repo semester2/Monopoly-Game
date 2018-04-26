@@ -869,10 +869,39 @@ public class GameController {
 		player.receiveMoney((realEstate.getHousePrice() / 2));
 	}
 
+	/**
+	 * Builds a house on top of a RealEstate and withdraws money from the Player
+	 *
+	 * @param player
+	 * @param realEstate
+	 *
+	 * @author Jaafar Mahdi
+	 */
 	private void buyHouse(Player player, RealEstate realEstate) {
 		if (realEstate.getNumberOfHouses() < 5) {
 			realEstate.incrementHouses();
 		}
 		player.payMoney(realEstate.getHousePrice());
+	}
+
+	/**
+	 * Manages the user-selection, if the Player wants to sell a house on a
+	 * specific RealEstate
+	 *
+	 * @param player
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private void sellHousesUserSelection(Player player) {
+		List<RealEstate> realEstateList = sellableHousesList(player);
+		String[] realEstateStringList = realEstateToStringArray(realEstateList);
+		String selection = gui.getUserSelection("Which house do you want to sell?", realEstateStringList);
+
+		for (RealEstate realEstate : realEstateList) {
+			if (realEstate.getName().equals(selection)) {
+				sellHouse(player, realEstate);
+				break;
+			}
+		}
 	}
 }
