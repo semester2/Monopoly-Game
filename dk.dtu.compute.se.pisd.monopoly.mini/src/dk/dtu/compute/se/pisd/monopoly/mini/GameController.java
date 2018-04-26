@@ -348,6 +348,8 @@ public class GameController {
 	 * @param property the property to be sold
 	 * @param player the player the property is offered to
 	 * @throws PlayerBrokeException when the player chooses to buy but could not afford it
+	 *
+	 * @author Ekkart Kindler - Modified by Jaafar Mahdi
 	 */
 	public void offerToBuy(Property property, Player player) throws PlayerBrokeException {
 		// TODO We might also allow the player to obtainCash before
@@ -367,7 +369,7 @@ public class GameController {
     		} catch (PlayerBrokeException e) {
     			// if the payment fails due to the player being broke,
     			// the an auction (among the other players is started
-    			auction(property);
+    			auction(property, player);
     			// then the current move is aborted by casting the
     			// PlayerBrokeException again
     			throw e;
@@ -379,7 +381,7 @@ public class GameController {
         
 		// In case the player does not buy the property an auction
         // is started
-		auction(property);
+		auction(property, player);
 	}
 	
 	public void tradeProperty(Property property, Player player) {
@@ -449,9 +451,28 @@ public class GameController {
 	 * 
 	 * @param property the property which is for auction
 	 */
-	public void auction(Property property) {
-		// TODO auction needs to be implemented
+	public void auction(Property property, Player rejecter) {
 		gui.showMessage("Now, there would be an auction of " + property.getName() + ".");
+
+		Player highestBidder = null;
+		int amount = 0;
+
+		List<Player> allPlayers = game.getPlayers();
+		allPlayers.remove(rejecter);
+		String[] allPlayersStringArray = playerToStringArray(allPlayers);
+
+		String selection = gui.getUserSelection("Who bid the highest amount?", allPlayersStringArray);
+
+		for (Player player : allPlayers) {
+			if (player.getName().equals(selection)) {
+				highestBidder = player;
+				break;
+			}
+		}
+
+		amount = gui.getUserInteger("How much did you bid?", property.getCost(), Integer.MAX_VALUE);
+		buyPropertyOnAuction(property, rejecter, amount);
+
 	}
 	
 	/**
@@ -838,6 +859,7 @@ public class GameController {
 	}
 
 	/**
+	 * Creates a new Array of a List of RealEstates
 	 *
 	 * @param realEstateList
 	 * @return StringArray with all the names of the RealEstates in the list.
@@ -849,6 +871,24 @@ public class GameController {
 
 		for (int i = 0; i < realEstateList.size(); i++) {
 			stringArray[i] = realEstateList.get(i).getName();
+		}
+
+		return stringArray;
+	}
+
+	/**
+	 * Creates new Array of a List of Players
+	 *
+	 * @param playerList
+	 * @return StringArray with all the names of the RealEstates in the list.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private String[] playerToStringArray(List<Player> playerList) {
+		String[] stringArray = new String[playerList.size()];
+
+		for (int i = 0; i < playerList.size(); i++) {
+			stringArray[i] = playerList.get(i).getName();
 		}
 
 		return stringArray;
@@ -923,6 +963,26 @@ public class GameController {
 				buyHouse(player, realEstate);
 				break;
 			}
+		}
+	}
+
+	/**
+	 * The Player makes a payment to the bank and gets the property.
+	 * The Player becomes the owner of that property
+	 *
+	 * @param property
+	 * @param player
+	 * @param price
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private void buyPropertyOnAuction(Property property, Player player, int price) {
+		try {
+			paymentToBank(player, price);
+			player.addOwnedProperty(property);
+			property.setOwner(player);
+		} catch (PlayerBrokeException e) {
+			playerBrokeToBank(player);
 		}
 	}
 }
