@@ -17,8 +17,6 @@ public class Property extends Space {
 	private boolean developed;
 	private Player owner;
 	private int numberOfHouses = 0;
-	public final int TWO_SPACE_COLOR_1 = 1;
-	public final int TWO_SPACE_COLOR_2 = 8;
 	
 
 	/**
