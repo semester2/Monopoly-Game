@@ -13,6 +13,27 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
  */
 public class Utility extends Property {
 
+    private String color;
+
+    /**
+     * Constructor for Utility objects
+     *
+     * @param id
+     * @param name
+     * @param color
+     * @param colorCode
+     * @param price
+     *
+     * @author Jaafar Mahdi
+     */
+    public Utility(int id, String name, String color, int colorCode, int price) {
+        super.setCost(price);
+        super.setColorCode(colorCode);
+        super.setIndex(id);
+        super.setName(name);
+        this.color = color;
+    }
+
     /**
      * Calculates
      *
