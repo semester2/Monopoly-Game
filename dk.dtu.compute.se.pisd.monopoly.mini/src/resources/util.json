@@ -1,0 +1,52 @@
+{
+    "_comment": "@Author: Ali Moussa, s175119",
+    "type": "table",
+    "name": "Utilities",
+    "database": "Matadorprojekt",
+    "data": 
+[
+{
+    "ID": "1",
+    "Name": "Scandlines",
+    "Color": "Blue",
+    "ColorCode": "1",
+    "Price": "4000"
+},
+{
+    "ID": "2",
+    "Name": "Tuborg Squash",
+    "Color": "Red",
+    "ColorCode": "2",
+    "Price": "3000"
+},
+{
+    "ID": "3",
+    "Name": "Mols-Linien",
+    "Color": "Blue",
+    "ColorCode": "1",
+    "Price": "4000"
+},
+{
+    "ID": "4",
+    "Name": "Scandlines",
+    "Color": "Blue",
+    "ColorCode": "1",
+    "Price": "4000"
+},
+{
+    "ID": "5",
+    "Name": "Coca-Cola",
+    "Color": "Red",
+    "ColorCode": "2",
+    "Price": "3000"
+},
+{
+    "ID": "6",
+    "Name": "Scandlines",
+    "Color": "Blue",
+    "ColorCode": "1",
+    "Price": "4000"
+}
+]
+
+}

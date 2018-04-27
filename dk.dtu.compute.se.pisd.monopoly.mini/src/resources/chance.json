@@ -1,0 +1,76 @@
+{
+    "_comment": "@Author: Ali Moussa, s175119",
+    "type": "table",
+    "name": "Chance",
+    "database": "Matadorprojekt",
+    "data": 
+[
+{
+    "ID": "1",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "2",
+    "Name": "Betal indkomstskat",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "3",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "4",
+    "Name": "I f\u00e6ngsel (Bes\u00f8g)",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "5",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "6",
+    "Name": "Parkering",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "7",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "8",
+    "Name": "De f\u00e6ngsles",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "9",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "10",
+    "Name": "Pr\u00f8v lykken",
+    "Color": "Black",
+    "ColorCode": "0"
+},
+{
+    "ID": "11",
+    "Name": "Betal ekstraskat",
+    "Color": "Black",
+    "ColorCode": "0"
+}
+]
+
+}
