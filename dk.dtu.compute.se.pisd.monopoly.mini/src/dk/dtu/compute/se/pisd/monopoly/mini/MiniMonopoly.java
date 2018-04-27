@@ -1,10 +1,17 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
-import java.sql.ResultSet;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.stream.JsonReader;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Chance;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -14,7 +21,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Tax;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardMove;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardReceiveMoneyFromBank;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
-import dk.dtu.compute.se.pisd.monopoly.mini.model.database.Connector;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.RealEstate;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.Utility;
 
 /**
@@ -24,7 +31,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.Utility;
  *
  */
 public class MiniMonopoly {
-	
+
 	/**
 	 * Creates the initial static situation of a Monopoly game. Note
 	 * that the players are not created here, and the chance cards
@@ -39,99 +46,9 @@ public class MiniMonopoly {
 		// could actually be loaded from a file or database instead
 		// of creating it programmatically.
 		Game game = new Game();
-		
-		Space go = new Space();
-		go.setName("Go");
-		go.setColorCode(0);
-		game.addSpace(go);
 
-		
-		Property p = new Property();
-		p.setName("R�dovrevej");
-		p.setCost(1200);
-		p.setRent(50);
-		p.setColorCode(1);
-		game.addSpace(p);
-		
-		Chance chance = new Chance();
-		chance.setName("Chance");
-		game.addSpace(chance);
-		
-		p = new Property();
-		p.setName("Hvidovrevej");
-		p.setCost(1200);
-		p.setRent(50);
-		p.setColorCode(1);
-		game.addSpace(p);
-		
-		Tax t = new Tax();
-		t.setName("Pay tax (10% on Cash)");
-		t.setTaxable(true);
-		game.addSpace(t);
+		populateGame(game);
 
-		Utility s = new Utility();
-		s.setName("�resund");
-		s.setCost(4000);
-		s.setRent(500);
-		game.addSpace(s);
-
-		p = new Property();
-		p.setName("Roskildevej");
-		p.setCost(2000);
-		p.setRent(100);
-		p.setColorCode(2);
-		game.addSpace(p);
-		
-		chance = new Chance();
-		chance.setName("Chance");
-		game.addSpace(chance);
-		
-		p = new Property();
-		p.setName("Valby Langgade");
-		p.setCost(2000);
-		p.setRent(100);
-		p.setColorCode(2);
-		game.addSpace(p);
-		
-		p = new Property();
-		p.setName("All�gade");
-		p.setCost(2400);
-		p.setRent(150);
-		p.setColorCode(2);
-		game.addSpace(p);
-		
-		Space prison = new Space();
-		prison.setName("Prison");
-		game.addSpace(prison);
-		
-		p = new Property();
-		p.setName("Frederiksberg All�");
-		p.setCost(2800);
-		p.setRent(200);
-		p.setColorCode(3);
-		game.addSpace(p);
-		
-		p = new Property();
-		p.setName("Coca-Cola Tapperi");
-		p.setCost(3000);
-		p.setRent(300);
-		p.setColorCode(3);
-		game.addSpace(p);
-		
-		p = new Property();
-		p.setName("B�lowsvej");
-		p.setCost(2800);
-		p.setRent(200);
-		p.setColorCode(3);
-		game.addSpace(p);
-		
-		p = new Property();
-		p.setName("Gl. Kongevej");
-		p.setCost(3200);
-		p.setRent(250);
-		p.setColorCode(4);
-		game.addSpace(p);
-		
 		List<Card> cards = new ArrayList<Card>();
 		
 		CardMove move = new CardMove();
@@ -170,6 +87,105 @@ public class MiniMonopoly {
 		controller.initializeGUI();
 		
 		controller.play();
+	}
+
+	/**
+	 * Reads from three different JSONs and populates the game with Spaces
+	 *
+	 * @param game
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public static void populateGame(Game game) {
+
+		Space go = new Space();
+		go.setName("Go");
+		go.setColorCode(0);
+		game.addSpace(go);
+
+		Gson gson = new Gson();
+		FileReader fileReader = null;
+
+		try {
+			fileReader = new FileReader("src/resources/prop.json");
+			JsonReader reader = gson.newJsonReader(fileReader);
+			JsonObject json = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = json.get("data").getAsJsonArray();
+
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+				RealEstate realEstate = new RealEstate(
+						jsonObject.get("ID").getAsInt(),
+						jsonObject.get("Name").getAsString(),
+						jsonObject.get("Color").getAsString(),
+						jsonObject.get("ColorCode").getAsInt(),
+						jsonObject.get("Price").getAsInt(),
+						jsonObject.get("House0").getAsInt(),
+						jsonObject.get("House1").getAsInt(),
+						jsonObject.get("House2").getAsInt(),
+						jsonObject.get("House3").getAsInt(),
+						jsonObject.get("House4").getAsInt(),
+						jsonObject.get("House5").getAsInt(),
+						jsonObject.get("BuildHouseCost").getAsInt()
+				);
+
+				game.addSpace(realEstate);
+			}
+
+			reader.close();
+			fileReader = null;
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+		try {
+			fileReader = new FileReader("src/resources/util.json");
+			JsonReader reader = gson.newJsonReader(fileReader);
+			JsonObject json = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = json.get("data").getAsJsonArray();
+
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+				Utility utility = new Utility(
+						jsonObject.get("ID").getAsInt(),
+						jsonObject.get("Name").getAsString(),
+						jsonObject.get("Color").getAsString(),
+						jsonObject.get("ColorCode").getAsInt(),
+						jsonObject.get("Price").getAsInt()
+				);
+
+				game.addSpace(utility);
+			}
+
+			reader.close();
+			fileReader = null;
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+
+		try {
+			fileReader = new FileReader("src/resources/chance.json");
+			JsonReader reader = gson.newJsonReader(fileReader);
+			JsonObject json = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = json.get("data").getAsJsonArray();
+
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+				Chance chance = new Chance(
+						jsonObject.get("ID").getAsInt(),
+						jsonObject.get("Name").getAsString(),
+						jsonObject.get("Color").getAsString(),
+						jsonObject.get("ColorCode").getAsInt()
+				);
+
+				game.addSpace(chance);
+			}
+
+			reader.close();
+			fileReader = null;
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 }
