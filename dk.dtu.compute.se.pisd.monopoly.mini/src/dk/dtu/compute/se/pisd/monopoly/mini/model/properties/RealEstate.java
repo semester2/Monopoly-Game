@@ -41,10 +41,11 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 	protected int computeRent(Player player, GameController controller) {
 		int rent = super.getRent();
 		boolean ownsAll = controller.checkWetherPlayerOwnAllInColor(player, this.getColorCode());
+
 		if (ownsAll && this.getNumberOfHouses() == 0) {
 			rent = rent * 2;
 		} else if (ownsAll && this.getNumberOfHouses() > 0) {
-
+			rent = this.rentRate.get(this.getNumberOfHouses() - 1);
 		}
 
 		return rent;
