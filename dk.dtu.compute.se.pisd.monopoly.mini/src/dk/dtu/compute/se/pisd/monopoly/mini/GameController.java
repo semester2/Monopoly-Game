@@ -256,7 +256,7 @@ public class GameController {
 	 * @param space the space to which the player moves
 	 * @throws PlayerBrokeException when the player goes broke doing the action on that space
 	 *
-	 * @author Ekkart Kindler - Modified by Andreas Bennecke
+	 * @author Ekkart Kindler - Modified by Andreas Bennecke and Sebastian Bilde
 	 */
 	public void moveToSpace(Player player, Space space) throws PlayerBrokeException {
 		int posOld = player.getCurrentPosition().getIndex();
@@ -271,10 +271,9 @@ public class GameController {
 		// Execute the action associated with the respective space. Note
 		// that this is delegated to the field, which implements this action
 		if (space.getTaxable()) {
-			String selection = gui.getUserSelection("How would you like to pay? Choose '1' for 4000 kr. or choose '2' for 10% of your total value", "1", "2");
-			int taxChoice = Integer.parseInt(selection);
+			String selection = gui.getUserSelection("How would you like to pay? ", "4000 kr", "10% of your total value");
 			
-			if (taxChoice == 1) {
+			if (selection.equals("4000 kr")) {
 				player.setPayTaxInCash(true);
 			}
 			else {
@@ -546,6 +545,17 @@ public class GameController {
 		property.setNumberOfHouses(0);
 	}
 	
+	/**
+	 * Thus method handles all the transfers when trading a property.
+	 * It sets the buyer as the new owner, and transfers the money from the buyer to the seller.
+	 * 
+	 * @param seller
+	 * @param property
+	 * @param buyer
+	 * @param money
+	 * 
+	 * @author Sebastian Bilde
+	 */
 	public void tradeProperty(Player seller, Property property, Player buyer, int money) {
 		seller.removeOwnedProperty(property);
 		buyer.addOwnedProperty(property);
@@ -558,6 +568,12 @@ public class GameController {
 		}
 	}
 	
+	/**
+	 * This method makes the user selection for trading property's. 
+	 * It asks for a seller, buyer, the property being sold and the amount of money the buyer is paying.
+	 * 
+	 * @author Sebastian Bilde
+	 */
 	public void tradePropertyUserSelection() {
 		ArrayList<Player> playerList = new ArrayList<Player>();
 		ArrayList<Player> sellingPlayers = new ArrayList<Player>();
@@ -566,11 +582,13 @@ public class GameController {
 		Player buyer= null;
 		Property chosenProperty=null;
 
+		//Computes all players who are eligible sellers
 		for(Player player: game.getPlayers()) {
 			if(player.getOwnedProperties().size()>0) {
 				sellingPlayers.add(player);
 			}
 		}
+		//Computes all player who are eligible buyers
 		for(Player player: game.getPlayers()) {
 			if(!player.isBroke()) {
 				playerList.add(player);
@@ -580,6 +598,7 @@ public class GameController {
 		for(int i = 0; i < players.length; i++) {
 			if(sellSelect.equals(players[i])) {
 				seller = game.getPlayers().get(i);
+				//removes the seller from the buying players list
 				playerList.remove(i);
 			}
 		}
@@ -668,9 +687,14 @@ public class GameController {
 	 */
 	private void buyBackMortagedProperty(Player player, Property property) {
 		property.setIsMortgaged(false);
-		player.setBalance(player.getBalance()-property.getCost()/2-property.getCost()/20); //TODO we also need to take 10% of the mortgaged value.
+		player.payMoney(property.getCost()/2-property.getCost()/20);
 	}
 
+	/**
+	 * This method makes the user selection, for buying back a mortgaged property
+	 * @param player
+	 * @author Sebastian Bilde
+	 */
 	private void buyBackMortagedPropertiesUserSelect(Player player) {
 		do {
 			if(this.computePlayersMortagedPropertiesList(player).size()>0) {
@@ -682,7 +706,7 @@ public class GameController {
 					String mortgageSelection = gui.getUserSelection("Which property do you want to buy back?", mortagedProperties);
 					for(int i = 0; i<mortagedProperties.length; i++)
 						if(mortgageSelection.equals(mortagedProperties[i])) {
-							Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
+							Property chosenProperty = this.computePlayersMortagedPropertiesList(player).get(i);
 							this.buyBackMortagedProperty(player, chosenProperty);
 						}
 				}
@@ -694,6 +718,12 @@ public class GameController {
 		} while (true);
 	}
 	
+	/**
+	 * Computes a list of all the players properties that are mortgaged
+	 * @param player
+	 * @return A list of all the players properties that are mortgaged
+	 * @author Sebastian Bilde
+	 */
 	private List<Property> computePlayersMortagedPropertiesList(Player player) {
 		Set<Property> ownedProperties = player.getOwnedProperties();
 		ArrayList<Property> mortgagedPropertyList = new ArrayList<Property>();
@@ -704,6 +734,12 @@ public class GameController {
 		return mortgagedPropertyList;
 	}
 	
+	/**
+	 * Converts a List of type Property, to a String Array with each property's name.
+	 * @param list
+	 * @return a String Array holding each property's name.
+	 * @author Sebastian Bilde
+	 */
 	private String[] fromPropertyListToString(List<Property> list) {
 		String[] stringArray = new String[list.size()];
 		for(int i = 0; i<list.size(); i++) {
@@ -712,6 +748,12 @@ public class GameController {
 		return stringArray;
 	}
 	
+	/**
+	 * Converts an ArrayList of type Player, to a String Array with each players name
+	 * @param arrayList
+	 * @return a String Array holding each players name.
+	 * @author Sebastian Bilde
+	 */
 	private String[] fromPlayerArrayListToStringArray(ArrayList<Player> arrayList) {
 		String[] stringArray = new String[arrayList.size()];
 		for(int i = 0; i<arrayList.size(); i++) {
@@ -720,6 +762,12 @@ public class GameController {
 		return stringArray;
 	}	
 	
+	/**
+	 * Converts a List of Player, to an ArrayList of Player
+	 * @param list
+	 * @return An ArrayList of type Player
+	 * @author Sebastian Bilde
+	 */
 	private ArrayList<Player> fromPlayerListToArrayList(List<Player> list) {
 		ArrayList<Player> arrayList = new ArrayList<Player>();
 		for(int i = 0; i<list.size(); i++) {
@@ -728,6 +776,12 @@ public class GameController {
 		return arrayList;
 	}
 	
+	/**
+	 * Converts a List of players to a string Array with each players name.
+	 * @param list
+	 * @return a string array with each players name
+	 * @author Sebastian Bilde
+	 */
 	private String[] fromPlayerListToString(List<Player> list) {
 		String[] stringArray = new String[list.size()];
 		for(int i = 0; i<list.size(); i++) {
