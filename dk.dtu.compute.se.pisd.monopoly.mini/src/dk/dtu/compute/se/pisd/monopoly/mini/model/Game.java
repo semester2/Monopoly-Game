@@ -39,6 +39,16 @@ public class Game extends Subject {
 	}
 
 	/**
+	 * Returns a list of all spaces, but it is modifiable.
+	 * The purpose is to sort this list.
+	 *
+	 * @return
+	 */
+	public List<Space> getModifiableSpaceList() {
+		return this.spaces;
+	}
+
+	/**
 	 * Sets all the spaces of the game. Note that the provided
 	 * list of spaces is copied, so that they cannot be changed
 	 * without the game being aware of the change.

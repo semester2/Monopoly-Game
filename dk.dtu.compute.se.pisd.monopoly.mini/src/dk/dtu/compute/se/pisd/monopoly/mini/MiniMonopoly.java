@@ -5,6 +5,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import com.google.gson.Gson;
@@ -48,6 +50,8 @@ public class MiniMonopoly {
 		Game game = new Game();
 
 		populateGame(game);
+
+		System.out.println(game.getSpaces().get(1).getIndex());
 
 		List<Card> cards = new ArrayList<Card>();
 		
@@ -186,6 +190,13 @@ public class MiniMonopoly {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+
+		Collections.sort(game.getModifiableSpaceList(), new Comparator<Space>() {
+			@Override
+			public int compare(Space o1, Space o2) {
+				return Integer.compare(o1.getIndex(), o2.getIndex());
+			}
+		});
 	}
 
 }
