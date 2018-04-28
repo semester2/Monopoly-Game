@@ -51,8 +51,6 @@ public class MiniMonopoly {
 
 		populateGame(game);
 
-		System.out.println(game.getSpaces().get(1).getIndex());
-
 		List<Card> cards = new ArrayList<Card>();
 		
 		CardMove move = new CardMove();
