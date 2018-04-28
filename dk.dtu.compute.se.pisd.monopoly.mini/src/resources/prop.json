@@ -20,7 +20,7 @@
     "BuildHouseCost": "1000"
 },
 {
-    "ID": "2",
+    "ID": "3",
     "Name": "Hvidovrevej",
     "Color": "Blue",
     "ColorCode": "9",
@@ -34,7 +34,7 @@
     "BuildHouseCost": "1000"
 },
 {
-    "ID": "3",
+    "ID": "6",
     "Name": "Roskildevej",
     "Color": "Orange",
     "ColorCode": "10",
@@ -48,7 +48,7 @@
     "BuildHouseCost": "2000"
 },
 {
-    "ID": "4",
+    "ID": "8",
     "Name": "Valby Langgade",
     "Color": "Orange",
     "ColorCode": "10",
@@ -62,7 +62,7 @@
     "BuildHouseCost": "2000"
 },
 {
-    "ID": "5",
+    "ID": "9",
     "Name": "All\u00e9gade",
     "Color": "Orange",
     "ColorCode": "10",
@@ -76,7 +76,7 @@
     "BuildHouseCost": "2000"
 },
 {
-    "ID": "6",
+    "ID": "11",
     "Name": "Ferederiksberg All\u00e9",
     "Color": "Dark yellow",
     "ColorCode": "3",
@@ -90,7 +90,7 @@
     "BuildHouseCost": "3000"
 },
 {
-    "ID": "7",
+    "ID": "13",
     "Name": "B\u00fclowsvej",
     "Color": "Dark yellow",
     "ColorCode": "3",
@@ -104,7 +104,7 @@
     "BuildHouseCost": "3000"
 },
 {
-    "ID": "8",
+    "ID": "14",
     "Name": "Gl. Kongevej",
     "Color": "Dark yellow",
     "ColorCode": "3",
@@ -118,7 +118,7 @@
     "BuildHouseCost": "3000"
 },
 {
-    "ID": "9",
+    "ID": "16",
     "Name": "Bernstoffersvej",
     "Color": "Grey",
     "ColorCode": "4",
@@ -132,7 +132,7 @@
     "BuildHouseCost": "4000"
 },
 {
-    "ID": "10",
+    "ID": "18",
     "Name": "Hellerupvej",
     "Color": "Grey",
     "ColorCode": "4",
@@ -146,7 +146,7 @@
     "BuildHouseCost": "4000"
 },
 {
-    "ID": "11",
+    "ID": "19",
     "Name": "Strandvejen",
     "Color": "Grey",
     "ColorCode": "4",
@@ -160,7 +160,7 @@
     "BuildHouseCost": "4000"
 },
 {
-    "ID": "12",
+    "ID": "21",
     "Name": "Trianglen",
     "Color": "Red",
     "ColorCode": "5",
@@ -174,7 +174,7 @@
     "BuildHouseCost": "5000"
 },
 {
-    "ID": "13",
+    "ID": "23",
     "Name": "\u00d8sterbrogade",
     "Color": "Red",
     "ColorCode": "5",
@@ -188,7 +188,7 @@
     "BuildHouseCost": "5000"
 },
 {
-    "ID": "14",
+    "ID": "24",
     "Name": "Gr\u00f8ningen",
     "Color": "Red",
     "ColorCode": "5",
@@ -202,7 +202,7 @@
     "BuildHouseCost": "5000"
 },
 {
-    "ID": "15",
+    "ID": "26",
     "Name": "Bredgade",
     "Color": "White",
     "ColorCode": "6",
@@ -216,7 +216,7 @@
     "BuildHouseCost": "6000"
 },
 {
-    "ID": "16",
+    "ID": "27",
     "Name": "Kgs. Nytorv",
     "Color": "White",
     "ColorCode": "6",
@@ -230,7 +230,7 @@
     "BuildHouseCost": "6000"
 },
 {
-    "ID": "17",
+    "ID": "29",
     "Name": "\u00d8stergade",
     "Color": "White",
     "ColorCode": "6",
@@ -244,7 +244,7 @@
     "BuildHouseCost": "6000"
 },
 {
-    "ID": "18",
+    "ID": "31",
     "Name": "Amagertov",
     "Color": "Light yellow",
     "ColorCode": "7",
@@ -258,35 +258,7 @@
     "BuildHouseCost": "7000"
 },
 {
-    "ID": "19",
-    "Name": "Vimmelskaftet",
-    "Color": "Light yellow",
-    "ColorCode": "7",
-    "Price": "6000",
-    "House0": "550",
-    "House1": "2600",
-    "House2": "7800",
-    "House3": "18000",
-    "House4": "22000",
-    "House5": "25000",
-    "BuildHouseCost": "7000"
-},
-{
-    "ID": "20",
-    "Name": "Nygade",
-    "Color": "Light yellow",
-    "ColorCode": "7",
-    "Price": "6400",
-    "House0": "600",
-    "House1": "3000",
-    "House2": "9000",
-    "House3": "20000",
-    "House4": "24000",
-    "House5": "28000",
-    "BuildHouseCost": "7000"
-},
-{
-    "ID": "21",
+    "ID": "32",
     "Name": "Frederiksberggade",
     "Color": "Purple",
     "ColorCode": "8",
@@ -300,7 +272,7 @@
     "BuildHouseCost": "8000"
 },
 {
-    "ID": "22",
+    "ID": "34",
     "Name": "R\u00e5dhudspladsen",
     "Color": "Purple",
     "ColorCode": "8",
@@ -312,6 +284,34 @@
     "House4": "34000",
     "House5": "40000",
     "BuildHouseCost": "8000"
+},
+{
+    "ID": "37",
+    "Name": "Vimmelskaftet",
+    "Color": "Light yellow",
+    "ColorCode": "7",
+    "Price": "6000",
+    "House0": "550",
+    "House1": "2600",
+    "House2": "7800",
+    "House3": "18000",
+    "House4": "22000",
+    "House5": "25000",
+    "BuildHouseCost": "7000"
+},
+{
+    "ID": "39",
+    "Name": "Nygade",
+    "Color": "Light yellow",
+    "ColorCode": "7",
+    "Price": "6400",
+    "House0": "600",
+    "House1": "3000",
+    "House2": "9000",
+    "House3": "20000",
+    "House4": "24000",
+    "House5": "28000",
+    "BuildHouseCost": "7000"
 }
 ]
 
