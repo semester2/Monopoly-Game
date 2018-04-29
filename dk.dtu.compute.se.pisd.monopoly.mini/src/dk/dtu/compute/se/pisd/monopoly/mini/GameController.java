@@ -958,7 +958,7 @@ public class GameController {
 		//Computes a Set of the colors that is owned by the Player
 		Set<Integer> ownedAllColorCodeList = null;
 		for (Property property : player.getOwnedProperties()) {
-			if (property.getBuyable()) {
+			if (property instanceof RealEstate) {
 				if (checkWetherPlayerOwnAllInColor(player, property.getColorCode())) {
 					ownedAllColorCodeList.add(property.getColorCode());
 				}
