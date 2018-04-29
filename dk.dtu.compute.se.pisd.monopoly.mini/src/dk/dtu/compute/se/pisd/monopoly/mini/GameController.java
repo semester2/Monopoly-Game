@@ -335,6 +335,20 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
+		List<String> options = new ArrayList<>();
+		options.add("Sell to other player");
+
+		if (sellableHousesList(player).size() > 0) {
+			options.add("Sell house from Real Estate");
+		}
+
+		if (computeMortgageAblePropertyList(player).size() > 0) {
+			options.add("Mortgage Real Estate");
+		}
+
+		String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
+
+
 		this.mortgageUserSelection(player);
 	}
 	
@@ -801,6 +815,24 @@ public class GameController {
 			//      for my private version on the GUI and not for the GUI currently
 			//      deployed via Maven (or other  official versions)
 		}
+	}
+
+	/**
+	 * Creates String[] from a List of strings
+	 *
+	 * @param list
+	 * @return
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	private String[] stringListToStringArray(List<String> list) {
+		String[] stringArray = new String[list.size()];
+
+		for (int i = 0; i < list.size(); i++) {
+			stringArray[i] = list.get(i);
+		}
+
+		return stringArray;
 	}
 
 	/**
