@@ -335,16 +335,7 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		List<String> options = new ArrayList<>();
-		options.add("Sell to other player");
-
-		if (sellableHousesList(player).size() > 0) {
-			options.add("Sell house from Real Estate");
-		}
-
-		if (computeMortgageAblePropertyList(player).size() > 0) {
-			options.add("Mortgage Real Estate");
-		}
+		List<String> options = generateObtainCashList(player);
 
 		String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
 
@@ -1148,5 +1139,23 @@ public class GameController {
 		} catch (PlayerBrokeException e) {
 			playerBrokeToBank(player);
 		}
+	}
+
+	private List<String> generateObtainCashList(Player player) {
+		List<String> options = new ArrayList<>();
+
+		if (player.getOwnedProperties().size() > 0) {
+			options.add("Sell to other player");
+		}
+
+		if (sellableHousesList(player).size() > 0) {
+			options.add("Sell house from Real Estate");
+		}
+
+		if (computeMortgageAblePropertyList(player).size() > 0) {
+			options.add("Mortgage Real Estate");
+		}
+
+		return options;
 	}
 }
