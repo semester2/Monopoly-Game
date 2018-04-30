@@ -64,6 +64,8 @@ public class Game extends Subject {
 	 * Adds a space to the game at the end.
 	 *
 	 * @param space the added space
+	 *
+	 * @author Modified by Jaafar Mahdi             
 	 */
 	public void addSpace(Space space) {
 		spaces.add(space);
