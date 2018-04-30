@@ -342,8 +342,19 @@ public class GameController {
 
 		String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
 
-
-		this.mortgageUserSelection(player);
+		switch (selection) {
+		case OPTION_1:
+			this.tradePropertyUserSelection();
+			break;
+		case OPTION_2:
+			this.sellHousesUserSelection(player);
+			break;
+		case OPTION_3:
+			this.mortgageUserSelection(player);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	/**
