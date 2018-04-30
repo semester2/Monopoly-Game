@@ -22,7 +22,7 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 	private int housePrice;
 	private List<Integer> rentRate = new ArrayList<>();
 
-	public RealEstate(int id, String name, String color, int housePrice, int colorCode, int cost, int house0, int house1, int house2, int house3, int house4, int house5) {
+	public RealEstate(int id, String name, String color, int colorCode, int cost, int house0, int house1, int house2, int house3, int house4, int house5, int housePrice) {
 		super.setCost(cost);
 		super.setColorCode(colorCode);
 		super.setIndex(id);
