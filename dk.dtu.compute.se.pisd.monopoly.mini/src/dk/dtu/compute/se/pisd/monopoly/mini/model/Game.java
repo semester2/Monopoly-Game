@@ -3,6 +3,9 @@ package dk.dtu.compute.se.pisd.monopoly.mini.model;
 import java.util.*;
 
 import dk.dtu.compute.se.pisd.designpatterns.Subject;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardMove;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardReceiveMoneyFromBank;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
 
 /**
  * Represents the top-level element of a Monopoly game's state. In order
@@ -88,13 +91,14 @@ public class Game extends Subject {
 	 * @author Oliver Køppen
 	 */
 	public Card drawCardFromDeck() throws IndexOutOfBoundsException{
-		if (cardDeck.remove(0)==null){
-			setCardDeck(cardDeck);
+		if (cardDeck.size() == 0){
+			setCardDeck(generateNewCardDeck());
 		}
 
 		Card card = cardDeck.remove(0);
 		notifyChange();
 		return card;
+
 	}
 
 	/**
@@ -260,6 +264,31 @@ public class Game extends Subject {
 
 	public Map<Integer, List<Property>> getColorToPropertyMap() {
 		return this.colorToPropertyMap;
+	}
+
+	public List<Card> generateNewCardDeck() {
+		List<Card> cardDeck = new ArrayList<>();
+
+		for (int i = 0; i < 5; i++) {
+			CardMove move = new CardMove();
+			move.setTarget(this.getSpaces().get(9));
+			move.setText("Move to All�gade!");
+			cardDeck.add(move);
+
+			PayTax tax = new PayTax();
+			tax.setText("Pay 10% income tax!");
+			cardDeck.add(tax);
+
+			CardReceiveMoneyFromBank b = new CardReceiveMoneyFromBank();
+			b.setText("You receive 100$ from the bank.");
+			b.setAmount(100);
+			cardDeck.add(b);
+		}
+
+		Collections.shuffle(cardDeck);
+		notifyChange();
+		return cardDeck;
+
 	}
 
 }
