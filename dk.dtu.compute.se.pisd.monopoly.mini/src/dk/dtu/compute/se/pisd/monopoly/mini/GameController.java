@@ -353,13 +353,19 @@ public class GameController {
 	 * @param player the player the property is offered to
 	 * @throws PlayerBrokeException when the player chooses to buy but could not afford it
 	 *
-	 * @author Ekkart Kindler - Modified by Jaafar Mahdi
+	 * @author Ekkart Kindler - Modified by Jaafar Mahdi and Sebastian Bilde
 	 */
 	public void offerToBuy(Property property, Player player) throws PlayerBrokeException {
-		// TODO We might also allow the player to obtainCash before
-		// the actual offer, to see whether he can free enough cash
-		// for the sale.
-	
+		
+		if(property.getCost()>player.getBalance()) {
+			if(this.generateObtainCashList(player).size()>0) {
+				String selection = gui.getUserSelection("You do not have enough money, do you want to obtain cash? ", "yes", "no");
+				if(selection.equals("yes")) {
+					this.obtainCash(player, property.getCost()-player.getBalance());
+				}
+			}
+		}
+		
 		String choice = gui.getUserSelection(
 				"Player " + player.getName() +
 				": Do you want to buy " + property.getName() +
@@ -621,6 +627,9 @@ public class GameController {
 			}
 		}
 		int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
+		if(buyer.getBalance() < moneySelect) {
+			this.obtainCash(buyer, moneySelect - buyer.getBalance());
+		}
 		this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 	}
 	
