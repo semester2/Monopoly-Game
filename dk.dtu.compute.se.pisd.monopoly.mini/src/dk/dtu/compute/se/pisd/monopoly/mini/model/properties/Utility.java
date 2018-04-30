@@ -48,8 +48,8 @@ public class Utility extends Property {
         int computedRent;
         int colour = this.getColorCode();
         switch (colour){
-            case 1 : computedRent = computeRentBrewery(controller); break;
-            case 2 : computedRent = computeRentShipyard(controller); break;
+            case 2 : computedRent = computeRentBrewery(controller); break;
+            case 1 : computedRent = computeRentShipyard(controller); break;
             default : computedRent = super.getRent();
         }
         return computedRent;
