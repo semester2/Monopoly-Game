@@ -132,9 +132,6 @@ public class GameController {
 		while (!terminated) {
 			Player player = players.get(current);
 
-			this.mortgageUserSelection(player);
-			this.buyBackMortagedPropertiesUserSelect(player);
-
 			if (!player.isBroke()) {
 				try {
 					this.makeMove(player);
@@ -173,21 +170,24 @@ public class GameController {
 			if(tradeSelection.equals("yes")) {
 				this.tradePropertyUserSelection();
 
-				current = (current + 1) % players.size();
-				game.setCurrentPlayer(players.get(current));
-				if (current == 0) {
-					String selection = gui.getUserSelection(
-							"A round is finished. Do you want to continue the game?",
-							"yes",
-							"no");
-					if (selection.equals("no")) {
-						terminated = true;
-					}
+				this.buyBackMortagedPropertiesUserSelect(player);
+			}
+
+			current = (current + 1) % players.size();
+			game.setCurrentPlayer(players.get(current));
+			if (current == 0) {
+				String selection = gui.getUserSelection(
+						"A round is finished. Do you want to continue the game?",
+						"yes",
+						"no");
+				if (selection.equals("no")) {
+					terminated = true;
 				}
 			}
-			dispose();
 		}
+		dispose();
 	}
+	
 
 	/**
 	 * This method implements a activity of asingle move of the given player.
