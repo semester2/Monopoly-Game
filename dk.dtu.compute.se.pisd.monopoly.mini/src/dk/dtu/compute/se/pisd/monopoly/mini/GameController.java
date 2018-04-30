@@ -169,9 +169,13 @@ public class GameController {
 			String tradeSelection = gui.getUserSelection("Does any players want to trade? ", "no", "yes");
 			if(tradeSelection.equals("yes")) {
 				this.tradePropertyUserSelection();
-
-				this.buyBackMortagedPropertiesUserSelect(player);
 			}
+			
+			//Lets the current player buy back any mortgaged properties
+			this.buyBackMortagedPropertiesUserSelect(player);
+			
+			//Lets the current player build houses, on the properties that are developable
+			this.buildHousesUserSelection(player);
 
 			current = (current + 1) % players.size();
 			game.setCurrentPlayer(players.get(current));
@@ -1138,12 +1142,14 @@ public class GameController {
 	private void buildHousesUserSelection(Player player) {
 		List<RealEstate> realEstateList = buildableHousesList(player);
 		String[] realEstateStringList = realEstateToStringArray(realEstateList);
-		String selection = gui.getUserSelection("Which Real Estate do you want to build on?", realEstateStringList);
+		if(realEstateList.size()>0) {
+			String selection = gui.getUserSelection("Which Real Estate do you want to build on?", realEstateStringList);
 
-		for (RealEstate realEstate : realEstateList) {
-			if (realEstate.getName().equals(selection)) {
-				buyHouse(player, realEstate);
-				break;
+			for (RealEstate realEstate : realEstateList) {
+				if (realEstate.getName().equals(selection)) {
+					buyHouse(player, realEstate);
+					break;
+				}
 			}
 		}
 	}
