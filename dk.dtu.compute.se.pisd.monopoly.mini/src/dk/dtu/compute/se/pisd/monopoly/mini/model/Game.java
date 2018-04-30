@@ -65,7 +65,7 @@ public class Game extends Subject {
 	 *
 	 * @param space the added space
 	 *
-	 * @author Modified by Jaafar Mahdi             
+	 * @author Modified by Jaafar Mahdi
 	 */
 	public void addSpace(Space space) {
 		spaces.add(space);
