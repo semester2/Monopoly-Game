@@ -6,46 +6,46 @@
     "data": 
 [
 {
-    "ID": "5",
+    "ID": 5,
     "Name": "Scandlines",
     "Color": "Blue",
-    "ColorCode": "1",
-    "Price": "4000"
+    "ColorCode": 1,
+    "Price": 4000
 },
 {
-    "ID": "12",
+    "ID": 12,
     "Name": "Tuborg Squash",
     "Color": "Red",
-    "ColorCode": "2",
-    "Price": "3000"
+    "ColorCode": 2,
+    "Price": 3000
 },
 {
-    "ID": "15",
+    "ID": 15,
     "Name": "Mols-Linien",
     "Color": "Blue",
-    "ColorCode": "1",
-    "Price": "4000"
+    "ColorCode": 1,
+    "Price": 4000
 },
 {
-    "ID": "25",
+    "ID": 25,
     "Name": "Scandlines",
     "Color": "Blue",
-    "ColorCode": "1",
-    "Price": "4000"
+    "ColorCode": 1,
+    "Price": 4000
 },
 {
-    "ID": "28",
+    "ID": 28,
     "Name": "Coca-Cola",
     "Color": "Red",
-    "ColorCode": "2",
-    "Price": "3000"
+    "ColorCode": 2,
+    "Price": 3000
 },
 {
-    "ID": "35",
+    "ID": 35,
     "Name": "Scandlines",
     "Color": "Blue",
-    "ColorCode": "1",
-    "Price": "4000"
+    "ColorCode": 1,
+    "Price": 4000
 }
 ]
 
