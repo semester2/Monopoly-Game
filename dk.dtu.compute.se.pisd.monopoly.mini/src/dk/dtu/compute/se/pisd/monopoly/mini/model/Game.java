@@ -86,21 +86,10 @@ public class Game extends Subject {
 	 * @return the topmost card of the deck
 	 * @author Oliver Køppen
 	 */
-	public Card drawCardFromDeck() {
+	public Card drawCardFromDeck() throws IndexOutOfBoundsException{
 		if (cardDeck.remove(0)==null){
 			setCardDeck(cardDeck);
 		}
-
-		// Try-/catch block. Probably not needed
-		/*
-		try {
-			cardDeck.remove(0);
-		}
-		catch (NullPointerException e){
-			System.out.println("Caught NullPointer Exception: " + e);
-			setCardDeck(cardDeck);
-		}
-		*/
 
 		Card card = cardDeck.remove(0);
 		notifyChange();
