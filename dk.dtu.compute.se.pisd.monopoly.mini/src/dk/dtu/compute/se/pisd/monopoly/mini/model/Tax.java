@@ -40,6 +40,13 @@ public class Tax extends Space {
             controller.paymentToBank(player,2000);
         }
         else {
+        	if(!player.getPayTaxInCash()) {
+        		controller.paymentToBank(player, player.getTotalWorth(player) / 10);
+        	}
+        	if(player.getPayTaxInCash()) {
+        		controller.paymentToBank(player, 4000);
+        	}
+        	/*
         String selection = gui.getUserSelection("Pay 10% of total value or $4000?", "Pay 10%", "Pay $4000");
         switch (selection) {
             case "Pay 10%":
@@ -51,7 +58,7 @@ public class Tax extends Space {
             default:
                 controller.paymentToBank(player, 4000);
                 break;
-            }
+            }*/
         }
 
     }

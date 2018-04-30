@@ -8,6 +8,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Player;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Property;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Space;
+import dk.dtu.compute.se.pisd.monopoly.mini.model.Tax;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.exceptions.PlayerBrokeException;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.properties.RealEstate;
 import gui_main.GUI;
@@ -281,7 +282,7 @@ public class GameController {
 		
 		// Execute the action associated with the respective space. Note
 		// that this is delegated to the field, which implements this action
-		if (space.getTaxable()) {
+		if (space instanceof Tax && space.getIndex()==4) {
 			String selection = gui.getUserSelection("How would you like to pay? ", "4000 kr", "10% of your total value");
 			
 			if (selection.equals("4000 kr")) {
