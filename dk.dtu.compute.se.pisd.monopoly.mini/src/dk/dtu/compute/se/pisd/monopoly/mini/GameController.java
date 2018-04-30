@@ -119,7 +119,7 @@ public class GameController {
 	public void play() {
 		List<Player> players =  game.getPlayers();
 		Player c = game.getCurrentPlayer();
-		
+
 		int current = 0;
 		for (int i=0; i<players.size(); i++) {
 			Player p = players.get(i);
@@ -127,14 +127,14 @@ public class GameController {
 				current = i;
 			}
 		}
-		
+
 		boolean terminated = false;
 		while (!terminated) {
 			Player player = players.get(current);
-			
+
 			this.mortgageUserSelection(player);
 			this.buyBackMortagedPropertiesUserSelect(player);
-			
+
 			if (!player.isBroke()) {
 				try {
 					this.makeMove(player);
@@ -142,7 +142,7 @@ public class GameController {
 					// We could react to the player having gone broke
 				}
 			}
-			
+
 			// Check whether we have a winner
 			Player winner = null;
 			int countActive = 0;
@@ -165,30 +165,28 @@ public class GameController {
 				gui.showMessage(
 						"All players are broke.");
 				break;
-				
+
 			}
 
-			for(Player tradeplayer: players)
-				if(tradeplayer.getOwnedProperties().size()>0) {
-					String selection = gui.getUserSelection("Does any players want to trade? ", "yes", "no");
-					if(selection.equals("yes")) {
-						this.tradePropertyUserSelection();
+
+			String tradeSelection = gui.getUserSelection("Does any players want to trade? ", "no", "yes");
+			if(tradeSelection.equals("yes")) {
+				this.tradePropertyUserSelection();
+
+				current = (current + 1) % players.size();
+				game.setCurrentPlayer(players.get(current));
+				if (current == 0) {
+					String selection = gui.getUserSelection(
+							"A round is finished. Do you want to continue the game?",
+							"yes",
+							"no");
+					if (selection.equals("no")) {
+						terminated = true;
 					}
 				}
-
-			current = (current + 1) % players.size();
-			game.setCurrentPlayer(players.get(current));
-			if (current == 0) {
-				String selection = gui.getUserSelection(
-						"A round is finished. Do you want to continue the game?",
-						"yes",
-						"no");
-				if (selection.equals("no")) {
-					terminated = true;
-				}
 			}
+			dispose();
 		}
-		dispose();
 	}
 
 	/**
@@ -610,44 +608,47 @@ public class GameController {
 		Player buyer= null;
 		Property chosenProperty=null;
 
-		//Computes all players who are eligible sellers
-		for(Player player: game.getPlayers()) {
-			if(player.getOwnedProperties().size()>0) {
-				sellingPlayers.add(player);
+		for(Player playerWithProperty: game.getPlayers())
+			if(playerWithProperty.getOwnedProperties().size()>0) {
+				//Computes all players who are eligible sellers
+				for(Player player: game.getPlayers()) {
+					if(player.getOwnedProperties().size()>0) {
+						sellingPlayers.add(player);
+					}
+				}
+				//Computes all player who are eligible buyers
+				for(Player player: game.getPlayers()) {
+					if(!player.isBroke()) {
+						playerList.add(player);
+					}
+				}
+				String sellSelect = gui.getUserSelection("Which player wants to sell a property? ", this.fromPlayerArrayListToStringArray(sellingPlayers));
+				for(int i = 0; i < players.length; i++) {
+					if(sellSelect.equals(players[i])) {
+						seller = game.getPlayers().get(i);
+						//removes the seller from the buying players list
+						playerList.remove(i);
+					}
+				}
+				List<Property> tradeableProperties = this.computeMortgageAblePropertyList(seller);
+				String buySelect = gui.getUserSelection("Which player wants to buy a property? ", this.fromPlayerListToString(playerList));
+				for(int i = 0; i < players.length; i++) {
+					if(buySelect.equals(players[i])) {
+						buyer = game.getPlayers().get(i);
+					}
+				}
+				String propertySelect = gui.getUserSelection("Which property do you want to sell? ",  this.fromPropertyListToString(tradeableProperties));
+				for(int i = 0; i < this.fromPropertyListToString(tradeableProperties).length; i++) {
+					if(propertySelect.equals(this.fromPropertyListToString(tradeableProperties)[i])) {
+						chosenProperty = tradeableProperties.get(i);
+					}
+				}
+				int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
+				if(buyer.getBalance() < moneySelect) {
+					this.obtainCash(buyer, moneySelect - buyer.getBalance());
+				}
+				this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 			}
-		}
-		//Computes all player who are eligible buyers
-		for(Player player: game.getPlayers()) {
-			if(!player.isBroke()) {
-				playerList.add(player);
-			}
-		}
-		String sellSelect = gui.getUserSelection("Which player wants to sell a property? ", this.fromPlayerArrayListToStringArray(sellingPlayers));
-		for(int i = 0; i < players.length; i++) {
-			if(sellSelect.equals(players[i])) {
-				seller = game.getPlayers().get(i);
-				//removes the seller from the buying players list
-				playerList.remove(i);
-			}
-		}
-		List<Property> tradeableProperties = this.computeMortgageAblePropertyList(seller);
-		String buySelect = gui.getUserSelection("Which player wants to buy a property? ", this.fromPlayerListToString(playerList));
-		for(int i = 0; i < players.length; i++) {
-			if(buySelect.equals(players[i])) {
-				buyer = game.getPlayers().get(i);
-			}
-		}
-		String propertySelect = gui.getUserSelection("Which property do you want to sell? ",  this.fromPropertyListToString(tradeableProperties));
-		for(int i = 0; i < this.fromPropertyListToString(tradeableProperties).length; i++) {
-			if(propertySelect.equals(this.fromPropertyListToString(tradeableProperties)[i])) {
-				chosenProperty = tradeableProperties.get(i);
-			}
-		}
-		int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
-		if(buyer.getBalance() < moneySelect) {
-			this.obtainCash(buyer, moneySelect - buyer.getBalance());
-		}
-		this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 	}
 	
 	/**
