@@ -470,7 +470,7 @@ public class GameController {
 		Player highestBidder = null;
 		int amount = 0;
 
-		List<Player> allPlayers = game.getPlayers();
+		List<Player> allPlayers = game.getModifiablePlayerList();
 		allPlayers.remove(rejecter);
 		String[] allPlayersStringArray = playerToStringArray(allPlayers);
 

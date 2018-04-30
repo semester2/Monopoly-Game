@@ -139,6 +139,17 @@ public class Game extends Subject {
 	}
 
 	/**
+	 * Returns Modifiable List of players
+	 *
+	 * @return
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public List<Player> getModifiablePlayerList() {
+		return this.players;
+	}
+
+	/**
 	 * Sets the list of players. The list of players is actually copied
 	 * in order to avoid the list being modified without the game being
 	 * aware of it.
