@@ -168,7 +168,13 @@ public class GameController {
 				
 			}
 
-			// TODO offer all players the options to trade etc.
+			for(Player tradeplayer: players)
+				if(tradeplayer.getOwnedProperties().size()>0) {
+					String selection = gui.getUserSelection("Does any players want to trade? ", "yes", "no");
+					if(selection.equals("yes")) {
+						this.tradePropertyUserSelection();
+					}
+				}
 
 			current = (current + 1) % players.size();
 			game.setCurrentPlayer(players.get(current));
@@ -408,9 +414,6 @@ public class GameController {
 		auction(property, player);
 	}
 	
-	public void tradeProperty(Property property, Player player) {
-		
-	}
 	
 	/**
 	 * This method implements a payment activity to another player,
