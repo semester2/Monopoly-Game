@@ -1,0 +1,15 @@
+{
+  "_comment": "@Author: Oliver Køppen",
+  "type": "table",
+  "name": "Tax",
+  "database": "Matadorprojekt",
+  "data":
+  [
+    {
+      "ID": 2,
+      "Name": "Betal indkomstskat",
+      "Color": "Black",
+      "ColorCode": 0
+    }
+  ]
+}
