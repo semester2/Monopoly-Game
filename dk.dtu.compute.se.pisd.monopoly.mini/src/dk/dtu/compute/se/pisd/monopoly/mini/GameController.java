@@ -54,6 +54,9 @@ public class GameController {
     private boolean disposed = false;
 
     private final int JAIL_FIELD = 10;
+	private final String OPTION_1 = "Sell to other player";
+	private final String OPTION_2 = "Sell house from Real Estate";
+	private final String OPTION_3 = "Mortgage Real Estate";
 
     private int dieOne;
     private int dieTwo;
@@ -1154,15 +1157,15 @@ public class GameController {
 		List<String> options = new ArrayList<>();
 
 		if (player.getOwnedProperties().size() > 0) {
-			options.add("Sell to other player");
+			options.add(OPTION_1);
 		}
 
 		if (sellableHousesList(player).size() > 0) {
-			options.add("Sell house from Real Estate");
+			options.add(OPTION_2);
 		}
 
 		if (computeMortgageAblePropertyList(player).size() > 0) {
-			options.add("Mortgage Real Estate");
+			options.add(OPTION_3);
 		}
 
 		return options;
