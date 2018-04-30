@@ -66,7 +66,6 @@ public class Game extends Subject {
 	 * @param space the added space
 	 */
 	public void addSpace(Space space) {
-		space.setIndex(spaces.size());
 		spaces.add(space);
 		notifyChange();
 	}
