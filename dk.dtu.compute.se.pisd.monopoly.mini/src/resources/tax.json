@@ -6,8 +6,14 @@
   "data":
   [
     {
-      "ID": 2,
+      "ID": 4,
       "Name": "Betal indkomstskat",
+      "Color": "Black",
+      "ColorCode": 0
+    },
+    {
+      "ID": 38,
+      "Name": "Betal ekstraskat",
       "Color": "Black",
       "ColorCode": 0
     }

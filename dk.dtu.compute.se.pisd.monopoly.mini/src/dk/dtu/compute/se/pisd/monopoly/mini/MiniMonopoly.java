@@ -108,6 +108,7 @@ public class MiniMonopoly {
 		Gson gson = new Gson();
 		FileReader fileReader = null;
 
+		//Adds property spaces
 		try {
 			fileReader = new FileReader("src/resources/prop.json");
 			JsonReader reader = gson.newJsonReader(fileReader);
@@ -140,6 +141,7 @@ public class MiniMonopoly {
 			System.out.println(e);
 		}
 
+		//Adds utility spaces
 		try {
 			fileReader = new FileReader("src/resources/util.json");
 			JsonReader reader = gson.newJsonReader(fileReader);
@@ -165,6 +167,7 @@ public class MiniMonopoly {
 			System.out.println(e);
 		}
 
+		//Adds chance spaces
 		try {
 			fileReader = new FileReader("src/resources/chance.json");
 			JsonReader reader = gson.newJsonReader(fileReader);
@@ -189,6 +192,30 @@ public class MiniMonopoly {
 			System.out.println(e);
 		}
 
+		//Adds tax spaces
+		try {
+			fileReader = new FileReader("src/resources/tax.json");
+			JsonReader reader = gson.newJsonReader(fileReader);
+			JsonObject json = gson.fromJson(reader, JsonObject.class);
+			JsonArray jsonArray = json.get("data").getAsJsonArray();
+
+			for (int i = 0; i < jsonArray.size(); i++) {
+				JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+				Chance chance = new Chance(
+						jsonObject.get("ID").getAsInt(),
+						jsonObject.get("Name").getAsString(),
+						jsonObject.get("Color").getAsString(),
+						jsonObject.get("ColorCode").getAsInt()
+				);
+
+				game.addSpace(chance);
+			}
+
+			reader.close();
+			fileReader = null;
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 		Collections.sort(game.getModifiableSpaceList(), new Comparator<Space>() {
 			@Override
 			public int compare(Space o1, Space o2) {

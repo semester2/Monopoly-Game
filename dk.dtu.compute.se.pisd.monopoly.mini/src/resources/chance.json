@@ -12,12 +12,6 @@
     "ColorCode": 0
 },
 {
-    "ID": 4,
-    "Name": "Betal indkomstskat",
-    "Color": "Black",
-    "ColorCode": 0
-},
-{
     "ID": 7,
     "Name": "Pr\u00f8v lykken",
     "Color": "Black",
@@ -62,12 +56,6 @@
 {
     "ID": 36,
     "Name": "Pr\u00f8v lykken",
-    "Color": "Black",
-    "ColorCode": 0
-},
-{
-    "ID": 38,
-    "Name": "Betal ekstraskat",
     "Color": "Black",
     "ColorCode": 0
 }
