@@ -201,14 +201,14 @@ public class MiniMonopoly {
 
 			for (int i = 0; i < jsonArray.size(); i++) {
 				JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-				Chance chance = new Chance(
+				Tax tax = new Tax(
 						jsonObject.get("ID").getAsInt(),
 						jsonObject.get("Name").getAsString(),
 						jsonObject.get("Color").getAsString(),
 						jsonObject.get("ColorCode").getAsInt()
 				);
 
-				game.addSpace(chance);
+				game.addSpace(tax);
 			}
 
 			reader.close();
@@ -216,6 +216,7 @@ public class MiniMonopoly {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+
 		Collections.sort(game.getModifiableSpaceList(), new Comparator<Space>() {
 			@Override
 			public int compare(Space o1, Space o2) {
