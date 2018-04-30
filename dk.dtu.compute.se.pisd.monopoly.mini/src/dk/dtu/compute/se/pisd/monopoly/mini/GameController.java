@@ -1010,7 +1010,7 @@ public class GameController {
 	 */
 	private List<List<RealEstate>> generateOwnedRealEstateLists(Player player) {
 		//Computes a Set of the colors that is owned by the Player
-		Set<Integer> ownedAllColorCodeList = null;
+		Set<Integer> ownedAllColorCodeList = new HashSet<>();
 		for (Property property : player.getOwnedProperties()) {
 			if (property instanceof RealEstate) {
 				if (checkWetherPlayerOwnAllInColor(player, property.getColorCode())) {
@@ -1022,21 +1022,26 @@ public class GameController {
 		//Generates a List that contains Lists of Properties
 		List<List<Property>> listOfPropertyLists = new ArrayList<>();
 		Map<Integer, List<Property>> colorToPropertyMap = game.getColorToPropertyMap();
-		for (Integer color : ownedAllColorCodeList) {
-			listOfPropertyLists.add(colorToPropertyMap.get(color));
+		if (ownedAllColorCodeList.size() > 0) {
+			for (Integer color : ownedAllColorCodeList) {
+				listOfPropertyLists.add(colorToPropertyMap.get(color));
+			}
 		}
 
 		//Converts all Properties to RealEstates
 		//It is known that all object are RealEstates, we made sure of that
 		//In the first loop.
 		List<List<RealEstate>> listOfRealEstateLists = new ArrayList<>();
-		for (List<Property> propertyList : listOfPropertyLists) {
-			List<RealEstate> realEstateList = new ArrayList<>();
-			for (Property property : propertyList) {
-				RealEstate realEstate = (RealEstate) property;
-				realEstateList.add(realEstate);
+
+		if (listOfPropertyLists.size() > 0) {
+			for (List<Property> propertyList : listOfPropertyLists) {
+				List<RealEstate> realEstateList = new ArrayList<>();
+				for (Property property : propertyList) {
+					RealEstate realEstate = (RealEstate) property;
+					realEstateList.add(realEstate);
+				}
+				listOfRealEstateLists.add(realEstateList);
 			}
-			listOfRealEstateLists.add(realEstateList);
 		}
 
 		return listOfRealEstateLists;
