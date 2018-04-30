@@ -27,6 +27,7 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 		super.setColorCode(colorCode);
 		super.setIndex(id);
 		super.setName(name);
+		super.setRent(house0);
 		this.color = color;
 		this.housePrice = housePrice;
 		this.rentRate.add(house0);
