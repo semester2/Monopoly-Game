@@ -12,7 +12,27 @@ import gui_main.GUI;
  *
  */
 public class Tax extends Space {
+
     private GUI gui;
+    private String color;
+
+    /**
+     * Constructor for Tax
+     *
+     * @param id
+     * @param name
+     * @param color
+     * @param colorCode
+     *
+     * @author Jaafar Mahdi
+     */
+    public Tax(int id, String name, String color, int colorCode) {
+        super.setIndex(id);
+        super.setName(name);
+        super.setColorCode(colorCode);
+        this.color = color;
+    }
+
     @Override
     public void doAction(GameController controller, Player player) throws PlayerBrokeException {
         int placement = super.getIndex();
