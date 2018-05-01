@@ -222,16 +222,16 @@ public class GameController {
 			}
 		}
 
+		if (!payedToGetOut) {
 			do {
 				rollDice();
 				gui.setDice(dieOne, dieTwo);
-				if (!payedToGetOut) {
+
 				if (player.isInPrison() && castDouble()) {
 					player.setInPrison(false);
 					gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
 				} else if (player.isInPrison()) {
 					gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
-				}
 				}
 				
 				if (castDouble()) {
@@ -264,6 +264,7 @@ public class GameController {
 			} while (castDouble());
 		}
 
+	}
 	
 	/**
 	 * This method implements the activity of moving the player to the new position,
