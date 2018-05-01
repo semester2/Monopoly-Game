@@ -166,7 +166,7 @@ public class GameController {
 
 			}
 
-
+			
 			String tradeSelection = gui.getUserSelection("Does any players want to trade? ", "no", "yes");
 			if(tradeSelection.equals("yes")) {
 				this.tradePropertyUserSelection();
@@ -659,7 +659,11 @@ public class GameController {
 					this.obtainCash(buyer, moneySelect - buyer.getBalance());
 				}
 				this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
+				playerList.removeAll(playerList);
+				sellingPlayers.removeAll(sellingPlayers);
 			}
+		playerList.removeAll(playerList);
+		sellingPlayers.removeAll(sellingPlayers);
 	}
 	
 	/**
