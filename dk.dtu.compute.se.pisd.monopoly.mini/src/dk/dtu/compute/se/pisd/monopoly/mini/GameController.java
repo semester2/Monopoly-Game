@@ -357,7 +357,7 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		if(player.getTotalWorth(player)>amount) {
+		if(player.computeTotalWorth(player)>amount) {
 			gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
 			do {
 				List<String> options = generateObtainCashList(player);

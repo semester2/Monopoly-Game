@@ -153,7 +153,7 @@ public class Player extends Subject {
 	 * @return the players total value as Integer
 	 * @author Sebastian
 	 */
-	public int getTotalWorth(Player player) {
+	public int computeTotalWorth(Player player) {
 		Set<Property> propertyList = player.getOwnedProperties();
 		int propertyValue = 0;
 		for (Property property: propertyList) {
@@ -174,7 +174,7 @@ public class Player extends Subject {
 	 * @return the total mortgage value of a player as Integer
 	 * @author Sebastian
 	 */
-	public int getTotalMortgageValue(Player player) {
+	public int computeTotalMortgageValue(Player player) {
 		Set<Property> propertyList = player.getOwnedProperties();
 		int mortgageValue = 0;
 		for (Property property: propertyList) {

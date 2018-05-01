@@ -41,7 +41,7 @@ public class Tax extends Space {
         }
         else {
         	if(!player.getPayTaxInCash()) {
-        		controller.paymentToBank(player, player.getTotalWorth(player) / 10);
+        		controller.paymentToBank(player, player.computeTotalWorth(player) / 10);
         	}
         	if(player.getPayTaxInCash()) {
         		controller.paymentToBank(player, 4000);
