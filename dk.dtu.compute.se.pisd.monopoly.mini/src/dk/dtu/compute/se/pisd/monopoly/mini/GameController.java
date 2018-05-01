@@ -357,7 +357,7 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		if(player.computeTotalWorth(player)>amount) {
+		if((this.computeTotalMortgageValue(player)+this.sellingHousesTotalValue(player)+player.getBalance())>amount) {
 			gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
 			do {
 				List<String> options = generateObtainCashList(player);
@@ -603,13 +603,15 @@ public class GameController {
 	 * @author Sebastian Bilde
 	 */
 	public void tradeProperty(Player seller, Property property, Player buyer, int money) {
-		seller.removeOwnedProperty(property);
-		property.setOwner(buyer);
 		try {
 			this.payment(buyer, money, seller);
 		} catch (PlayerBrokeException e) {
 			if(buyer.getBalance()<money) {
 				playerBrokeTo(buyer, seller);
+			}
+			else {
+				seller.removeOwnedProperty(property);
+				property.setOwner(buyer);
 			}
 		}
 	}
@@ -1004,6 +1006,18 @@ public class GameController {
 
 		return realEstateList;
 	}
+	
+	private int sellingHousesTotalValue(Player player) {
+		Set<Property> ownedProperties = player.getOwnedProperties();
+		for(Property property: ownedProperties) {
+			if(property.getNumberOfHouses()>0) {
+				int numberOfHouses = property.getNumberOfHouses();
+				int housePrice = ((RealEstate) property).getHousePrice();
+				return numberOfHouses*(housePrice/2);
+			}
+		}
+		return 0;
+	}
 
 	/**
 	 *
@@ -1241,5 +1255,21 @@ public class GameController {
 		}
 
 		return options;
+	}
+	
+	/**
+	 * Takes all the players owned properties and gives a integer of the total mortgage value.
+	 * 
+	 * @param player
+	 * @return the total mortgage value of a player as Integer
+	 * @author Sebastian
+	 */
+	public int computeTotalMortgageValue(Player player) {
+		Set<Property> propertyList = player.getOwnedProperties();
+		int mortgageValue = 0;
+		for (Property property: propertyList) {
+			mortgageValue = mortgageValue + property.getCost()/2;
+		}
+		return mortgageValue;
 	}
 }
