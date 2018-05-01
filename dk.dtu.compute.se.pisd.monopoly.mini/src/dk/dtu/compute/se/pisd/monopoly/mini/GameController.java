@@ -360,7 +360,7 @@ public class GameController {
 		gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
 		do {
 			List<String> options = generateObtainCashList(player);
-			String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
+			String selection = gui.getUserSelection("How do you want to obtain cash? You need: " + (amount - player.getBalance()), stringListToStringArray(options));
 
 			switch (selection) {
 				case OPTION_1:
@@ -663,7 +663,7 @@ public class GameController {
 				}
 				int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
 				if(buyer.getBalance() < moneySelect) {
-					this.obtainCash(buyer, moneySelect - buyer.getBalance());
+					this.obtainCash(buyer, moneySelect);
 				}
 				this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 				playerList.removeAll(playerList);
@@ -712,7 +712,7 @@ public class GameController {
 	private void mortgageUserSelection(Player player) {
 		do {
 			if(this.computeMortgageAblePropertyList(player).size()>0) {
-				String[] mortageAblePropertyArray = this.fromPropertyListToString(this.computeMortgageAblePropertyList(player));
+				String[] mortageAblePropertyArray = this.fromPropertyListToMortgageString(this.computeMortgageAblePropertyList(player));
 				String select = gui.getUserSelection("Do you " + player.getName() + " want to mortgage any owned properties?",
 						"no",
 						"yes");
@@ -797,6 +797,20 @@ public class GameController {
 		String[] stringArray = new String[list.size()];
 		for(int i = 0; i<list.size(); i++) {
 			stringArray[i] = list.get(i).getName();
+		}
+		return stringArray;
+	}
+	
+	/**
+	 * Converts a List of type Property, to a String Array with each property's name and the mortgage value.
+	 * @param list
+	 * @return a String Array holding each property's name and the mortgage value.
+	 * @author Sebastian Bilde
+	 */
+	private String[] fromPropertyListToMortgageString(List<Property> list) {
+		String[] stringArray = new String[list.size()];
+		for(int i = 0; i<list.size(); i++) {
+			stringArray[i] = list.get(i).getName() + "  you get: " + list.get(i).getCost()/2 + "$ for mortgaging";
 		}
 		return stringArray;
 	}
