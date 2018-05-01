@@ -75,6 +75,7 @@ public class Property extends Space {
 	 */
 	public void setOwner(Player player) {
 		this.owner = player;
+		player.addOwnedProperty(this);
 		notifyChange();
 	}
 	
