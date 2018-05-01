@@ -105,6 +105,24 @@ public class MiniMonopoly {
 		go.setColorCode(0);
 		game.addSpace(go);
 
+		Space visitPrison = new Space();
+		visitPrison.setIndex(10);
+		visitPrison.setColorCode(0);
+		visitPrison.setName("Visit Prison");
+		game.addSpace(visitPrison);
+
+		Space goToPrison = new Space();
+		goToPrison.setIndex(30);
+		goToPrison.setColorCode(0);
+		goToPrison.setName("Go To Prison");
+		game.addSpace(goToPrison);
+
+		Space parking = new Space();
+		parking.setIndex(20);
+		parking.setColorCode(0);
+		parking.setName("Parking");
+		game.addSpace(parking);
+
 		Gson gson = new Gson();
 		FileReader fileReader = null;
 
