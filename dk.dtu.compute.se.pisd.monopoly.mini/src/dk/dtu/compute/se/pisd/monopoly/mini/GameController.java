@@ -570,7 +570,7 @@ public class GameController {
 	 * 
 	 * @author Jaafar Mahdi
 	 */
-	private void cleanUpProperty(Property property) {
+	public void cleanUpProperty(Property property) {
 		property.setIsDeveloped(false);
 		property.setIsMortgaged(false);
 		property.setNumberOfHouses(0);
@@ -848,7 +848,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private String[] stringListToStringArray(List<String> list) {
+	public String[] stringListToStringArray(List<String> list) {
 		String[] stringArray = new String[list.size()];
 
 		for (int i = 0; i < list.size(); i++) {
@@ -928,7 +928,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private List<RealEstate> buildableHousesList(Player player) {
+	public List<RealEstate> buildableHousesList(Player player) {
 		List<RealEstate> realEstateList = actionableRealEstates(player, true);
 
 		for (RealEstate realEstate : realEstateList) {
@@ -947,7 +947,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private List<RealEstate> sellableHousesList(Player player) {
+	public List<RealEstate> sellableHousesList(Player player) {
 		List<RealEstate> realEstateList = actionableRealEstates(player, false);
 
 		for (RealEstate realEstate : realEstateList) {
@@ -967,7 +967,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private List<RealEstate> actionableRealEstates(Player player, boolean buildable) {
+	public List<RealEstate> actionableRealEstates(Player player, boolean buildable) {
 		List<List<RealEstate>> listOfRealEstateLists = generateOwnedRealEstateLists(player);
 		//Populates a List with all the RealEstates that the Player can do actions on
 		List<RealEstate> realEstateList = new ArrayList<>();
@@ -1009,7 +1009,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private List<List<RealEstate>> generateOwnedRealEstateLists(Player player) {
+	public List<List<RealEstate>> generateOwnedRealEstateLists(Player player) {
 		//Computes a Set of the colors that is owned by the Player
 		Set<Integer> ownedAllColorCodeList = new HashSet<>();
 		for (Property property : player.getOwnedProperties()) {
@@ -1058,7 +1058,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private String[] realEstateToStringArray(List<RealEstate> realEstateList) {
+	public String[] realEstateToStringArray(List<RealEstate> realEstateList) {
 		String[] stringArray = new String[realEstateList.size()];
 
 		for (int i = 0; i < realEstateList.size(); i++) {
@@ -1076,7 +1076,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private String[] playerToStringArray(List<Player> playerList) {
+	public String[] playerToStringArray(List<Player> playerList) {
 		String[] stringArray = new String[playerList.size()];
 
 		for (int i = 0; i < playerList.size(); i++) {
@@ -1094,7 +1094,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private void sellHouse(Player player, RealEstate realEstate) {
+	public void sellHouse(Player player, RealEstate realEstate) {
 		if (realEstate.getNumberOfHouses() > 0) {
 			realEstate.decrementHouses();
 		}
@@ -1109,7 +1109,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private void buyHouse(Player player, RealEstate realEstate) {
+	public void buyHouse(Player player, RealEstate realEstate) {
 		if (realEstate.getNumberOfHouses() < 5) {
 			realEstate.incrementHouses();
 		}
@@ -1124,7 +1124,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private void sellHousesUserSelection(Player player) {
+	public void sellHousesUserSelection(Player player) {
 		List<RealEstate> realEstateList = sellableHousesList(player);
 		String[] realEstateStringList = realEstateToStringArray(realEstateList);
 		String selection = gui.getUserSelection("Which house do you want to sell?", realEstateStringList);
@@ -1145,7 +1145,7 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private void buildHousesUserSelection(Player player) {
+	public void buildHousesUserSelection(Player player) {
 		List<RealEstate> realEstateList = buildableHousesList(player);
 		String[] realEstateStringList = realEstateToStringArray(realEstateList);
 		if(realEstateList.size()>0) {
@@ -1170,17 +1170,16 @@ public class GameController {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	private void buyPropertyOnAuction(Property property, Player player, int price) {
+	public void buyPropertyOnAuction(Property property, Player player, int price) {
 		try {
 			paymentToBank(player, price);
-			player.addOwnedProperty(property);
 			property.setOwner(player);
 		} catch (PlayerBrokeException e) {
 			playerBrokeToBank(player);
 		}
 	}
 
-	private List<String> generateObtainCashList(Player player) {
+	public List<String> generateObtainCashList(Player player) {
 		List<String> options = new ArrayList<>();
 
 		if (player.getOwnedProperties().size() > 0) {
