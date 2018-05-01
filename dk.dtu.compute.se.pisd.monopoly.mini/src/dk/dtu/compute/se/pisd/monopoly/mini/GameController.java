@@ -357,23 +357,26 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		List<String> options = generateObtainCashList(player);
+		gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
+		do {
+			List<String> options = generateObtainCashList(player);
+			String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
 
-		String selection = gui.getUserSelection("How do you want to obtain cash?", stringListToStringArray(options));
+			switch (selection) {
+				case OPTION_1:
+					this.tradePropertyUserSelection();
+					break;
+				case OPTION_2:
+					this.sellHousesUserSelection(player);
+					break;
+				case OPTION_3:
+					this.mortgageUserSelection(player);
+					break;
+				default:
+					break;
+			}
+		} while (player.getBalance() < amount);
 
-		switch (selection) {
-		case OPTION_1:
-			this.tradePropertyUserSelection();
-			break;
-		case OPTION_2:
-			this.sellHousesUserSelection(player);
-			break;
-		case OPTION_3:
-			this.mortgageUserSelection(player);
-			break;
-		default:
-			break;
-		}
 	}
 	
 	/**
