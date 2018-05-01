@@ -357,12 +357,13 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
-		do {
-			List<String> options = generateObtainCashList(player);
-			String selection = gui.getUserSelection("How do you want to obtain cash? You need: " + (amount - player.getBalance()), stringListToStringArray(options));
+		if(player.getTotalWorth(player)>amount) {
+			gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
+			do {
+				List<String> options = generateObtainCashList(player);
+				String selection = gui.getUserSelection("How do you want to obtain cash? You need: " + (amount - player.getBalance()), stringListToStringArray(options));
 
-			switch (selection) {
+				switch (selection) {
 				case OPTION_1:
 					this.tradePropertyUserSelection();
 					break;
@@ -374,9 +375,10 @@ public class GameController {
 					break;
 				default:
 					break;
-			}
-		} while (player.getBalance() < amount);
+				}
+			} while (player.getBalance() < amount);
 
+		}
 	}
 	
 	/**
@@ -602,7 +604,7 @@ public class GameController {
 	 */
 	public void tradeProperty(Player seller, Property property, Player buyer, int money) {
 		seller.removeOwnedProperty(property);
-		buyer.addOwnedProperty(property);
+		property.setOwner(buyer);
 		try {
 			this.payment(buyer, money, seller);
 		} catch (PlayerBrokeException e) {
