@@ -166,11 +166,15 @@ public class GameController {
 
 			}
 
-			
-			String tradeSelection = gui.getUserSelection("Does any players want to trade? ", "no", "yes");
-			if(tradeSelection.equals("yes")) {
-				this.tradePropertyUserSelection();
-			}
+			boolean trade;
+			do {
+				trade = false;
+				String tradeSelection = gui.getUserSelection("Does any players want to trade? ", "no", "yes");
+				if(tradeSelection.equals("yes")) {
+					trade = true;
+					this.tradePropertyUserSelection();
+				}
+			}while(trade);
 			
 			//Lets the current player buy back any mortgaged properties
 			this.buyBackMortagedPropertiesUserSelect(player);
@@ -661,9 +665,8 @@ public class GameController {
 				this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 				playerList.removeAll(playerList);
 				sellingPlayers.removeAll(sellingPlayers);
+				break;
 			}
-		playerList.removeAll(playerList);
-		sellingPlayers.removeAll(sellingPlayers);
 	}
 	
 	/**
