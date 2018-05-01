@@ -588,7 +588,10 @@ public class GameController {
 	public void cleanUpProperty(Property property) {
 		property.setIsDeveloped(false);
 		property.setIsMortgaged(false);
-		property.setNumberOfHouses(0);
+
+		if (property instanceof RealEstate) {
+			((RealEstate) property).setNumberOfHouses(0);
+		}
 	}
 	
 	/**
@@ -1010,10 +1013,12 @@ public class GameController {
 	private int sellingHousesTotalValue(Player player) {
 		Set<Property> ownedProperties = player.getOwnedProperties();
 		for(Property property: ownedProperties) {
-			if(property.getNumberOfHouses()>0) {
-				int numberOfHouses = property.getNumberOfHouses();
-				int housePrice = ((RealEstate) property).getHousePrice();
-				return numberOfHouses*(housePrice/2);
+			if (property instanceof RealEstate) {
+				if(((RealEstate) property).getNumberOfHouses()>0) {
+					int numberOfHouses = ((RealEstate) property).getNumberOfHouses();
+					int housePrice = ((RealEstate) property).getHousePrice();
+					return numberOfHouses*(housePrice/2);
+				}	
 			}
 		}
 		return 0;
