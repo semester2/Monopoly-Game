@@ -18,32 +18,14 @@
     "ColorCode": 0
 },
 {
-    "ID": 10,
-    "Name": "I f\u00e6ngsel (Bes\u00f8g)",
-    "Color": "Black",
-    "ColorCode": 0
-},
-{
     "ID": 17,
     "Name": "Pr\u00f8v lykken",
     "Color": "Black",
     "ColorCode": 0
 },
 {
-    "ID": 20,
-    "Name": "Parkering",
-    "Color": "Black",
-    "ColorCode": 0
-},
-{
     "ID": 22,
     "Name": "Pr\u00f8v lykken",
-    "Color": "Black",
-    "ColorCode": 0
-},
-{
-    "ID": 30,
-    "Name": "De f\u00e6ngsles",
     "Color": "Black",
     "ColorCode": 0
 },
