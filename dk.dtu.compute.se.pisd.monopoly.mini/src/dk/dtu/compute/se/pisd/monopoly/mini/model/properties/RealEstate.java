@@ -20,6 +20,7 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 
 	private String color;
 	private int housePrice;
+	private int numberOfHouses = 0;
 	private List<Integer> rentRate = new ArrayList<>();
 
 	public RealEstate(int id, String name, String color, int colorCode, int cost, int house0, int house1, int house2, int house3, int house4, int house5, int housePrice) {
@@ -59,5 +60,42 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 	@Override
 	public int compareTo(RealEstate o) {
 		return Integer.compare(this.getNumberOfHouses(), o.getNumberOfHouses());
+	}
+
+	/**
+	 * Increment the number of houses on a property
+	 *
+	 * @author Andreas and Jaafar
+	 */
+	public void incrementHouses() {
+		this.numberOfHouses++;
+
+		if (this.numberOfHouses > 0) {
+			this.setIsDeveloped(true);
+		}
+		notifyChange();
+	}
+
+	/**
+	 * Decrement the number of houses on a property
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public void decrementHouses() {
+		this.numberOfHouses--;
+
+		if (this.numberOfHouses == 0) {
+			this.setIsDeveloped(false);
+		}
+		notifyChange();
+	}
+
+	public int getNumberOfHouses() {
+		return this.numberOfHouses;
+	}
+
+	public void setNumberOfHouses(int number) {
+		this.numberOfHouses = number;
+		notifyChange();
 	}
 }

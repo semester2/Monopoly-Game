@@ -16,8 +16,6 @@ public class Property extends Space {
 	private boolean mortgaged;
 	private boolean developed;
 	private Player owner;
-	private int numberOfHouses = 0;
-	
 
 	/**
 	 * Returns the cost of this property.
@@ -122,48 +120,6 @@ public class Property extends Space {
 	 */
 	public void setIsDeveloped(boolean b) {
 		this.developed = b;
-		notifyChange();
-	}
-	
-	/**
-	 * Returns number of houses on property.
-	 * 
-	 * @return int <code>null</code>
-	 * 
-	 * @author Andreas and Jaafar
-	 */
-	public int getNumberOfHouses() {
-		return this.numberOfHouses;
-	}
-	
-	/**
-	 * Increment the number of houses on a property
-	 * 
-	 * @author Andreas and Jaafar
-	 */
-	public void incrementHouses() {
-		this.numberOfHouses++;
-		notifyChange();
-	}
-	
-	/**
-	 * Decrement the number of houses on a property
-	 * 
-	 * @author Jaafar
-	 */
-	public void decrementHouses() {
-		this.numberOfHouses--;
-		notifyChange();
-	}
-	
-	/**
-	 * Sets the number of houses to a specific number
-	 * 
-	 * @param number
-	 * @author Jaafar
-	 */
-	public void setNumberOfHouses(int number) {
-		this.numberOfHouses = number;
 		notifyChange();
 	}
 
