@@ -516,7 +516,7 @@ public class GameController {
 		}
 
 		amount = gui.getUserInteger("How much did you bid?", property.getCost(), Integer.MAX_VALUE);
-		buyPropertyOnAuction(property, rejecter, amount);
+		buyPropertyOnAuction(property, highestBidder, amount);
 
 	}
 	
@@ -672,6 +672,7 @@ public class GameController {
 				sellingPlayers.removeAll(sellingPlayers);
 				break;
 			}
+		
 	}
 	
 	/**
