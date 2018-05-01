@@ -222,49 +222,49 @@ public class GameController {
 			}
 		}
 
-		if (!payedToGetOut) {
-			do {
-				rollDice();
-				gui.setDice(dieOne, dieTwo);
+		do {
+			rollDice();
+			gui.setDice(dieOne, dieTwo);
 
+			if (!payedToGetOut) {
 				if (player.isInPrison() && castDouble()) {
 					player.setInPrison(false);
 					gui.showMessage("Player " + player.getName() + " leaves prison now since he cast a double!");
 				} else if (player.isInPrison()) {
 					gui.showMessage("Player " + player.getName() + " stays in prison since he did not cast a double!");
 				}
-				
+			}
+
+			if (castDouble()) {
+				doublesCount++;
+				if (doublesCount > 2) {
+					gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
+					gotoJail(player);
+					return;
+				}
+			}
+
+			if (!player.isInPrison()) {
+				// make the actual move by computing the new position and then
+				// executing the action moving the player to that space
+				int pos = player.getCurrentPosition().getIndex();
+				List<Space> spaces = game.getSpaces();
+				int newPos = (pos + dieOne + dieTwo) % spaces.size();
+				Space space = spaces.get(newPos);
+				moveToSpace(player, space);
+
+				if (player.getCurrentPosition().getIndex() == 30) {
+					gotoJail(player);
+					gui.showMessage(player.getName() + " went to jail.");
+				}
+
 				if (castDouble()) {
-					doublesCount++;
-					if (doublesCount > 2) {
-						gui.showMessage("Player " + player.getName() + " has cast the third double and goes to jail!");
-						gotoJail(player);
-						return;
-					}
+					gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
 				}
-
-				if (!player.isInPrison()) {
-					// make the actual move by computing the new position and then
-					// executing the action moving the player to that space
-					int pos = player.getCurrentPosition().getIndex();
-					List<Space> spaces = game.getSpaces();
-					int newPos = (pos + dieOne + dieTwo) % spaces.size();
-					Space space = spaces.get(newPos);
-					moveToSpace(player, space);
-
-					if (player.getCurrentPosition().getIndex() == 30) {
-						gotoJail(player);
-						gui.showMessage(player.getName() + " went to jail.");
-					}
-
-					if (castDouble()) {
-						gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
-					}
-				}
-			} while (castDouble());
-		}
-
+			}
+		} while (castDouble());
 	}
+
 	
 	/**
 	 * This method implements the activity of moving the player to the new position,
