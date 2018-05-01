@@ -251,6 +251,12 @@ public class GameController {
 					int newPos = (pos + dieOne + dieTwo) % spaces.size();
 					Space space = spaces.get(newPos);
 					moveToSpace(player, space);
+
+					if (player.getCurrentPosition().getIndex() == 30) {
+						gotoJail(player);
+						gui.showMessage(player.getName() + " went to jail.");
+					}
+
 					if (castDouble()) {
 						gui.showMessage("Player " + player.getName() + " cast a double and makes another move.");
 					}
