@@ -629,10 +629,10 @@ public class GameController {
 		Property chosenProperty=null;
 
 		for(Player playerWithProperty: game.getPlayers())
-			if(playerWithProperty.getOwnedProperties().size()>0) {
+			if(this.computeSellAblePropertiesList(playerWithProperty).size()>0) {
 				//Computes all players who are eligible sellers
 				for(Player player: game.getPlayers()) {
-					if(player.getOwnedProperties().size()>0) {
+					if(this.computeSellAblePropertiesList(player).size()>0) {
 						sellingPlayers.add(player);
 					}
 				}
@@ -650,7 +650,7 @@ public class GameController {
 						playerList.remove(i);
 					}
 				}
-				List<Property> tradeableProperties = this.computeMortgageAblePropertyList(seller);
+				List<Property> tradeableProperties = this.computeSellAblePropertiesList(seller);
 				String buySelect = gui.getUserSelection("Which player wants to buy a property? ", this.fromPlayerListToString(playerList));
 				for(int i = 0; i < players.length; i++) {
 					if(buySelect.equals(players[i])) {
@@ -778,6 +778,22 @@ public class GameController {
 			mortgagedPropertyList.add(property);
 		}
 		return mortgagedPropertyList;
+	}
+	
+	/**
+	 * Computes a list of all the players properties that are sellable, meaning they are not developed or mortgaged
+	 * @param player
+	 * @return A list of all the players properties that are sellable
+	 * @author Sebastian Bilde
+	 */
+	private List<Property> computeSellAblePropertiesList(Player player) {
+		Set<Property> ownedProperties = player.getOwnedProperties();
+		ArrayList<Property> sellAblePropertyList = new ArrayList<Property>();
+		for (Property property: ownedProperties) {
+			if (!property.getIsMortgaged() && !property.getIsDeveloped())
+			sellAblePropertyList.add(property);
+		}
+		return sellAblePropertyList;
 	}
 	
 	/**
