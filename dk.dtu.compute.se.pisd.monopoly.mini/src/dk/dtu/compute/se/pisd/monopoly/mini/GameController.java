@@ -710,26 +710,16 @@ public class GameController {
 	 * @author Sebastian
 	 */
 	private void mortgageUserSelection(Player player) {
-		do {
-			if(this.computeMortgageAblePropertyList(player).size()>0) {
-				String[] mortageAblePropertyArray = this.fromPropertyListToMortgageString(this.computeMortgageAblePropertyList(player));
-				String select = gui.getUserSelection("Do you " + player.getName() + " want to mortgage any owned properties?",
-						"no",
-						"yes");
-				if (select.equals("yes")) {
-					String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", mortageAblePropertyArray);
-					for(int i = 0; i<mortageAblePropertyArray.length; i++)
-						if(mortgageSelection.equals(mortageAblePropertyArray[i])) {
-							Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
-							this.mortgageProperty(player, chosenProperty);
-						}
-				} else {
-					break;
-				}
-			} else {
-				break;
-			}
-		} while (true);
+
+		String[] mortageAblePropertyArray = this.fromPropertyListToMortgageString(this.computeMortgageAblePropertyList(player));
+
+		String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", mortageAblePropertyArray);
+		for(int i = 0; i<mortageAblePropertyArray.length; i++)
+			if(mortgageSelection.equals(mortageAblePropertyArray[i])) {
+				Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
+				this.mortgageProperty(player, chosenProperty);
+
+			} 
 	}
 	
 	/**
