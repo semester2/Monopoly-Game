@@ -979,7 +979,7 @@ public class GameController {
 	public List<RealEstate> buildableHousesList(Player player) {
 		List<RealEstate> realEstateList = actionableRealEstates(player, true);
 
-		for (RealEstate realEstate : realEstateList) {
+		for (RealEstate realEstate : new ArrayList<>(realEstateList)) {
 			if (realEstate.getNumberOfHouses() > 4) {
 				realEstateList.remove(realEstate);
 			}
@@ -998,7 +998,7 @@ public class GameController {
 	public List<RealEstate> sellableHousesList(Player player) {
 		List<RealEstate> realEstateList = actionableRealEstates(player, false);
 
-		for (RealEstate realEstate : realEstateList) {
+		for (RealEstate realEstate : new ArrayList<>(realEstateList)) {
 			if (realEstate.getNumberOfHouses() < 1) {
 				realEstateList.remove(realEstate);
 			}
