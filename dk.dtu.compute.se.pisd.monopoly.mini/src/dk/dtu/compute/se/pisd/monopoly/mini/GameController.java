@@ -650,13 +650,13 @@ public class GameController {
 						playerList.remove(i);
 					}
 				}
-				List<Property> tradeableProperties = this.computeSellAblePropertiesList(seller);
 				String buySelect = gui.getUserSelection("Which player wants to buy a property? ", this.fromPlayerListToString(playerList));
 				for(int i = 0; i < players.length; i++) {
 					if(buySelect.equals(players[i])) {
 						buyer = game.getPlayers().get(i);
 					}
 				}
+				List<Property> tradeableProperties = this.computeSellAblePropertiesList(seller);
 				String propertySelect = gui.getUserSelection("Which property do you want to sell? ",  this.fromPropertyListToString(tradeableProperties));
 				for(int i = 0; i < this.fromPropertyListToString(tradeableProperties).length; i++) {
 					if(propertySelect.equals(this.fromPropertyListToString(tradeableProperties)[i])) {
@@ -702,7 +702,7 @@ public class GameController {
 	 */
 	public void mortgageProperty(Player player, Property property) {
 		property.setIsMortgaged(true);
-		player.setBalance(player.getBalance()+property.getCost()/2);
+		this.paymentFromBank(player, property.getCost()/2);
 	}
 	
 	/**
@@ -733,7 +733,14 @@ public class GameController {
 	 */
 	private void buyBackMortagedProperty(Player player, Property property) {
 		property.setIsMortgaged(false);
-		player.payMoney(property.getCost()/2-property.getCost()/20);
+		int payment = property.getCost()/2 + property.getCost()/20;
+		try {
+			this.paymentToBank(player, payment);
+		} catch (PlayerBrokeException e) {
+			if(player.getBalance()<payment) {
+				this.playerBrokeToBank(player);
+			}
+		}
 	}
 
 	/**
