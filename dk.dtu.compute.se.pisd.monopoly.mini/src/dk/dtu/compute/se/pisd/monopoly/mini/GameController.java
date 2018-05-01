@@ -515,8 +515,10 @@ public class GameController {
 			}
 		}
 
-		amount = gui.getUserInteger("How much did you bid?", property.getCost(), Integer.MAX_VALUE);
-		buyPropertyOnAuction(property, highestBidder, amount);
+		if (highestBidder != null) {
+			amount = gui.getUserInteger("How much did you bid?", property.getCost(), Integer.MAX_VALUE);
+			buyPropertyOnAuction(property, highestBidder, amount);
+		}
 
 	}
 	
@@ -1018,7 +1020,7 @@ public class GameController {
 					int numberOfHouses = ((RealEstate) property).getNumberOfHouses();
 					int housePrice = ((RealEstate) property).getHousePrice();
 					return numberOfHouses*(housePrice/2);
-				}	
+				}
 			}
 		}
 		return 0;
@@ -1142,12 +1144,13 @@ public class GameController {
 	 * @author Jaafar Mahdi
 	 */
 	public String[] playerToStringArray(List<Player> playerList) {
-		String[] stringArray = new String[playerList.size()];
+		String[] stringArray = new String[playerList.size() + 1];
 
 		for (int i = 0; i < playerList.size(); i++) {
 			stringArray[i] = playerList.get(i).getName();
 		}
 
+		stringArray[playerList.size()] = "No offers";
 		return stringArray;
 	}
 
