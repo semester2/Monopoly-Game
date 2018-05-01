@@ -148,18 +148,41 @@ public class Player extends Subject {
 
 	/**
 	 * Returns a players total value, including the players balance, and property worth.
-	 * @author Sebastian
+	 * 
 	 * @param player
 	 * @return the players total value as Integer
+	 * @author Sebastian
 	 */
 	public int getTotalWorth(Player player) {
 		Set<Property> propertyList = player.getOwnedProperties();
 		int propertyValue = 0;
 		for (Property property: propertyList) {
-			propertyValue = propertyValue + property.getCost();
+			if(property.getIsMortgaged()) {
+				propertyValue = propertyValue + property.getCost()/2;
+			}
+			else {
+				propertyValue = propertyValue + property.getCost();
+			}
 		}
 		return this.balance+propertyValue;
 	}
+	
+	/**
+	 * Takes all the players owned properties and gives a integer of the total mortgage value.
+	 * 
+	 * @param player
+	 * @return the total mortgage value of a player as Integer
+	 * @author Sebastian
+	 */
+	public int getTotalMortgageValue(Player player) {
+		Set<Property> propertyList = player.getOwnedProperties();
+		int mortgageValue = 0;
+		for (Property property: propertyList) {
+			mortgageValue = mortgageValue + property.getCost()/2;
+		}
+		return mortgageValue;
+	}
+	
 	/**
 	 * Sets the list of owned properties to the provided list. Note that
 	 * the list is copied to avoid it to be changed without the player
