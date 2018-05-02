@@ -87,7 +87,22 @@ public class GameController {
 		p.setCurrentPosition(game.getSpaces().get(0));
 		p.setColor(Color.RED);
 		game.addPlayer(p);
-		
+
+		/**
+		 *
+		 * JAAFAR USES THIS FOR TESTING PURPOSES
+		 * DO NOT REMOVE
+		 *
+		RealEstate realEstate = (RealEstate) game.getSpaces().get(6);
+		realEstate.setOwner(p);
+
+		realEstate = (RealEstate) game.getSpaces().get(8);
+		realEstate.setOwner(p);
+
+		realEstate = (RealEstate) game.getSpaces().get(9);
+		realEstate.setOwner(p);
+		*/
+
 		p = new Player();
 		p.setName("Player 2");
 		p.setCurrentPosition(game.getSpaces().get(0));
@@ -180,7 +195,9 @@ public class GameController {
 			this.buyBackMortagedPropertiesUserSelect(player);
 			
 			//Lets the current player build houses, on the properties that are developable
-			this.buildHousesUserSelection(player);
+			if (buildableHousesList(player).size() > 0) {
+				this.buildHousesUserSelection(player);
+			}
 
 			current = (current + 1) % players.size();
 			game.setCurrentPlayer(players.get(current));
