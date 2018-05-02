@@ -627,13 +627,11 @@ public class GameController {
 	public void tradeProperty(Player seller, Property property, Player buyer, int money) {
 		try {
 			this.payment(buyer, money, seller);
+			seller.removeOwnedProperty(property);
+			property.setOwner(buyer);
 		} catch (PlayerBrokeException e) {
 			if(buyer.getBalance()<money) {
 				playerBrokeTo(buyer, seller);
-			}
-			else {
-				seller.removeOwnedProperty(property);
-				property.setOwner(buyer);
 			}
 		}
 	}
@@ -688,17 +686,16 @@ public class GameController {
 					}
 				}
 				int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
+
 				if(buyer.getBalance() < moneySelect) {
 					this.obtainCash(buyer, moneySelect);
 				}
+
 				this.tradeProperty(seller, chosenProperty, buyer, moneySelect);
 				playerList.removeAll(playerList);
 				sellingPlayers.removeAll(sellingPlayers);
-				break;
 			}
-		
 	}
-	
 	/**
 	 * Reforms the Set<Property> to as list of all the players properties, that are mortgage able.
 	 * @param player
@@ -1156,8 +1153,8 @@ public class GameController {
 	public void sellHouse(Player player, RealEstate realEstate) {
 		if (realEstate.getNumberOfHouses() > 0) {
 			realEstate.decrementHouses();
+			this.paymentFromBank(player, realEstate.getHousePrice()/2);
 		}
-		player.receiveMoney((realEstate.getHousePrice() / 2));
 	}
 
 	/**
@@ -1171,8 +1168,14 @@ public class GameController {
 	public void buyHouse(Player player, RealEstate realEstate) {
 		if (realEstate.getNumberOfHouses() < 5) {
 			realEstate.incrementHouses();
+			try {
+				this.paymentToBank(player, realEstate.getHousePrice());
+			} catch (PlayerBrokeException e) {
+				if(player.getBalance() < realEstate.getHousePrice()) {
+					this.playerBrokeToBank(player);
+				}
+			}
 		}
-		player.payMoney(realEstate.getHousePrice());
 	}
 
 	/**
