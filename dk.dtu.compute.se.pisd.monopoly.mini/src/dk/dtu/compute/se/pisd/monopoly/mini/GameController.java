@@ -982,15 +982,7 @@ public class GameController {
 	 * @author Jaafar Mahdi
 	 */
 	public List<RealEstate> buildableHousesList(Player player) {
-		List<RealEstate> realEstateList = actionableRealEstates(player, true);
-
-		for (RealEstate realEstate : new ArrayList<>(realEstateList)) {
-			if (realEstate.getNumberOfHouses() > 4) {
-				realEstateList.remove(realEstate);
-			}
-		}
-
-		return realEstateList;
+		return actionableRealEstates(player, true);
 	}
 
 	/**
@@ -1001,15 +993,7 @@ public class GameController {
 	 * @author Jaafar Mahdi
 	 */
 	public List<RealEstate> sellableHousesList(Player player) {
-		List<RealEstate> realEstateList = actionableRealEstates(player, false);
-
-		for (RealEstate realEstate : new ArrayList<>(realEstateList)) {
-			if (realEstate.getNumberOfHouses() < 1) {
-				realEstateList.remove(realEstate);
-			}
-		}
-
-		return realEstateList;
+		return actionableRealEstates(player, false);
 	}
 	
 	private int sellingHousesTotalValue(Player player) {
@@ -1047,21 +1031,11 @@ public class GameController {
 				Collections.reverse(realEstates);
 			}
 
-			int high = realEstates.get(0).getNumberOfHouses();
-			int middle = realEstates.get(1).getNumberOfHouses();
-			int low = realEstates.get(realEstates.size() - 1).getNumberOfHouses();
+			int first = realEstates.get(0).getNumberOfHouses();
 
-			if (high == low) {
-				for (RealEstate realEstate : realEstates) {
+			for (RealEstate realEstate : realEstates) {
+				if (first == realEstate.getNumberOfHouses()) {
 					realEstateList.add(realEstate);
-				}
-			} else {
-				if (high == middle) {
-					for (int i = 0; i < realEstates.size() - 2; i++) {
-						realEstateList.add(realEstates.get(i));
-					}
-				} else {
-					realEstateList.add(realEstates.get(0));
 				}
 			}
 		}
