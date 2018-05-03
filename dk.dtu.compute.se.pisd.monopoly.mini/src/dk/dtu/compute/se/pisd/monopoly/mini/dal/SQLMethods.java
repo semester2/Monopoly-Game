@@ -237,4 +237,36 @@ public class SQLMethods {
             System.out.println(e);
         }
     }
+
+    public Integer getGameID() throws SQLException {
+        Integer gameID = null;
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet set = statement.executeQuery("SELECT gameID FROM Monopoly.Game ORDER BY date DESC LIMIT 1");
+            if (set.next()) {
+                gameID = set.getInt(GAME_ID);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            return gameID;
+        }
+    }
+
+    public Integer getPlayerID() throws SQLException {
+        Integer playerID = null;
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet set = statement.executeQuery("SELECT playerID FROM Monopoly.Player ORDER BY playerID DESC LIMIT 1;");
+            if (set.next()) {
+                playerID = set.getInt(PLAYER_ID);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            return playerID;
+        }
+    }
 }
