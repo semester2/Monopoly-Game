@@ -237,7 +237,7 @@ public class GameController {
 		if (player.isInPrison()) {
 			String playerSelection = gui.getUserSelection("Do you " + player.getName() + " want to pay the fine to escape prison?", "yes", "no");
 			if (playerSelection.contains("yes")) {
-				player.payMoney(PRISON_FEE);
+				this.paymentToBank(player, PRISON_FEE);
 				player.setInPrison(false);
 				payedToGetOut = true;
 				gui.showMessage("Player" + player.getName() + " leaves prison as he paid the fee of $1000");
@@ -761,6 +761,7 @@ public class GameController {
 		try {
 			this.paymentToBank(player, payment);
 		} catch (PlayerBrokeException e) {
+			this.obtainCash(player, payment);
 			if(player.getBalance()<payment) {
 				this.playerBrokeToBank(player);
 			}
