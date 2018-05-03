@@ -54,13 +54,14 @@ public class Player extends Subject {
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	public Player(int playerID, String playerName, int balance, Space currentPosition, boolean inPrison, boolean isBroke) {
+	public Player(int playerID, String playerName, int balance, Space currentPosition, boolean inPrison, boolean isBroke, Color color) {
 		this.playerID = playerID;
 		this.name = playerName;
 		this.currentPosition = currentPosition;
 		this.balance = balance;
 		this.inPrison = inPrison;
 		this.broke = isBroke;
+		this.color = color;
 	}
 
 	public Player() {
