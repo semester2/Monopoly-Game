@@ -96,6 +96,9 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 
 	public void setNumberOfHouses(int number) {
 		this.numberOfHouses = number;
+		if (number > 0) {
+			this.setIsDeveloped(true);
+		}
 		notifyChange();
 	}
 }
