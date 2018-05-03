@@ -235,7 +235,7 @@ public class GameController {
 		final int PRISON_FEE = 1000;
 
 		if (player.isInPrison()) {
-			String playerSelection = gui.getUserSelection("Do you want to pay the fine to escape prison?", "yes", "no");
+			String playerSelection = gui.getUserSelection("Do you " + player.getName() + " want to pay the fine to escape prison?", "yes", "no");
 			if (playerSelection.contains("yes")) {
 				player.payMoney(PRISON_FEE);
 				player.setInPrison(false);
@@ -311,7 +311,7 @@ public class GameController {
 		// Execute the action associated with the respective space. Note
 		// that this is delegated to the field, which implements this action
 		if (space instanceof Tax && space.getIndex()==4) {
-			String selection = gui.getUserSelection("How would you like to pay? ", "4000 kr", "10% of your total value");
+			String selection = gui.getUserSelection("How would " + player.getName() + " like to pay tax? ", "4000 kr", "10% of your total value");
 			
 			if (selection.equals("4000 kr")) {
 				player.setPayTaxInCash(true);
@@ -379,7 +379,7 @@ public class GameController {
 			gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
 			do {
 				List<String> options = generateObtainCashList(player);
-				String selection = gui.getUserSelection("How do you want to obtain cash? You need: " + (amount - player.getBalance()), stringListToStringArray(options));
+				String selection = gui.getUserSelection("How do " + player.getName() + " want to obtain cash? You need: " + (amount - player.getBalance()), stringListToStringArray(options));
 
 				switch (selection) {
 				case OPTION_1:
@@ -415,7 +415,7 @@ public class GameController {
 		
 		if(property.getCost()>player.getBalance()) {
 			if(this.generateObtainCashList(player).size()>0) {
-				String selection = gui.getUserSelection("You do not have enough money, do you want to obtain cash? ", "yes", "no");
+				String selection = gui.getUserSelection(player.getName() + " you do not have enough money, do you want to obtain cash? ", "yes", "no");
 				if(selection.equals("yes")) {
 					this.obtainCash(player, property.getCost()-player.getBalance());
 				}
@@ -534,7 +534,7 @@ public class GameController {
 		}
 
 		if (highestBidder != null) {
-			amount = gui.getUserInteger("How much did you bid?", property.getCost(), Integer.MAX_VALUE);
+			amount = gui.getUserInteger("How much did "+ highestBidder.getName() + " bid?", property.getCost(), Integer.MAX_VALUE);
 			buyPropertyOnAuction(property, highestBidder, amount);
 		}
 
@@ -686,13 +686,13 @@ public class GameController {
 				}
 			}
 			List<Property> tradeableProperties = this.computeSellAblePropertiesList(seller);
-			String propertySelect = gui.getUserSelection("Which property do you want to sell? ",  this.fromPropertyListToString(tradeableProperties));
+			String propertySelect = gui.getUserSelection("Which property do you " + seller.getName() + " want to sell? ",  this.fromPropertyListToString(tradeableProperties));
 			for(int i = 0; i < this.fromPropertyListToString(tradeableProperties).length; i++) {
 				if(propertySelect.equals(this.fromPropertyListToString(tradeableProperties)[i])) {
 					chosenProperty = tradeableProperties.get(i);
 				}
 			}
-			int moneySelect = gui.getUserInteger("How much is the buyer paying? ");
+			int moneySelect = gui.getUserInteger("How much is " + buyer.getName() + " paying? ");
 
 			if(buyer.getBalance() < moneySelect) {
 				this.obtainCash(buyer, moneySelect);
@@ -745,7 +745,7 @@ public class GameController {
 
 		String[] mortageAblePropertyArray = this.fromPropertyListToMortgageString(this.computeMortgageAblePropertyList(player));
 
-		String mortgageSelection = gui.getUserSelection("Which property do you want to mortgage?", mortageAblePropertyArray);
+		String mortgageSelection = gui.getUserSelection("Which property do you " + player.getName() + " want to mortgage?", mortageAblePropertyArray);
 		for(int i = 0; i<mortageAblePropertyArray.length; i++)
 			if(mortgageSelection.equals(mortageAblePropertyArray[i])) {
 				Property chosenProperty = computeMortgageAblePropertyList(player).get(i);
@@ -785,7 +785,7 @@ public class GameController {
 						"no",
 						"yes");
 				if(select.equals("yes")) {
-					String mortgageSelection = gui.getUserSelection("Which property do you want to buy back?", mortagedProperties);
+					String mortgageSelection = gui.getUserSelection("Which property do you " + player.getName() + " want to buy back?", mortagedProperties);
 					for(int i = 0; i<mortagedProperties.length; i++)
 						if(mortgageSelection.equals(mortagedProperties[i])) {
 							Property chosenProperty = this.computePlayersMortagedPropertiesList(player).get(i);
@@ -1200,13 +1200,13 @@ public class GameController {
 		do {
 			wantsToSell = false;
 
-			String sell = gui.getUserSelection("Do you want to sell a house?", "yes", "no");
+			String sell = gui.getUserSelection("Do you " + player.getName() + " want to sell a house?", "yes", "no");
 
 			if (sell.equals("yes")) {
 				wantsToSell = true;
 				List<RealEstate> realEstateList = sellableHousesList(player);
 				String[] realEstateStringList = realEstateToStringArray(realEstateList);
-				String selection = gui.getUserSelection("Which house do you want to sell?", realEstateStringList);
+				String selection = gui.getUserSelection("Which house do you " + player.getName() + " want to sell?", realEstateStringList);
 
 				for (RealEstate realEstate : realEstateList) {
 					if (realEstate.getName().equals(selection)) {
@@ -1239,7 +1239,7 @@ public class GameController {
 				List<RealEstate> realEstateList = buildableHousesList(player);
 				String[] realEstateStringList = realEstateToStringArray(realEstateList);
 				if(realEstateList.size()>0) {
-					String selection = gui.getUserSelection("Which Real Estate do you want to build on?", realEstateStringList);
+					String selection = gui.getUserSelection("Which Real Estate do you " + player.getName() + " want to build on?", realEstateStringList);
 
 					for (RealEstate realEstate : realEstateList) {
 						if (realEstate.getName().equals(selection)) {
