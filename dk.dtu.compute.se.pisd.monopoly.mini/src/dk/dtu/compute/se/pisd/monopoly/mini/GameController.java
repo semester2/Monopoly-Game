@@ -138,6 +138,7 @@ public class GameController {
 					for (Player player : game.getPlayers()) {
 						try {
 							sqlMethods.createPlayer(game.getGameID(), player.getName());
+							player.setPlayerID(sqlMethods.getPlayerID());
 						} catch (SQLException e) {
 							System.out.println(e);
 						}
