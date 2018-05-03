@@ -1,7 +1,10 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.model;
 
 import dk.dtu.compute.se.pisd.monopoly.mini.GameController;
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.SQLMethods;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.exceptions.PlayerBrokeException;
+
+import java.sql.SQLException;
 
 /**
  * A property which is a space that can be owned by a player.
@@ -16,6 +19,8 @@ public class Property extends Space {
 	private boolean mortgaged;
 	private boolean developed;
 	private Player owner;
+
+	private SQLMethods sqlMethods = new SQLMethods();
 
 	/**
 	 * Returns the cost of this property.
@@ -72,6 +77,19 @@ public class Property extends Space {
 	 * @param player the new owner of the property
 	 */
 	public void setOwner(Player player) {
+		if (this.getOwner() == null) {
+			try {
+				sqlMethods.setPropertyOwner(Game.gameID, this.getIndex(), player.getPlayerID());
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		} else {
+			try {
+				sqlMethods.updatePropertyOwner(Game.gameID, this.getIndex(), player.getPlayerID());
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 		this.owner = player;
 		player.addOwnedProperty(this);
 		notifyChange();
@@ -97,6 +115,13 @@ public class Property extends Space {
 	 */
 	public void setIsMortgaged(boolean b) {
 		this.mortgaged = b;
+
+		try {
+			sqlMethods.mortgageProperty(Game.gameID, this.getIndex(), b);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 	
@@ -120,6 +145,13 @@ public class Property extends Space {
 	 */
 	public void setIsDeveloped(boolean b) {
 		this.developed = b;
+
+		try {
+			sqlMethods.mortgageProperty(Game.gameID, this.getIndex(), b);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 
