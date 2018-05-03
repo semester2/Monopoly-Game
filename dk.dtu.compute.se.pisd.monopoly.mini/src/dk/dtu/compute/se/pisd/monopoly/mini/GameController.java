@@ -1,8 +1,11 @@
 package dk.dtu.compute.se.pisd.monopoly.mini;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.*;
 
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.GameDAO;
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.SQLMethods;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Player;
@@ -61,6 +64,8 @@ public class GameController {
 
     private int dieOne;
     private int dieTwo;
+
+	private SQLMethods sqlMethods = new SQLMethods();
 	
 	/**
 	 * Constructor for a controller of a game.
@@ -87,21 +92,6 @@ public class GameController {
 		p.setCurrentPosition(game.getSpaces().get(0));
 		p.setColor(Color.RED);
 		game.addPlayer(p);
-
-		/**
-		 *
-		 * JAAFAR USES THIS FOR TESTING PURPOSES
-		 * DO NOT REMOVE
-		 *
-		RealEstate realEstate = (RealEstate) game.getSpaces().get(6);
-		realEstate.setOwner(p);
-
-		realEstate = (RealEstate) game.getSpaces().get(8);
-		realEstate.setOwner(p);
-
-		realEstate = (RealEstate) game.getSpaces().get(9);
-		realEstate.setOwner(p);
-		*/
 
 		p = new Player();
 		p.setName("Player 2");
@@ -133,6 +123,50 @@ public class GameController {
 	 * this makes it possible to resume a game at any point.
 	 */
 	public void play() {
+
+		try {
+			List<GameDAO> gameDAOList = sqlMethods.loadGames();
+
+			if (gameDAOList.size() > 0) {
+				String newGame = gui.getUserSelection("Do you want to start a new game?", "yes", "no, load game");
+
+				if (newGame.equals("yes")) {
+					String gameNameDB = gui.getUserString("Name the game");
+					sqlMethods.createGame(gameNameDB);
+					game.setGameID(sqlMethods.getGameID());
+					createPlayers();
+					for (Player player : game.getPlayers()) {
+						try {
+							sqlMethods.createPlayer(game.getGameID(), player.getName());
+						} catch (SQLException e) {
+							System.out.println(e);
+						}
+					}
+				} else {
+					String[] gameList = gameDAOListToStringArray(gameDAOList);
+					String game = gui.getUserSelection("Which game do you want to play?", gameList);
+
+					int index = 0;
+					for (int i = 0; i < gameList.length; i++) {
+						if (gameList[i].equals(game)) {
+							break;
+						}
+						index++;
+					}
+
+					this.game.setGameID(gameDAOList.get(index).getGameID());
+					this.game.setGameName(gameDAOList.get(index).getGameName());
+
+					this.game.setPlayers(sqlMethods.loadPlayers(this.game.getGameID(), this.game));
+					sqlMethods.loadOwnedProperties(this.game.getGameID(), this.game);
+				}
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
+
+		initializeGUI();
 		List<Player> players =  game.getPlayers();
 		Player c = game.getCurrentPlayer();
 
@@ -1143,6 +1177,16 @@ public class GameController {
 		}
 
 		stringArray[playerList.size()] = "No offers";
+		return stringArray;
+	}
+
+	public String[] gameDAOListToStringArray(List<GameDAO> gameList) {
+		String[] stringArray = new String[gameList.size()];
+
+		for (int i = 0; i < gameList.size(); i++) {
+			stringArray[i] = gameList.get(i).getGameName();
+		}
+
 		return stringArray;
 	}
 
