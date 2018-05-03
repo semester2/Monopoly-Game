@@ -1232,7 +1232,7 @@ public class GameController {
 		do {
 			wantsToBuild = false;
 
-			String build = gui.getUserSelection(player.getName() + ", do you want to build a house?", "yes", "no");
+			String build = gui.getUserSelection(player.getName() + ", do you want to build a house?", "no", "yes");
 
 			if (build.equals("yes")) {
 				wantsToBuild = true;
