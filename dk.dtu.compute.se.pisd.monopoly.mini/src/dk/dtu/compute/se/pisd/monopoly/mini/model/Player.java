@@ -170,6 +170,13 @@ public class Player extends Subject {
 	 */
 	public void receiveMoney(int amount) {
 		balance = balance + amount;
+
+		try {
+			sqlMethods.updatePlayerBalance(balance, this.playerID);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 	
@@ -180,6 +187,13 @@ public class Player extends Subject {
 	 */
 	public void payMoney(int amount) {
 		balance = balance - amount;
+
+		try {
+			sqlMethods.updatePlayerBalance(balance, this.playerID);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 
