@@ -21,7 +21,9 @@ import dk.dtu.compute.se.pisd.designpatterns.Subject;
  *
  */
 public class Player extends Subject {
-	
+
+	private int playerID;
+
 	private String name;
 	
 	private Color color;
@@ -39,6 +41,27 @@ public class Player extends Subject {
 	private List<Card> ownedCards = new ArrayList<Card>();
 	
 	private boolean payTaxInCash;
+
+	/**
+	 * Constructor
+	 *
+	 * @param playerID
+	 * @param playerName
+	 * @param balance
+	 * @param currentPosition
+	 * @param inPrison
+	 * @param isBroke
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public Player(int playerID, String playerName, int balance, Space currentPosition, boolean inPrison, boolean isBroke) {
+		this.playerID = playerID;
+		this.name = playerName;
+		this.currentPosition = currentPosition;
+		this.balance = balance;
+		this.inPrison = inPrison;
+		this.broke = isBroke;
+	}
 
 	/**
 	 * Returns the name of the player.
@@ -265,6 +288,26 @@ public class Player extends Subject {
 		if (oldBroke !=  broke) {
 			notifyChange();
 		}
+	}
+
+	/**
+	 * Getter
+	 * @param id
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public void setPlayerID(int id) {
+		this.playerID = id;
+	}
+
+	/**
+	 * Setter
+	 * @return
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public int getPlayerID() {
+		return this.playerID;
 	}
 	
 	public boolean getPayTaxInCash() {
