@@ -1,6 +1,7 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.model;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -8,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import dk.dtu.compute.se.pisd.designpatterns.Subject;
+import dk.dtu.compute.se.pisd.monopoly.mini.MiniMonopoly;
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.SQLMethods;
 
 /**
  * Represents a player and his current state in a Monopoly game.
@@ -41,6 +44,8 @@ public class Player extends Subject {
 	private List<Card> ownedCards = new ArrayList<Card>();
 	
 	private boolean payTaxInCash;
+
+	SQLMethods sqlMethods = new SQLMethods();
 
 	/**
 	 * Constructor
@@ -122,6 +127,13 @@ public class Player extends Subject {
 	 */
 	public void setCurrentPosition(Space position) {
 		this.currentPosition = position;
+
+		try {
+			sqlMethods.updatePlayerPlacement(Game.gameID, this.playerID, position.getIndex());
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 
@@ -141,6 +153,13 @@ public class Player extends Subject {
 	 */
 	public void setBalance(int balance) {
 		this.balance = balance;
+
+		try {
+			sqlMethods.updatePlayerBalance(balance, this.playerID);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		notifyChange();
 	}
 	
@@ -211,7 +230,7 @@ public class Player extends Subject {
 	 * Adds a property to the list of currently owned properties.
 	 * 
 	 * @param property the added property
-	 */
+	 * */
 	public void addOwnedProperty(Property property) {
 		ownedProperties.add(property);
 		notifyChange();
@@ -293,6 +312,12 @@ public class Player extends Subject {
 		if (oldBroke !=  broke) {
 			notifyChange();
 		}
+
+		try {
+			sqlMethods.setBroke(this.playerID);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
@@ -340,6 +365,13 @@ public class Player extends Subject {
 	public void setInPrison(boolean inPrison) {
 		boolean oldInPrison = this.inPrison;
 		this.inPrison = inPrison;
+
+		try {
+			sqlMethods.setInPrison(inPrison, this.playerID);
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+
 		if (oldInPrison != inPrison) {
 			notifyChange();
 		}
