@@ -20,7 +20,7 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
  */
 public class Game extends Subject {
 
-	private int gameID;
+	public static int gameID;
 
 	private String gameName;
 
