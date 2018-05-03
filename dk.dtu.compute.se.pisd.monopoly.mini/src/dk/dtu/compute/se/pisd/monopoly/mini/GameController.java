@@ -412,16 +412,7 @@ public class GameController {
 	 * @author Ekkart Kindler - Modified by Jaafar Mahdi and Sebastian Bilde
 	 */
 	public void offerToBuy(Property property, Player player) throws PlayerBrokeException {
-		
-		if(property.getCost()>player.getBalance()) {
-			if(this.generateObtainCashList(player).size()>0) {
-				String selection = gui.getUserSelection(player.getName() + " you do not have enough money, do you want to obtain cash? ", "yes", "no");
-				if(selection.equals("yes")) {
-					this.obtainCash(player, property.getCost()-player.getBalance());
-				}
-			}
-		}
-		
+
 		String choice = gui.getUserSelection(
 				"Player " + player.getName() +
 				": Do you want to buy " + property.getName() +
@@ -429,27 +420,30 @@ public class GameController {
 				"yes",
 				"no");
 
-        if (choice.equals("yes")) {
-    		try {
-    			paymentToBank(player, property.getCost());
-    		} catch (PlayerBrokeException e) {
-    			// if the payment fails due to the player being broke,
-    			// the an auction (among the other players is started
-    			auction(property, player);
-    			// then the current move is aborted by casting the
-    			// PlayerBrokeException again
-    			throw e;
-    		}
-    		player.addOwnedProperty(property);
-    		property.setOwner(player);
-    		return;
-        }
-        
+		if (choice.equals("yes")) {
+			try {
+				paymentToBank(player, property.getCost());
+			} catch (PlayerBrokeException e) {
+				this.obtainCash(player, property.getCost());
+				if(player.getBalance()<property.getCost()) {
+					// if the payment fails due to the player being broke,
+					// the an auction (among the other players is started
+					auction(property, player);
+					// then the current move is aborted by casting the
+					// PlayerBrokeException again
+					throw e;
+				}
+			}
+			player.addOwnedProperty(property);
+			property.setOwner(player);
+			return;
+		}
+
 		// In case the player does not buy the property an auction
-        // is started
+		// is started
 		auction(property, player);
 	}
-	
+
 	
 	/**
 	 * This method implements a payment activity to another player,
@@ -692,7 +686,8 @@ public class GameController {
 					chosenProperty = tradeableProperties.get(i);
 				}
 			}
-			int moneySelect = gui.getUserInteger("How much is " + buyer.getName() + " paying? ");
+			int moneySelect = gui.getUserInteger("How much is " + buyer.getName() + " paying? ", chosenProperty.getCost(), Integer.MAX_VALUE);
+			
 
 			if(buyer.getBalance() < moneySelect) {
 				this.obtainCash(buyer, moneySelect);
