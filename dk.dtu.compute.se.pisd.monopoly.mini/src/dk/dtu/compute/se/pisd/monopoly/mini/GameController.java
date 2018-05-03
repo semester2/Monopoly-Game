@@ -131,18 +131,7 @@ public class GameController {
 				String newGame = gui.getUserSelection("Do you want to start a new game?", "yes", "no, load game");
 
 				if (newGame.equals("yes")) {
-					String gameNameDB = gui.getUserString("Name the game");
-					sqlMethods.createGame(gameNameDB);
-					game.setGameID(sqlMethods.getGameID());
-					createPlayers();
-					for (Player player : game.getPlayers()) {
-						try {
-							sqlMethods.createPlayer(game.getGameID(), player.getName());
-							player.setPlayerID(sqlMethods.getPlayerID());
-						} catch (SQLException e) {
-							System.out.println(e);
-						}
-					}
+					setupNewGame();
 				} else {
 					String[] gameList = gameDAOListToStringArray(gameDAOList);
 					String game = gui.getUserSelection("Which game do you want to play?", gameList);
@@ -161,6 +150,8 @@ public class GameController {
 					this.game.setPlayers(sqlMethods.loadPlayers(this.game.getGameID(), this.game));
 					sqlMethods.loadOwnedProperties(this.game.getGameID(), this.game);
 				}
+			} else {
+				setupNewGame();
 			}
 		} catch (SQLException e) {
 			System.out.println(e);
@@ -1344,5 +1335,25 @@ public class GameController {
 			mortgageValue = mortgageValue + property.getCost()/2;
 		}
 		return mortgageValue;
+	}
+
+	public void setupNewGame() {
+		String gameNameDB = gui.getUserString("Name the game");
+		try {
+			sqlMethods.createGame(gameNameDB);
+			game.setGameID(sqlMethods.getGameID());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		createPlayers();
+		for (Player player : game.getPlayers()) {
+			try {
+				sqlMethods.createPlayer(game.getGameID(), player.getName());
+				player.setPlayerID(sqlMethods.getPlayerID());
+			} catch (SQLException e) {
+				System.out.println(e);
+			}
+		}
 	}
 }
