@@ -375,7 +375,7 @@ public class GameController {
 	 * @param amount the amount the player should have available after the act
 	 */
 	public void obtainCash(Player player, int amount) {
-		if((this.computeTotalMortgageValue(player)+this.sellingHousesTotalValue(player)+player.getBalance())>amount) {
+		if((this.computeTotalMortgageValue(player)+this.sellingHousesTotalValue(player)+player.getBalance())>=amount) {
 			gui.showMessage(player.getName() +  " you need a total of " + amount + ". You have " + player.getBalance());
 			do {
 				List<String> options = generateObtainCashList(player);
@@ -631,6 +631,7 @@ public class GameController {
 			seller.removeOwnedProperty(property);
 			property.setOwner(buyer);
 		} catch (PlayerBrokeException e) {
+			this.obtainCash(buyer, money);
 			if(buyer.getBalance()<money) {
 				playerBrokeTo(buyer, seller);
 			}
