@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.monopoly.mini;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,6 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.SQLMethods;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Chance;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -85,8 +87,8 @@ public class MiniMonopoly {
 		game.shuffleCardDeck();
 		
 		GameController controller = new GameController(game);
-		controller.createPlayers();
-		controller.initializeGUI();
+		//controller.createPlayers();
+		//controller.initializeGUI();
 		
 		controller.play();
 	}
