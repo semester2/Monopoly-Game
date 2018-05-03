@@ -18,6 +18,10 @@ import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.PayTax;
  */
 public class Game extends Subject {
 
+	private int gameID;
+
+	private String gameName;
+
 	private List<Space> spaces = new ArrayList<Space>();
 
 	private List<Card> cardDeck = new ArrayList<Card>();
@@ -213,6 +217,42 @@ public class Game extends Subject {
 	 */
 	public int getMoneyForPassingStart() {
 		return this.MONEY_FROM_PASSING_START;
+	}
+
+	/**
+	 * Setter
+	 * @param gameID
+	 * @author Jaafar Mahdi
+	 */
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
+	}
+
+	/**
+	 * Setter
+	 * @param gameName
+	 * @author Jaafar Mahdi
+	 */
+	public void setGameName(String gameName) {
+		this.gameName = gameName;
+	}
+
+	/**
+	 * Getter
+	 * @return
+	 * @author Jaafar Mahdi
+	 */
+	public int getGameID() {
+		return gameID;
+	}
+
+	/**
+	 * Getter
+	 * @return
+	 * @author Jaafar Mahdi
+	 */
+	public String getGameName() {
+		return gameName;
 	}
 
 	/**

@@ -63,6 +63,10 @@ public class Player extends Subject {
 		this.broke = isBroke;
 	}
 
+	public Player() {
+
+	}
+
 	/**
 	 * Returns the name of the player.
 	 * 
