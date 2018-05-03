@@ -1,6 +1,8 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.model;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 import dk.dtu.compute.se.pisd.designpatterns.Subject;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.cards.CardMove;
@@ -329,6 +331,24 @@ public class Game extends Subject {
 		notifyChange();
 		return cardDeck;
 
+	}
+
+	/**
+	 * Generates colors that we can give to new players
+	 * @return List of colors
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public List<Color> getColorList() {
+		List<Color> colors = new ArrayList<>();
+		colors.add(Color.RED);
+		colors.add(Color.YELLOW);
+		colors.add(Color.GREEN);
+		colors.add(Color.BLUE);
+		colors.add(Color.ORANGE);
+		colors.add(Color.BLACK);
+
+		return colors;
 	}
 
 }
