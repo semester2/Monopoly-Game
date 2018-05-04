@@ -228,6 +228,9 @@ public class SQLMethods {
 
                             if (spaces.get(propertyID) instanceof RealEstate) {
                                 ((RealEstate) spaces.get(propertyID)).setNumberOfHouses(houses);
+                                if (((RealEstate) spaces.get(propertyID)).getNumberOfHouses() > 0) {
+                                    ((RealEstate) spaces.get(propertyID)).setIsDeveloped(true);
+                                }
                             }
                         }
                     }
@@ -259,7 +262,7 @@ public class SQLMethods {
 
         try {
             Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT playerID FROM Monopoly.Player ORDER BY playerID DESC LIMIT 1;");
+            ResultSet set = statement.executeQuery("SELECT playerID FROM Monopoly.Player ORDER BY playerID DESC LIMIT 1");
             if (set.next()) {
                 playerID = set.getInt(PLAYER_ID);
             }
