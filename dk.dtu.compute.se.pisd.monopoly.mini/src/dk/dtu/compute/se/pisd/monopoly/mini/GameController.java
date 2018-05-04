@@ -86,24 +86,26 @@ public class GameController {
 	 * the user.
 	 */
 	public void createPlayers() {
-		// TODO the players should be created interactively
-		Player p = new Player();
-		p.setName("Player 1");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.RED);
-		game.addPlayer(p);
+        /**
+         * Methods for creating players interactively, through choosing amount and entering name of players.
+         *
+         * @author Ali Moussa
+         */
+		int playerNumberInt = this.gui.getUserInteger("Choose amount of players:", 2, 6);
+		gui.showMessage("The chosen amount of players is: " + playerNumberInt);
 
-		p = new Player();
-		p.setName("Player 2");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.YELLOW);
-		game.addPlayer(p);
-		
-		p = new Player();
-		p.setName("Player 3");
-		p.setCurrentPosition(game.getSpaces().get(0));
-		p.setColor(Color.GREEN);
-		game.addPlayer(p);
+		int count = 0;
+		while(count < playerNumberInt) {
+			Player p = new Player();
+			//p.setName("Player " + count);
+			//p.setColor(Color.RED);
+			String playerNameString = this.gui.getUserString("Enter player name:");
+			p.setName(playerNameString);
+			p.setCurrentPosition(game.getSpaces().get(0));
+			game.addPlayer(p);
+			count++;
+		}
+
 	}
 	
 	/**
