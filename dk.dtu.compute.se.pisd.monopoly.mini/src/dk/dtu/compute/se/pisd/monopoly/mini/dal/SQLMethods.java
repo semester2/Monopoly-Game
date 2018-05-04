@@ -246,7 +246,7 @@ public class SQLMethods {
 
         try {
             Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT gameID FROM Monopoly.Game ORDER BY date DESC LIMIT 1");
+            ResultSet set = statement.executeQuery("SELECT * FROM Monopoly.getgameid;");
             if (set.next()) {
                 gameID = set.getInt(GAME_ID);
             }
@@ -262,7 +262,7 @@ public class SQLMethods {
 
         try {
             Statement statement = connection.createStatement();
-            ResultSet set = statement.executeQuery("SELECT playerID FROM Monopoly.Player ORDER BY playerID DESC LIMIT 1");
+            ResultSet set = statement.executeQuery("SELECT * FROM Monopoly.getplayerid;");
             if (set.next()) {
                 playerID = set.getInt(PLAYER_ID);
             }
