@@ -1136,18 +1136,36 @@ public class GameController {
 	}
 
 	/**
-	 * Creates a new Array of a List of RealEstates
+	 * Creates a new Array of a List of RealEstates and the price of building a house
 	 *
 	 * @param realEstateList
 	 * @return StringArray with all the names of the RealEstates in the list.
 	 *
 	 * @author Jaafar Mahdi
 	 */
-	public String[] realEstateToStringArray(List<RealEstate> realEstateList) {
+	public String[] realEstateBuildHouseToStringArray(List<RealEstate> realEstateList) {
 		String[] stringArray = new String[realEstateList.size()];
 
 		for (int i = 0; i < realEstateList.size(); i++) {
-			stringArray[i] = realEstateList.get(i).getName();
+			stringArray[i] = realEstateList.get(i).getName() + " " + realEstateList.get(i).getHousePrice();
+		}
+
+		return stringArray;
+	}
+
+	/**
+	 * Creates a new Array of a List of RealEstates and the price of building a house
+	 *
+	 * @param realEstateList
+	 * @return StringArray with all the names of the RealEstates in the list.
+	 *
+	 * @author Jaafar Mahdi
+	 */
+	public String[] realEstateSellHouseToStringArray(List<RealEstate> realEstateList) {
+		String[] stringArray = new String[realEstateList.size()];
+
+		for (int i = 0; i < realEstateList.size(); i++) {
+			stringArray[i] = realEstateList.get(i).getName() + " " + (realEstateList.get(i).getHousePrice() / 2);
 		}
 
 		return stringArray;
@@ -1237,7 +1255,7 @@ public class GameController {
 			if (sell.equals("yes")) {
 				wantsToSell = true;
 				List<RealEstate> realEstateList = sellableHousesList(player);
-				String[] realEstateStringList = realEstateToStringArray(realEstateList);
+				String[] realEstateStringList = realEstateSellHouseToStringArray(realEstateList);
 				String selection = gui.getUserSelection("Which house do you " + player.getName() + " want to sell?", realEstateStringList);
 
 				for (RealEstate realEstate : realEstateList) {
@@ -1269,7 +1287,7 @@ public class GameController {
 			if (build.equals("yes")) {
 				wantsToBuild = true;
 				List<RealEstate> realEstateList = buildableHousesList(player);
-				String[] realEstateStringList = realEstateToStringArray(realEstateList);
+				String[] realEstateStringList = realEstateBuildHouseToStringArray(realEstateList);
 				if(realEstateList.size()>0) {
 					String selection = gui.getUserSelection("Which Real Estate do you " + player.getName() + " want to build on?", realEstateStringList);
 
