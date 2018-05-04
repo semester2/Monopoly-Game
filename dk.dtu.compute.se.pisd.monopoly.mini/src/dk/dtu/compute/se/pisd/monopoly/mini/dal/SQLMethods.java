@@ -38,6 +38,18 @@ public class SQLMethods {
         connection = connector.getConnection();
     }
 
+    public void updateGame(Game game) throws SQLException {
+        try {
+            connection.setAutoCommit(false);
+            updatePlayers(game);
+            updateProperties(game);
+            connection.commit();
+            connection.setAutoCommit(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void createGame(String gameName) throws SQLException {
         try {
             CallableStatement cs = connection.prepareCall("{CALL createGame(?)}");
@@ -107,6 +119,51 @@ public class SQLMethods {
         }
     }
 
+    public boolean isPropertyInDB(int gameID, int index) {
+        boolean exist = false;
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM Property WHERE gameID = " + gameID + " AND propertyID = " + index);
+            if (rs.next()) {
+                exist = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            return exist;
+        }
+    }
+
+    public void updateProperties(Game game) throws SQLException {
+        List<Property> propertyList = game.getPropertyList();
+        try {
+            for (Property property : propertyList) {
+                if (isPropertyInDB(game.getGameID(), property.getIndex())) {
+                    if (property.getOwner() != null) {
+                        updatePropertyOwner(game.getGameID(), property.getIndex(), property.getOwner().getPlayerID());
+                    } else {
+                        //DELETE FROM DB
+                    }
+                } else {
+                    if (property.getOwner() != null) {
+                        setPropertyOwner(game.getGameID(), property.getIndex(), property.getOwner().getPlayerID());
+                    }
+                }
+
+                if (isPropertyInDB(game.getGameID(), property.getIndex())) {
+                    mortgageProperty(game.getGameID(), property.getIndex(), property.getIsMortgaged());
+
+                    if (property instanceof RealEstate) {
+                        updateNumberOfHouses(game.getGameID(), property.getIndex(), ((RealEstate) property).getNumberOfHouses());
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void setBroke(int playerID) throws SQLException {
         try {
             CallableStatement cs = connection.prepareCall("{CALL setBroke(?)}");
@@ -146,6 +203,20 @@ public class SQLMethods {
             cs.setInt(PLAYER_ID, playerID);
             cs.setInt(PLACEMENT, index);
             cs.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePlayers(Game game) throws SQLException {
+        List<Player> playerList = game.getPlayers();
+        try {
+            for (Player player : playerList) {
+                updatePlayerPlacement(game.getGameID(), player.getPlayerID(), player.getCurrentPosition().getIndex());
+                updatePlayerBalance(player.getBalance(), player.getPlayerID());
+                setInPrison(player.isInPrison(), player.getPlayerID());
+                setBroke(player.getPlayerID());
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
