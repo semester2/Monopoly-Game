@@ -1268,7 +1268,7 @@ public class GameController {
 				String selection = gui.getUserSelection("Which house do you " + player.getName() + " want to sell?", realEstateStringList);
 
 				for (RealEstate realEstate : realEstateList) {
-					if (realEstate.getName().equals(selection)) {
+					if (selection.contains(realEstate.getName())) {
 						sellHouse(player, realEstate);
 						break;
 					}
@@ -1301,7 +1301,7 @@ public class GameController {
 					String selection = gui.getUserSelection("Which Real Estate do you " + player.getName() + " want to build on?", realEstateStringList);
 
 					for (RealEstate realEstate : realEstateList) {
-						if (realEstate.getName().equals(selection)) {
+						if (selection.contains(realEstate.getName())) {
 							buyHouse(player, realEstate);
 							break;
 						}
@@ -1364,6 +1364,12 @@ public class GameController {
 		return mortgageValue;
 	}
 
+	/**
+	 * Sets up a new game
+	 * and saves it in the database
+	 *
+	 * @author Jaafar Mahdi
+	 */
 	public void setupNewGame() {
 		String gameNameDB = gui.getUserString("Name the game");
 		try {
