@@ -77,19 +77,6 @@ public class Property extends Space {
 	 * @param player the new owner of the property
 	 */
 	public void setOwner(Player player) {
-		if (this.getOwner() == null) {
-			try {
-				sqlMethods.setPropertyOwner(Game.gameID, this.getIndex(), player.getPlayerID());
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		} else {
-			try {
-				sqlMethods.updatePropertyOwner(Game.gameID, this.getIndex(), player.getPlayerID());
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-		}
 		this.owner = player;
 		player.addOwnedProperty(this);
 		notifyChange();
@@ -115,13 +102,6 @@ public class Property extends Space {
 	 */
 	public void setIsMortgaged(boolean b) {
 		this.mortgaged = b;
-
-		try {
-			sqlMethods.mortgageProperty(Game.gameID, this.getIndex(), b);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 	
@@ -145,13 +125,6 @@ public class Property extends Space {
 	 */
 	public void setIsDeveloped(boolean b) {
 		this.developed = b;
-
-		try {
-			sqlMethods.mortgageProperty(Game.gameID, this.getIndex(), b);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 
