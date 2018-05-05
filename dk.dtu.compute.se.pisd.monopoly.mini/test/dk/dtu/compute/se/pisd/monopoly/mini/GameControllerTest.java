@@ -59,74 +59,6 @@ class GameControllerTest {
     }
 
     @Test
-    void buildableHousesListTest() {
-        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
-        List<Property> properties = map.get(10);
-
-        for (Property property : properties) {
-            property.setOwner(p1);
-        }
-
-        int expected = 3;
-        int actual = controller.buildableHousesList(p1).size();
-
-        for (RealEstate realEstate : controller.buildableHousesList(p1)) {
-            System.out.println(realEstate.getName());
-        }
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void buildableHousesListTest2() {
-        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
-        List<Property> properties = map.get(9);
-
-        for (Property property : properties) {
-            property.setOwner(p1);
-        }
-
-        properties = map.get(10);
-
-        for (Property property : properties) {
-            property.setOwner(p1);
-        }
-
-        int expected = 5;
-        int actual = controller.buildableHousesList(p1).size();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void sellableHousesListTest() {
-        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
-        List<Property> properties = map.get(9);
-
-        for (Property property : properties) {
-            property.setOwner(p1);
-
-            if (property instanceof RealEstate) {
-                controller.buyHouse(p1, (RealEstate) property);
-                System.out.println(property.getName() + " " + ((RealEstate) property).getNumberOfHouses());
-            }
-        }
-
-        controller.sellHouse(p1, controller.sellableHousesList(p1).get(0));
-
-        for (Property property : properties) {
-            if (property instanceof RealEstate) {
-                System.out.println(property.getName() + " " + ((RealEstate) property).getNumberOfHouses());
-            }
-        }
-
-        int expected = 1;
-        int actual = controller.sellableHousesList(p1).size();
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
     void sellHouseTest() {
         Map<Integer, List<Property>> map = game.getColorToPropertyMap();
         List<Property> properties = map.get(9);
@@ -164,22 +96,7 @@ class GameControllerTest {
     }
 
     @Test
-    void buyPropertyOnAuctionTest() {
-        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
-        List<Property> properties = map.get(9);
-        RealEstate realEstate = (RealEstate) properties.get(0);
-        controller.buyPropertyOnAuction(realEstate, p1, 5000);
-
-        int expected = 1;
-        int actual = p1.getOwnedProperties().size();
-
-        System.out.println(p1.getBalance());
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    void buildHouseUserSelectionTest() {
+    void tradePropertyTest() {
         Map<Integer, List<Property>> map = game.getColorToPropertyMap();
         List<Property> properties = map.get(9);
 
@@ -187,7 +104,109 @@ class GameControllerTest {
             property.setOwner(p1);
         }
 
-        controller.buildHousesUserSelection(p1);
+        controller.tradeProperty(p1, properties.get(0), p2, 15000);
 
+        int expected = 1;
+        int actual = p2.getOwnedProperties().size();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void tradePropertyTest2() {
+        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
+        List<Property> properties = map.get(9);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        controller.tradeProperty(p1, properties.get(0), p2, 15000);
+
+        int expected = 45000;
+        int actual = p1.getBalance();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void tradePropertyTest3() {
+        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
+        List<Property> properties = map.get(9);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        controller.tradeProperty(p1, properties.get(0), p2, 15000);
+
+        int expected = 15000;
+        int actual = p2.getBalance();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void tradePropertyTest4() {
+        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
+        List<Property> properties = map.get(9);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        controller.tradeProperty(p1, properties.get(0), p2, 15000);
+
+        int expected = 1;
+        int actual = p1.getOwnedProperties().size();
+
+        assertEquals(expected, actual);
+
+    }
+
+    @Test
+    void mortgagePropertyTest() {
+        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
+        List<Property> properties = map.get(9);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        controller.mortgageProperty(p1, properties.get(0));
+
+        int expected = 30600;
+        int acutal = p1.getBalance();
+
+        assertEquals(expected, acutal);
+    }
+
+    @Test
+    void computeTotalWorthTest() {
+        Map<Integer, List<Property>> map = game.getColorToPropertyMap();
+        List<Property> properties = map.get(9);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        properties = map.get(10);
+
+        for (Property property : properties) {
+            property.setOwner(p1);
+        }
+
+        List<Property> playerProperties = new ArrayList<>();
+        for (Property property : p1.getOwnedProperties()) {
+            playerProperties.add(property);
+        }
+
+        int expected = 38800;
+        int actual = p1.computeTotalWorth(p1);
+
+        assertEquals(expected, actual);
     }
 }
