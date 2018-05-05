@@ -88,7 +88,7 @@ public class SQLMethods {
             CallableStatement cs = connection.prepareCall("{CALL updatePropertyOwnerID(?, ?, ?)}");
             cs.setInt(GAME_ID, gameID);
             cs.setInt(PROPERTY_ID, propertyID);
-            cs.setInt(MORTGAGED, playerID);
+            cs.setInt(PLAYER_ID, playerID);
             cs.execute();
         } catch (SQLException e) {
             System.out.println(e);
@@ -164,13 +164,14 @@ public class SQLMethods {
         }
     }
 
-    public void setBroke(int playerID) throws SQLException {
+    public void setBroke(int playerID, boolean broke) throws SQLException {
         try {
-            CallableStatement cs = connection.prepareCall("{CALL setBroke(?)}");
+            CallableStatement cs = connection.prepareCall("{CALL setBroke(?, ?)}");
             cs.setInt(PLAYER_ID, playerID);
+            cs.setBoolean(IS_BROKE, broke);
             cs.execute();
         } catch (SQLException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -215,7 +216,8 @@ public class SQLMethods {
                 updatePlayerPlacement(game.getGameID(), player.getPlayerID(), player.getCurrentPosition().getIndex());
                 updatePlayerBalance(player.getBalance(), player.getPlayerID());
                 setInPrison(player.isInPrison(), player.getPlayerID());
-                setBroke(player.getPlayerID());
+
+                setBroke(player.getPlayerID(), player.isBroke());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -254,7 +256,6 @@ public class SQLMethods {
             }
 
         } catch (SQLException e) {
-            //System.out.println(e);
             e.printStackTrace();
         } finally {
             return playerList;
