@@ -15,7 +15,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GameControllerJaafarTest {
+class GameControllerTest {
 
     Game game = MiniMonopoly.createGame();
     GameController controller = new GameController(game);
