@@ -45,7 +45,6 @@ public class Player extends Subject {
 	
 	private boolean payTaxInCash;
 
-	SQLMethods sqlMethods = new SQLMethods();
 
 	/**
 	 * Constructor
@@ -127,13 +126,6 @@ public class Player extends Subject {
 	 */
 	public void setCurrentPosition(Space position) {
 		this.currentPosition = position;
-
-		try {
-			sqlMethods.updatePlayerPlacement(Game.gameID, this.playerID, position.getIndex());
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 
@@ -153,13 +145,6 @@ public class Player extends Subject {
 	 */
 	public void setBalance(int balance) {
 		this.balance = balance;
-
-		try {
-			sqlMethods.updatePlayerBalance(balance, this.playerID);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 	
@@ -170,13 +155,6 @@ public class Player extends Subject {
 	 */
 	public void receiveMoney(int amount) {
 		balance = balance + amount;
-
-		try {
-			sqlMethods.updatePlayerBalance(balance, this.playerID);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 	
@@ -187,13 +165,6 @@ public class Player extends Subject {
 	 */
 	public void payMoney(int amount) {
 		balance = balance - amount;
-
-		try {
-			sqlMethods.updatePlayerBalance(balance, this.playerID);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		notifyChange();
 	}
 
@@ -326,12 +297,6 @@ public class Player extends Subject {
 		if (oldBroke !=  broke) {
 			notifyChange();
 		}
-
-		try {
-			sqlMethods.setBroke(this.playerID);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
 	}
 
 	/**
@@ -379,13 +344,6 @@ public class Player extends Subject {
 	public void setInPrison(boolean inPrison) {
 		boolean oldInPrison = this.inPrison;
 		this.inPrison = inPrison;
-
-		try {
-			sqlMethods.setInPrison(inPrison, this.playerID);
-		} catch (SQLException e) {
-			System.out.println(e);
-		}
-
 		if (oldInPrison != inPrison) {
 			notifyChange();
 		}
