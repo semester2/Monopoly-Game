@@ -47,6 +47,13 @@ public class SQLMethods {
             connection.setAutoCommit(true);
         } catch (SQLException e) {
             e.printStackTrace();
+
+            try {
+                connection.rollback();
+                connection.setAutoCommit(true);
+            } catch (SQLException err) {
+                err.printStackTrace();
+            }
         }
     }
 
