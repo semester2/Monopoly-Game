@@ -95,6 +95,17 @@ public class SQLMethods {
         }
     }
 
+    public void removeProperty(int gameID, int propertyID) throws SQLException {
+        try {
+            CallableStatement cs = connection.prepareCall("{CALL removeOwnerFromProperty(?, ?)}");
+            cs.setInt(GAME_ID, gameID);
+            cs.setInt(PROPERTY_ID, propertyID);
+            cs.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void mortgageProperty(int gameID, int propertyID, boolean b) throws SQLException {
         try {
             CallableStatement cs = connection.prepareCall("{CALL mortgageProperty(?, ?, ?)}");
@@ -142,7 +153,7 @@ public class SQLMethods {
                     if (property.getOwner() != null) {
                         updatePropertyOwner(game.getGameID(), property.getIndex(), property.getOwner().getPlayerID());
                     } else {
-                        //DELETE FROM DB
+                        removeProperty(game.getGameID(), property.getIndex());
                     }
                 } else {
                     if (property.getOwner() != null) {
@@ -234,7 +245,6 @@ public class SQLMethods {
 
             if (set.next()) {
                 numberOfPlayers = set.getInt(COUNT);
-                System.out.println("NOP: " + numberOfPlayers);
             }
 
             set = statement.executeQuery("SELECT * FROM playerviewbygameid WHERE gameID = " + gameID);
