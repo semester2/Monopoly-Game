@@ -25,7 +25,6 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 	private int housePrice;
 	private int numberOfHouses = 0;
 	private List<Integer> rentRate = new ArrayList<>();
-	private SQLMethods sqlMethods = new SQLMethods();
 
 	public RealEstate(int id, String name, String color, int colorCode, int cost, int house0, int house1, int house2, int house3, int house4, int house5, int housePrice) {
 		super.setCost(cost);
@@ -77,12 +76,6 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 		if (this.numberOfHouses > 0) {
 			this.setIsDeveloped(true);
 
-			try {
-				sqlMethods.updateNumberOfHouses(Game.gameID, this.getIndex(), this.numberOfHouses);
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
-
 		}
 		notifyChange();
 	}
@@ -97,12 +90,6 @@ public class RealEstate extends Property implements Comparable<RealEstate> {
 
 		if (this.numberOfHouses == 0) {
 			this.setIsDeveloped(false);
-
-			try {
-				sqlMethods.updateNumberOfHouses(Game.gameID, this.getIndex(), this.numberOfHouses);
-			} catch (SQLException e) {
-				System.out.println(e);
-			}
 		}
 		notifyChange();
 	}
