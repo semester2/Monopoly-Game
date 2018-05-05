@@ -93,15 +93,15 @@ public class GameController {
          */
 		int playerNumberInt = this.gui.getUserInteger("Choose amount of players:", 2, 6);
 		gui.showMessage("The chosen amount of players is: " + playerNumberInt);
+		List<Color> colors = game.getColorList();
 
 		int count = 0;
 		while(count < playerNumberInt) {
 			Player p = new Player();
-			//p.setName("Player " + count);
-			//p.setColor(Color.RED);
 			String playerNameString = this.gui.getUserString("Enter player name:");
 			p.setName(playerNameString);
 			p.setCurrentPosition(game.getSpaces().get(0));
+			p.setColor(colors.get(count));
 			game.addPlayer(p);
 			count++;
 		}
@@ -238,6 +238,13 @@ public class GameController {
 				if (selection.equals("no")) {
 					terminated = true;
 				}
+
+				try {
+					sqlMethods.updateGame(game);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
 			}
 		}
 		dispose();
