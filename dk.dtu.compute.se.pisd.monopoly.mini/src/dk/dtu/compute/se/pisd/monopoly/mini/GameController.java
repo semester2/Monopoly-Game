@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.sql.SQLException;
 import java.util.*;
 
-import dk.dtu.compute.se.pisd.monopoly.mini.dal.GameDAO;
+import dk.dtu.compute.se.pisd.monopoly.mini.dal.GameDTO;
 import dk.dtu.compute.se.pisd.monopoly.mini.dal.SQLMethods;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Card;
 import dk.dtu.compute.se.pisd.monopoly.mini.model.Game;
@@ -127,15 +127,15 @@ public class GameController {
 	public void play() {
 
 		try {
-			List<GameDAO> gameDAOList = sqlMethods.loadGames();
+			List<GameDTO> gameDTOList = sqlMethods.loadGames();
 
-			if (gameDAOList.size() > 0) {
+			if (gameDTOList.size() > 0) {
 				String newGame = gui.getUserSelection("Do you want to start a new game?", "yes", "no, load game");
 
 				if (newGame.equals("yes")) {
 					setupNewGame();
 				} else {
-					String[] gameList = gameDAOListToStringArray(gameDAOList);
+					String[] gameList = gameDAOListToStringArray(gameDTOList);
 					String game = gui.getUserSelection("Which game do you want to play?", gameList);
 
 					int index = 0;
@@ -146,8 +146,8 @@ public class GameController {
 						index++;
 					}
 
-					this.game.setGameID(gameDAOList.get(index).getGameID());
-					this.game.setGameName(gameDAOList.get(index).getGameName());
+					this.game.setGameID(gameDTOList.get(index).getGameID());
+					this.game.setGameName(gameDTOList.get(index).getGameName());
 
 					this.game.setPlayers(sqlMethods.loadPlayers(this.game.getGameID(), this.game));
 					sqlMethods.loadOwnedProperties(this.game.getGameID(), this.game);
@@ -1199,7 +1199,7 @@ public class GameController {
 		return stringArray;
 	}
 
-	public String[] gameDAOListToStringArray(List<GameDAO> gameList) {
+	public String[] gameDAOListToStringArray(List<GameDTO> gameList) {
 		String[] stringArray = new String[gameList.size()];
 
 		for (int i = 0; i < gameList.size(); i++) {

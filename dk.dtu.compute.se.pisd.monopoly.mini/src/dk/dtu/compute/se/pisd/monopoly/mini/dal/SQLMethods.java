@@ -279,19 +279,19 @@ public class SQLMethods {
         }
     }
 
-    public List<GameDAO> loadGames() throws SQLException {
-        List<GameDAO> gameDAOList = new ArrayList<>();
+    public List<GameDTO> loadGames() throws SQLException {
+        List<GameDTO> gameDTOList = new ArrayList<>();
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM Game");
 
             while (rs.next()) {
-                gameDAOList.add(new GameDAO(rs.getInt(GAME_ID), rs.getString(GAME_NAME)));
+                gameDTOList.add(new GameDTO(rs.getInt(GAME_ID), rs.getString(GAME_NAME)));
             }
         } catch (SQLException e) {
             System.out.println(e);
         } finally {
-            return gameDAOList;
+            return gameDTOList;
         }
     }
 

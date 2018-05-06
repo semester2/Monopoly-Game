@@ -1,15 +1,15 @@
 package dk.dtu.compute.se.pisd.monopoly.mini.dal;
 
 /**
- * GameDAO is used to access Games in the database
+ * GameDTO is used to access Games in the database
  *
  * @author Jaafar Mahdi
  */
-public class GameDAO {
+public class GameDTO {
     private int gameID;
     private String gameName;
 
-    public GameDAO(int gameID, String gameName) {
+    public GameDTO(int gameID, String gameName) {
         this.gameID = gameID;
         this.gameName = gameName;
     }
